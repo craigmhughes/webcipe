@@ -1,9 +1,13 @@
-.login {
+.login, .register {
     @extend .container;
     display: grid;
     grid-template-rows: repeat(2, 1fr);
     min-height: 100vh;
     width: 100%;
+
+    &__head, &__form {
+        @extend .container;
+    }
 
     &__head {
         display: flex;
@@ -24,5 +28,46 @@
         width: 100%;
         text-align: center;
         margin: 0.25rem 0;
+    }
+}
+
+.register {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: calc(100% - 2rem);
+    max-width: unset;
+    padding: 1rem;
+    background: $dark_bg;
+    grid-template-rows: 2fr 8fr;
+
+    &__head {
+        display: flex;
+        align-self: flex-end;
+        justify-content: center;
+    }
+
+    &__logo {
+        width: 50%;
+        max-width: 200px;
+    }
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .input {
+        color: #fff;
+
+        &::placeholder {
+            color: #fff;
+        }
+    }
+
+    .button--primary {
+        background: #fff;
+        color: $dark_bg;
     }
 }

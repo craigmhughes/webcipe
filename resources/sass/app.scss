@@ -4,9 +4,6 @@
 // Variables
 @import 'variables';
 
-// Bootstrap
-// @import '~bootstrap/scss/bootstrap';
-
 // Inheritance Classes
 
 .container {
@@ -35,12 +32,38 @@
 }
 
 .button {
-    background: $brand_color;
-    color: #fff;
+    
     border-radius: 0.25rem;
     padding: 1rem;
     border: none;
     font-weight: 600;
+
+    &-primary {
+        background: $brand_color;
+        color: #fff;
+
+        &--light {
+            @extend .button-primary;
+            background: #fff;
+            color: $dark_bg;
+        }
+    }
+
+    &-secondary {
+        background: none;
+        border: 2px solid $brand_color;
+        color: $brand_color;
+
+        &--light {
+            @extend .button-secondary;
+            color: #fff;
+            border-color: #fff;
+        }
+    }
+}
+
+.button-secondary, .button-primary {
+    @extend .button;
 }
 
 // Components

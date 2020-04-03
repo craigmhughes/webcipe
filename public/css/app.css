@@ -1,5 +1,10 @@
 @import url(https://fonts.googleapis.com/css?family=Poppins&display=swap);.container,
-.login {
+.login__head,
+.login__form,
+.register__head,
+.register__form,
+.login,
+.register {
   width: 90%;
   margin: 0 auto;
   max-width: 1080px;
@@ -40,40 +45,135 @@
   color: #fff;
 }
 
-.button {
-  background: #ED200E;
-  color: #fff;
+.button,
+.button-secondary,
+.button-secondary--light,
+.button-primary,
+.button-primary--light {
   border-radius: 0.25rem;
   padding: 1rem;
   border: none;
   font-weight: 600;
 }
 
-.login {
+.button-primary,
+.button-primary--light {
+  background: #ED200E;
+  color: #fff;
+}
+
+.button-primary--light {
+  background: #fff;
+  color: #26272D;
+}
+
+.button-secondary,
+.button-secondary--light {
+  background: none;
+  border: 2px solid #ED200E;
+  color: #ED200E;
+}
+
+.button-secondary--light {
+  color: #fff;
+  border-color: #fff;
+}
+
+.login,
+.register {
   display: grid;
   grid-template-rows: repeat(2, 1fr);
   min-height: 100vh;
   width: 100%;
 }
 
-.login__head {
+.login__head,
+.register__head {
   display: flex;
   align-self: center;
   justify-content: center;
 }
 
-.login__logo {
+.login__logo,
+.register__logo {
   width: 80%;
   max-width: 300px;
 }
 
-.login .input {
+.login .input,
+.register .input {
   text-align: center;
 }
 
-.login .button {
+.login .button,
+.login .button-secondary,
+.login .button-secondary--light,
+.login .button-primary,
+.login .button-primary--light,
+.register .button,
+.register .button-secondary,
+.register .button-secondary--light,
+.register .button-primary,
+.register .button-primary--light {
   width: 100%;
   text-align: center;
   margin: 0.25rem 0;
+}
+
+.register {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: calc(100% - 2rem);
+  max-width: unset;
+  padding: 1rem;
+  background: #26272D;
+  grid-template-rows: 2fr 8fr;
+}
+
+.register__head {
+  display: flex;
+  align-self: flex-end;
+  justify-content: center;
+}
+
+.register__logo {
+  width: 50%;
+  max-width: 200px;
+}
+
+.register__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.register .input {
+  color: #fff;
+}
+
+.register .input::-webkit-input-placeholder {
+  color: #fff;
+}
+
+.register .input::-moz-placeholder {
+  color: #fff;
+}
+
+.register .input:-ms-input-placeholder {
+  color: #fff;
+}
+
+.register .input::-ms-input-placeholder {
+  color: #fff;
+}
+
+.register .input::placeholder {
+  color: #fff;
+}
+
+.register .button--primary {
+  background: #fff;
+  color: #26272D;
 }
 

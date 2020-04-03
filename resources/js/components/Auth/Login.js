@@ -23,7 +23,7 @@ export default function Login(){
                 <input type="email" placeholder="E-Mail Address" name="email" className="input"></input>
                 <input type="password" placeholder="Password" name="password" className="input"></input>
 
-                <button type="submit" className="button">Log in</button>
+                <button type="submit" className="button-primary">Log in</button>
             </form>
         </article>
     );
