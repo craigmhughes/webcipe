@@ -57,4 +57,14 @@ class AuthController extends Controller
         // Run Login() to return access token.
         return $this->login($request);
     }
+
+    /**
+     * Logout user, make JWT unusable.
+     */
+    public function Logout(Request $request){
+        
+        auth()->logout();
+
+        return response()->json(["logged_out" => true], 200);
+    }
 }
