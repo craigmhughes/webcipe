@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Webcipe'),
 
     /*
     |--------------------------------------------------------------------------
@@ -169,11 +169,11 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        Webcipe\Providers\AppServiceProvider::class,
+        Webcipe\Providers\AuthServiceProvider::class,
+        // Webcipe\Providers\BroadcastServiceProvider::class,
+        Webcipe\Providers\EventServiceProvider::class,
+        Webcipe\Providers\RouteServiceProvider::class,
 
     ],
 

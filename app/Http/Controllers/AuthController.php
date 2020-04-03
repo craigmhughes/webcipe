@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Webcipe\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Validator;
-use App\User;
+use Webcipe\User;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
