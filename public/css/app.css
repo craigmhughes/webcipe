@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Poppins&display=swap);body {
+body {
   font-size: 14px;
   font-family: "Poppins", sans-serif;
 }
@@ -114,6 +114,36 @@
 .register__logo {
   width: 80%;
   max-width: 300px;
+}
+
+.login__err,
+.login__err--show,
+.register__err--show,
+.register__err {
+  display: block;
+  text-align: center;
+  font-size: 0.8em;
+  color: #e3342f;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
+}
+
+.login__err--show,
+.register__err--show {
+  opacity: 1;
+}
+
+.login__err > img,
+.login__err--show > img,
+.register__err--show > img,
+.register__err > img {
+  height: 1em;
+  width: auto;
+  padding: 0.1em;
+  margin: 0 0.5em;
+  position: relative;
+  top: 0.1em;
 }
 
 .login .input,

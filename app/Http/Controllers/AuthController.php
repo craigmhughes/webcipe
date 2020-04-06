@@ -19,7 +19,7 @@ class AuthController extends Controller
 
         // Send error message on failure.
         if(!$token = auth()->attempt($credentials)){
-            return response()->json(["error" => "Invalid Credentials", 401]);
+            return response()->json(["error" => "Invalid Credentials"], 401);
         }
 
         // Send Token

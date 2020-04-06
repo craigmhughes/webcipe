@@ -1,6 +1,13 @@
 const axios = require('axios').default;
 import React from 'react';
 
+/**
+ * Register Component
+ *
+ * @export
+ * @param {*} {register, setRegister}
+ * @returns
+ */
 export default function Register({register, setRegister}){
 
     const handleSubmit = (e) => {

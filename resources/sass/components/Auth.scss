@@ -24,6 +24,34 @@
         max-width: 300px;
     }
 
+    &__err {
+        display: block;
+        text-align: center;
+        font-size: 0.8em;
+        color: $red;
+        font-weight: 600;
+        opacity: 0;
+
+        transition: opacity 0.25s ease-in-out;
+
+        &--show {
+            opacity: 1;
+        }
+
+        & > img {
+            height: 1em;
+            width: auto;
+            padding: 0.1em;
+            margin: 0 0.5em;
+            position: relative;
+            top: 0.1em;
+        }
+    }
+
+    &__err--show {
+        @extend .login__err;
+    }
+
     & .input {
         text-align: center;
     }
