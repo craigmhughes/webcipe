@@ -14,17 +14,22 @@ export default function App (){
     // Control blur state of app when menu is active. Pass to components as to not blur the whole app.
     const [menuActive, setActiveMenu] = useState(false);
 
+    // On Component Mount
     useEffect(()=>{
         // If token exists, use it to look up user details.
         if(localStorage.auth_token){
             axios.defaults.headers.common = {'Authorization': `bearer ${localStorage.auth_token}`};
 
             axios.get('api/auth/user').then((res)=>{
-                console.log(res);
+                if(!res.data.name){
+                    return false;
+                }
+
+                localStorage.setItem("user", JSON.stringify(res.data));
             })
             .catch(()=>localStorage.removeItem("auth_token"));
         }
-    });
+    },[]);
 
     return (
         <Router>

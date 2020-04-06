@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { withRouter } from 'react-router-dom';
 
 // Components
@@ -14,6 +14,12 @@ export default function Auth({ props }){
         localStorage.setItem("auth_token", token);
         props.history.push("/");
     };
+
+    useEffect(() => {
+        if(localStorage.user){
+            props.history.push("/");
+        }
+    },[]);
 
     return (
         <main>
