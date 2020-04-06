@@ -1,7 +1,7 @@
 const axios = require('axios').default;
 import React from 'react';
 
-export default function Register(){
+export default function Register({register, setRegister}){
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -19,7 +19,7 @@ export default function Register(){
     }
 
     return (
-        <article className="register">
+        <article className={`register${register ? "" : "--hidden"}`}>
             <header className="register__head">
                 <img src={require("../../../assets/images/webcipe-text-w.svg")} className="register__logo"/>
             </header>
@@ -30,7 +30,7 @@ export default function Register(){
                 <input type="password" placeholder="Password Confirmation" name="password_confirmation" className="input"></input>
 
                 <button type="submit" className="button-primary--light">Sign Up</button>
-                <button type="button" className="button-secondary--light">Go Back</button>
+                <button type="button" className="button-secondary--light" onClick={()=>setRegister(false)}>Go Back</button>
             </form>
         </article>
     );

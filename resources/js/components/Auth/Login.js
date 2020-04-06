@@ -1,7 +1,7 @@
 const axios = require('axios').default;
 import React from 'react';
 
-export default function Login(){
+export default function Login({ setRegister }){
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -19,11 +19,12 @@ export default function Login(){
             <header className="login__head">
                 <img src={require("../../../assets/images/webcipe-text.svg")} className="login__logo"/>
             </header>
-            <form onSubmit={(e)=>handleSubmit(e)}>
+            <form className="login__form" onSubmit={(e)=>handleSubmit(e)}>
                 <input type="email" placeholder="E-Mail Address" name="email" className="input"></input>
                 <input type="password" placeholder="Password" name="password" className="input"></input>
 
                 <button type="submit" className="button-primary">Log in</button>
+                <a onClick={()=>setRegister(true)} className="login__reg-link">Don't have an account? Sign Up</a>
             </form>
         </article>
     );

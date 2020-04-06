@@ -1,3 +1,5 @@
+
+
 .login, .register {
     @extend .container;
     display: grid;
@@ -7,6 +9,8 @@
 
     &__head, &__form {
         @extend .container;
+
+        max-width: 400px;
     }
 
     &__head {
@@ -31,6 +35,19 @@
     }
 }
 
+.login {
+    &__reg-link {
+        border-bottom: 1px solid #d3d3d3;
+        color: grey;
+        display: block;
+        font-weight: 300;
+        text-align: center;
+        width: 100%;
+        margin: 0.5em auto;
+        padding: 0.75em 0;
+    }
+}
+
 .register {
     position: fixed;
     top: 0;
@@ -40,6 +57,8 @@
     padding: 1rem;
     background: $dark_bg;
     grid-template-rows: 2fr 8fr;
+
+    transition: all 0.75s cubic-bezier(0.58, -0.26, 0.45, 1.33);
 
     &__head {
         display: flex;
@@ -71,3 +90,9 @@
         color: $dark_bg;
     }
 }
+
+.register--hidden {
+    @extend .register;
+    top: 100%;
+}
+

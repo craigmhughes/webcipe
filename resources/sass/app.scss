@@ -6,6 +6,11 @@
 
 // Inheritance Classes
 
+body {
+    font-size: 14px;
+    font-family: $primary_font;
+}
+
 .container {
     width: 90%;
     margin: 0 auto;
@@ -20,6 +25,7 @@
     border-radius: 0.25rem;
     color: grey;
     margin: 0.25rem 0;
+    font-size: 0.9em;
 
     &::placeholder {
         font-family: $primary_font;
@@ -37,6 +43,7 @@
     padding: 1rem;
     border: none;
     font-weight: 600;
+    font-size: 0.9em;
 
     &-primary {
         background: $brand_color;

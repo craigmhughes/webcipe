@@ -1,10 +1,16 @@
-@import url(https://fonts.googleapis.com/css?family=Poppins&display=swap);.container,
+@import url(https://fonts.googleapis.com/css?family=Poppins&display=swap);body {
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+}
+
+.container,
 .login__head,
 .login__form,
 .register__head,
 .register__form,
 .login,
-.register {
+.register,
+.register--hidden {
   width: 90%;
   margin: 0 auto;
   max-width: 1080px;
@@ -18,6 +24,7 @@
   border-radius: 0.25rem;
   color: grey;
   margin: 0.25rem 0;
+  font-size: 0.9em;
 }
 
 .input::-webkit-input-placeholder {
@@ -54,6 +61,7 @@
   padding: 1rem;
   border: none;
   font-weight: 600;
+  font-size: 0.9em;
 }
 
 .button-primary,
@@ -80,11 +88,19 @@
 }
 
 .login,
-.register {
+.register,
+.register--hidden {
   display: grid;
   grid-template-rows: repeat(2, 1fr);
   min-height: 100vh;
   width: 100%;
+}
+
+.login__head,
+.login__form,
+.register__head,
+.register__form {
+  max-width: 400px;
 }
 
 .login__head,
@@ -101,7 +117,8 @@
 }
 
 .login .input,
-.register .input {
+.register .input,
+.register--hidden .input {
   text-align: center;
 }
 
@@ -111,16 +128,33 @@
 .login .button-primary,
 .login .button-primary--light,
 .register .button,
+.register--hidden .button,
 .register .button-secondary,
+.register--hidden .button-secondary,
 .register .button-secondary--light,
+.register--hidden .button-secondary--light,
 .register .button-primary,
-.register .button-primary--light {
+.register--hidden .button-primary,
+.register .button-primary--light,
+.register--hidden .button-primary--light {
   width: 100%;
   text-align: center;
   margin: 0.25rem 0;
 }
 
-.register {
+.login__reg-link {
+  border-bottom: 1px solid #d3d3d3;
+  color: grey;
+  display: block;
+  font-weight: 300;
+  text-align: center;
+  width: 100%;
+  margin: 0.5em auto;
+  padding: 0.75em 0;
+}
+
+.register,
+.register--hidden {
   position: fixed;
   top: 0;
   left: 0;
@@ -129,6 +163,7 @@
   padding: 1rem;
   background: #26272D;
   grid-template-rows: 2fr 8fr;
+  transition: all 0.75s cubic-bezier(0.58, -0.26, 0.45, 1.33);
 }
 
 .register__head {
@@ -148,32 +183,39 @@
   justify-content: center;
 }
 
-.register .input {
+.register .input,
+.register--hidden .input {
   color: #fff;
 }
 
-.register .input::-webkit-input-placeholder {
+.register .input::-webkit-input-placeholder, .register--hidden .input::-webkit-input-placeholder {
   color: #fff;
 }
 
-.register .input::-moz-placeholder {
+.register .input::-moz-placeholder, .register--hidden .input::-moz-placeholder {
   color: #fff;
 }
 
-.register .input:-ms-input-placeholder {
+.register .input:-ms-input-placeholder, .register--hidden .input:-ms-input-placeholder {
   color: #fff;
 }
 
-.register .input::-ms-input-placeholder {
+.register .input::-ms-input-placeholder, .register--hidden .input::-ms-input-placeholder {
   color: #fff;
 }
 
-.register .input::placeholder {
+.register .input::placeholder,
+.register--hidden .input::placeholder {
   color: #fff;
 }
 
-.register .button--primary {
+.register .button--primary,
+.register--hidden .button--primary {
   background: #fff;
   color: #26272D;
+}
+
+.register--hidden {
+  top: 100%;
 }
 
