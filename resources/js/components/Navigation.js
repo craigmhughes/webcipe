@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
-export default function Navigation({ setActiveMenu, blur }){
+export default withRouter(function Navigation({ setActiveMenu, blur }){
 
     const [activeLink, setActiveLink] = useState(0);
     // menuActive = hover state of slide menu. activeMenu (passed as prop) = blur state to align w/ menuActive.
@@ -51,4 +51,4 @@ export default function Navigation({ setActiveMenu, blur }){
             </nav>
         </section>
     );
-}
+});

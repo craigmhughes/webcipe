@@ -7,7 +7,7 @@ import React, {useState} from 'react';
  * @param {*} { setRegister }
  * @returns
  */
-export default function Login({ setRegister }){
+export default function Login({ setRegister, setToken }){
 
     const [err, setErr] = useState(false)
     
@@ -31,7 +31,9 @@ export default function Login({ setRegister }){
 
             setTimeout(()=>setErr(false), 4000);
         }).then((resp)=>{
-            console.log(resp);
+            if(resp.data.token){
+                setToken(resp.data.token);
+            }
         });
     }
 

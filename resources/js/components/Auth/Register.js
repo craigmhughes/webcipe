@@ -8,7 +8,7 @@ import React, { useState } from 'react';
  * @param {*} {register, setRegister}
  * @returns
  */
-export default function Register({register, setRegister}){
+export default function Register({register, setRegister, setToken}){
 
     //  Form Errors
     const [err, setErr] = useState({});
@@ -54,6 +54,8 @@ export default function Register({register, setRegister}){
                 for (let err_field in errors){
                     document.getElementsByName(`reg_${String(err_field)}`)[0].value = errors[err_field] ? "" : document.getElementsByName(`reg_${String(err_field)}`)[0].value;
                 }
+            } else if (resp.data.token){
+                setToken(resp.data.token);
             }
         });
     }
