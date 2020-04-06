@@ -1,11 +1,13 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
-export default withRouter(function Navigation({ setActiveMenu, blur }){
+export default withRouter(function Navigation({ setActiveMenu, blur, user }){
 
     const [activeLink, setActiveLink] = useState(0);
     // menuActive = hover state of slide menu. activeMenu (passed as prop) = blur state to align w/ menuActive.
     const [menuActive, setMenuActive] = useState(false);
+
+    const [slideContent, setSlideContent] = useState(JSON.stringify(user));
 
     // Footer nav items click event
     const navClick = (i)=>{
@@ -39,16 +41,20 @@ export default withRouter(function Navigation({ setActiveMenu, blur }){
     const slideContentAuthed = ()=>{
         return(
             <section className="slide-menu__content">
-                <p>Bruh</p>
+                <p>{user.name}</p>
             </section>
         );
     };
+
+    useEffect(()=>{
+        setSlideContent(user ? slideContentAuthed : slideContentUnauthed);
+    }, [user]);
 
     return (
         <section className="navigation">
             <section className={`overlay${!menuActive ? "--hidden" : ""}`} onClick={(e)=>overlayClick(e)}>
                 <section className={`slide-menu${!menuActive ? "--hidden" : ""}`}>
-                    {localStorage.user ? slideContentAuthed() : slideContentUnauthed()}
+                    {slideContent}
                 </section>
             </section>
             <nav className={`navigation__list ${blur ? "blur":""}`}>
