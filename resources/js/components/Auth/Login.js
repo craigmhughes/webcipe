@@ -30,6 +30,8 @@ export default function Login({ setRegister }){
             setErr(true);
 
             setTimeout(()=>setErr(false), 4000);
+        }).then((resp)=>{
+            console.log(resp);
         });
     }
 
