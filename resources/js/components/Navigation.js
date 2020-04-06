@@ -8,11 +8,11 @@ export default function Navigation({ setActiveMenu, blur }){
     const [menuActive, setMenuActive] = useState(false);
 
     const navClick = (i)=>{
-        setActiveLink(i);
-
         if(i === 3){
             setMenuActive(!menuActive);
             setActiveMenu(!menuActive);
+        } else {
+            setActiveLink(i);
         }
     };
 
