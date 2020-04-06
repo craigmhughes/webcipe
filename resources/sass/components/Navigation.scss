@@ -59,9 +59,14 @@
     width: 80%;
     max-width: 400px;
     position: fixed;
+    padding: 1em;
     right: 0;
 
     transition: all 0.5s cubic-bezier(0.44, -0.23, 0.57, 1);
+
+    &__content {
+        @extend .container;
+    }
 }
 
 .slide-menu--hidden {

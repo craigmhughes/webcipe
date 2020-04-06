@@ -28,6 +28,8 @@ export default function App (){
                 localStorage.setItem("user", JSON.stringify(res.data));
             })
             .catch(()=>localStorage.removeItem("auth_token"));
+        } else {
+            localStorage.removeItem("user");
         }
     },[]);
 

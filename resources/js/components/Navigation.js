@@ -7,6 +7,7 @@ export default withRouter(function Navigation({ setActiveMenu, blur }){
     // menuActive = hover state of slide menu. activeMenu (passed as prop) = blur state to align w/ menuActive.
     const [menuActive, setMenuActive] = useState(false);
 
+    // Footer nav items click event
     const navClick = (i)=>{
         if(i === 3){
             setMenuActive(!menuActive);
@@ -16,6 +17,7 @@ export default withRouter(function Navigation({ setActiveMenu, blur }){
         }
     };
 
+    // Control click event of overlay menu
     const overlayClick = (e)=>{
         if(e.target.className !== "overlay"){
             e.preventDefault();
@@ -25,11 +27,28 @@ export default withRouter(function Navigation({ setActiveMenu, blur }){
         }
     };
 
+    const slideContentUnauthed = ()=>{
+        return(
+            <section className="slide-menu__content">
+                <p>Having an account means you can post your own recipes and save across other devices!</p>
+                <Link to="/login" className="button">Login</Link>
+            </section>
+        );
+    };
+
+    const slideContentAuthed = ()=>{
+        return(
+            <section className="slide-menu__content">
+                <p>Bruh</p>
+            </section>
+        );
+    };
+
     return (
         <section className="navigation">
             <section className={`overlay${!menuActive ? "--hidden" : ""}`} onClick={(e)=>overlayClick(e)}>
                 <section className={`slide-menu${!menuActive ? "--hidden" : ""}`}>
-
+                    {localStorage.user ? slideContentAuthed() : slideContentUnauthed()}
                 </section>
             </section>
             <nav className={`navigation__list ${blur ? "blur":""}`}>
