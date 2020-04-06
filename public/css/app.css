@@ -1,9 +1,27 @@
 body {
   font-size: 14px;
   font-family: "Poppins", sans-serif;
+  margin: 0;
+}
+
+.blur {
+  transition: -webkit-filter 0.5s ease-in-out;
+  transition: filter 0.5s ease-in-out;
+  transition: filter 0.5s ease-in-out, -webkit-filter 0.5s ease-in-out;
+  -webkit-filter: blur(4px);
+          filter: blur(4px);
+}
+
+#root {
+  display: grid;
+  grid-template-rows: 8.5fr 1.5fr;
+  position: fixed;
+  height: 100%;
+  width: 100%;
 }
 
 .container,
+.navigation__list,
 .login__head,
 .login__form,
 .register__head,
@@ -247,5 +265,72 @@ body {
 
 .register--hidden {
   top: 100%;
+}
+
+.navigation {
+  background: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.navigation__list {
+  border-top: 2px solid #e3e3e3;
+  padding: 1em 0;
+  display: flex;
+  justify-content: space-between;
+  max-width: 600px;
+}
+
+.navigation__link {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  align-items: center;
+  color: inherit;
+  font-size: 0.8em;
+  padding: 0 1em;
+  opacity: 0.3;
+}
+
+.navigation__link.active {
+  opacity: 1;
+}
+
+.navigation__link > img {
+  height: 2.25em;
+  width: auto;
+  margin-bottom: 0.5em;
+}
+
+.overlay,
+.overlay--hidden {
+  background: rgba(0, 0, 0, 0.25);
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  transition: all 0.5s ease-in-out;
+}
+
+.overlay--hidden {
+  background: rgba(0, 0, 0, 0);
+  pointer-events: none;
+}
+
+.slide-menu,
+.slide-menu--hidden {
+  background: #fff;
+  height: 100%;
+  width: 80%;
+  max-width: 400px;
+  position: fixed;
+  right: 0;
+  transition: all 0.5s cubic-bezier(0.44, -0.23, 0.57, 1);
+}
+
+.slide-menu--hidden {
+  right: -100%;
 }
 

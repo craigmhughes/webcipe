@@ -7,6 +7,20 @@
 body {
     font-size: 14px;
     font-family: $primary_font;
+    margin: 0;
+}
+
+.blur {
+    transition: filter .5s ease-in-out;
+    filter: blur(4px);
+}
+
+#root {
+    display: grid;
+    grid-template-rows: 8.5fr 1.5fr;
+    position: fixed;
+    height: 100%;
+    width: 100%;
 }
 
 .container {
@@ -73,3 +87,4 @@ body {
 
 // Components
 @import './components/Auth.scss';
+@import './components/Navigation.scss';
