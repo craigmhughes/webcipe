@@ -1,7 +1,7 @@
 // require('./bootstrap');
 const axios = require('axios').default;
 
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Redirect, Switch, } from "react-router-dom";
 
@@ -13,6 +13,18 @@ export default function App (){
 
     // Control blur state of app when menu is active. Pass to components as to not blur the whole app.
     const [menuActive, setActiveMenu] = useState(false);
+
+    useEffect(()=>{
+        // If token exists, use it to look up user details.
+        if(localStorage.auth_token){
+            axios.defaults.headers.common = {'Authorization': `bearer ${localStorage.auth_token}`};
+
+            axios.get('api/auth/user').then((res)=>{
+                console.log(res);
+            })
+            .catch(()=>localStorage.removeItem("auth_token"));
+        }
+    });
 
     return (
         <Router>

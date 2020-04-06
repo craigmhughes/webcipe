@@ -21,6 +21,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post("login", "AuthController@Login");
     Route::post("register", "AuthController@Register");
     Route::post("logout", "AuthController@Logout");
+    Route::get("user", "AuthController@User");
 });
 
 Route::resource("recipes", "RecipeController");
