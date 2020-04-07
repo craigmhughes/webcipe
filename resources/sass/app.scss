@@ -50,12 +50,13 @@ body {
 }
 
 .button {
-    
+    display: block;
     border-radius: 0.25rem;
     padding: 1rem;
     border: none;
     font-weight: 600;
     font-size: 0.9em;
+    text-decoration: none;
 
     &-primary {
         background: $brand_color;
@@ -72,6 +73,7 @@ body {
         background: none;
         border: 2px solid $brand_color;
         color: $brand_color;
+        width: auto;
 
         &--light {
             @extend .button-secondary;

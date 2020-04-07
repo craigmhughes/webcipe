@@ -1,12 +1,15 @@
-import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import { Link, withRouter } from 'react-router-dom';
 
-export default function Navigation({ setActiveMenu, blur }){
+export default withRouter(function Navigation({ setActiveMenu, blur, user, logout }){
 
     const [activeLink, setActiveLink] = useState(0);
     // menuActive = hover state of slide menu. activeMenu (passed as prop) = blur state to align w/ menuActive.
     const [menuActive, setMenuActive] = useState(false);
 
+    const [slideContent, setSlideContent] = useState(JSON.stringify(user));
+
+    // Footer nav items click event
     const navClick = (i)=>{
         if(i === 3){
             setMenuActive(!menuActive);
@@ -16,8 +19,10 @@ export default function Navigation({ setActiveMenu, blur }){
         }
     };
 
+    // Control click event of overlay menu
     const overlayClick = (e)=>{
-        if(e.target.className !== "overlay"){
+        let targetName = e.target.className;
+        if(targetName !== "overlay" && (!targetName.includes("button-primary") && !targetName.includes("button-secondary"))){
             e.preventDefault();
         } else {
             setActiveMenu(!menuActive);
@@ -25,11 +30,50 @@ export default function Navigation({ setActiveMenu, blur }){
         }
     };
 
+    const slideContentUnauthed = ()=>{
+        return(
+            <section className="slide-menu__content">
+                <header>
+
+                </header>
+                <section className="slide-menu__content-main">
+                    <p>Having an account means you can post your own recipes and save across other devices!</p>
+                    <Link to="/login" className="button-primary">Login</Link>
+                    <Link to="/register" className="button-secondary">Sign Up</Link>
+                </section>
+                <section>
+                    
+                </section>
+                
+            </section>
+        );
+    };
+
+    const slideContentAuthed = ()=>{
+        return(
+            <article className="slide-menu__content">
+                <header className="slide-menu__header">
+                    <p className="slide-menu__name">{`Welcome, ${user.name.split(" ")[0]}.`}</p>
+                </header>
+                <section className="slide-menu__content-main">
+
+                </section>
+                <section>
+                    <button className="button" onClick={()=>logout()}>Log out</button>
+                </section>
+            </article>
+        );
+    };
+
+    useEffect(()=>{
+        setSlideContent(user ? slideContentAuthed : slideContentUnauthed);
+    }, [user]);
+
     return (
         <section className="navigation">
             <section className={`overlay${!menuActive ? "--hidden" : ""}`} onClick={(e)=>overlayClick(e)}>
                 <section className={`slide-menu${!menuActive ? "--hidden" : ""}`}>
-
+                    {slideContent}
                 </section>
             </section>
             <nav className={`navigation__list ${blur ? "blur":""}`}>
@@ -51,4 +95,4 @@ export default function Navigation({ setActiveMenu, blur }){
             </nav>
         </section>
     );
-}
+});

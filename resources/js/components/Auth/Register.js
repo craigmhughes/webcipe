@@ -1,5 +1,6 @@
 const axios = require('axios').default;
 import React, { useState } from 'react';
+import {Link} from 'react-router-dom';
 
 /**
  * Register Component
@@ -8,7 +9,7 @@ import React, { useState } from 'react';
  * @param {*} {register, setRegister}
  * @returns
  */
-export default function Register({register, setRegister}){
+export default function Register({setToken, props}){
 
     //  Form Errors
     const [err, setErr] = useState({});
@@ -34,9 +35,8 @@ export default function Register({register, setRegister}){
         axios.post('/api/auth/register', creds)
         // Handle Register Error
         .then((resp)=>{
-            console.log(resp.data);
 
-            if(!resp.data.success){
+            if(resp.data.success === false){
                 let errors = resp.data.error;
 
                 // Restructure error object
@@ -54,12 +54,14 @@ export default function Register({register, setRegister}){
                 for (let err_field in errors){
                     document.getElementsByName(`reg_${String(err_field)}`)[0].value = errors[err_field] ? "" : document.getElementsByName(`reg_${String(err_field)}`)[0].value;
                 }
+            } else if (resp.data.token){
+                setToken(resp.data.token, props);
             }
         });
     }
 
     return (
-        <article className={`register${register ? "" : "--hidden"}`}>
+        <article className={`register`}>
             <header className="register__head">
                 <img src={require("../../../assets/images/webcipe-text-w.svg")} className="register__logo"/>
             </header>
@@ -70,7 +72,7 @@ export default function Register({register, setRegister}){
                 <input type="password" placeholder="Password Confirmation" name="reg_password_confirmation" className="input"></input>
 
                 <button type="submit" className="button-primary--light">Sign Up</button>
-                <button type="button" className="button-secondary--light" onClick={()=>setRegister(false)}>Go Back</button>
+                <a onClick={()=>props.history.goBack()} className="button-secondary--light">Go Back</a>
             </form>
         </article>
     );

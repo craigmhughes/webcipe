@@ -67,4 +67,18 @@ class AuthController extends Controller
 
         return response()->json(["logged_out" => true], 200);
     }
+
+    /**
+     * ID user.
+     */
+    public function User(Request $request){
+        
+        try {
+            $user = auth()->userOrFail();
+        } catch (\Tymon\JWTAuth\Exceptions\UserNotDefinedException $e){
+            return response()->json(["error" => $e->getMessage()], 404);
+        }
+
+        return response()->json(auth()->user(), 200);
+    }
 }
