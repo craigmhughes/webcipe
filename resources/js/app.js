@@ -9,7 +9,6 @@ import { BrowserRouter as Router, Route, Redirect, Switch, } from "react-router-
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import Navigation from './components/Navigation.js';
-import checkAuth from './components/checkAuth';
 
 export default function App (){
 
@@ -34,14 +33,9 @@ export default function App (){
     }
 
     /**
-     * Set Auth Token to be used by Auth Components.
-     *
-     * @param {*} token = Authorization Token
-     * @param {*} props = Route props used to access history
+     * Perform check on if user is authed.
      */
-    function setToken (token, props){
-        localStorage.setItem("auth_token", token);
-        
+    function checkAuth(){
         axios.defaults.headers.common = {'Authorization': `bearer ${localStorage.auth_token}`};
 
         axios.get('api/auth/user').then((res)=>{
@@ -52,6 +46,17 @@ export default function App (){
             setUser(res.data);
         })
         .catch(()=>localStorage.removeItem("auth_token"));
+    }
+
+    /**
+     * Set Auth Token to be used by Auth Components.
+     *
+     * @param {*} token = Authorization Token
+     * @param {*} props = Route props used to access history
+     */
+    function setToken (token, props){
+        localStorage.setItem("auth_token", token);
+        checkAuth();
 
         props.history.push("/");
     };
@@ -60,16 +65,7 @@ export default function App (){
     useEffect(()=>{
         // If token exists, use it to look up user details.
         if(localStorage.auth_token){
-            axios.defaults.headers.common = {'Authorization': `bearer ${localStorage.auth_token}`};
-
-            axios.get('api/auth/user').then((res)=>{
-                if(!res.data.name){
-                    return false;
-                }
-                localStorage.setItem("user", JSON.stringify(res.data));
-                setUser(res.data);
-            })
-            .catch(()=>localStorage.removeItem("auth_token"));
+            checkAuth();
         } else {
             localStorage.removeItem("user");
         }
