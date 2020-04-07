@@ -16,6 +16,18 @@ export default function App (){
     const [menuActive, setActiveMenu] = useState(false);
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
+    function logout(){
+        axios.post('/api/auth/logout')
+        // Handle Login Error
+        .catch((err)=>{
+            console.error(err);
+        }).then((resp)=>{
+            localStorage.removeItem("user");
+            localStorage.removeItem("auth_token");
+            setUser(null);
+        });
+    }
+
     // On Component Mount
     useEffect(()=>{
         // If token exists, use it to look up user details.
@@ -39,7 +51,7 @@ export default function App (){
         <Router>
             <Route exact path="/login" render={(props)=><Auth props={props} user={user} setUser={setUser}/>} />
             <div></div>
-            <Navigation setActiveMenu={setActiveMenu} blur={menuActive} user={user}/>
+            <Navigation setActiveMenu={setActiveMenu} blur={menuActive} user={user} logout={logout}/>
         </Router>
     );
 }

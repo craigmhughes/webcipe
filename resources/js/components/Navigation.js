@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
-export default withRouter(function Navigation({ setActiveMenu, blur, user }){
+export default withRouter(function Navigation({ setActiveMenu, blur, user, logout }){
 
     const [activeLink, setActiveLink] = useState(0);
     // menuActive = hover state of slide menu. activeMenu (passed as prop) = blur state to align w/ menuActive.
@@ -21,7 +21,7 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user }){
 
     // Control click event of overlay menu
     const overlayClick = (e)=>{
-        if(e.target.className !== "overlay"){
+        if(e.target.className !== "overlay" && !String(e.target.className).includes("button-primary")){
             e.preventDefault();
         } else {
             setActiveMenu(!menuActive);
@@ -32,17 +32,34 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user }){
     const slideContentUnauthed = ()=>{
         return(
             <section className="slide-menu__content">
-                <p>Having an account means you can post your own recipes and save across other devices!</p>
-                <Link to="/login" className="button">Login</Link>
+                <header>
+
+                </header>
+                <section className="slide-menu__content-main">
+                    <p>Having an account means you can post your own recipes and save across other devices!</p>
+                    <Link to="/login" className="button-primary">Login</Link>
+                </section>
+                <section>
+                    
+                </section>
+                
             </section>
         );
     };
 
     const slideContentAuthed = ()=>{
         return(
-            <section className="slide-menu__content">
-                <p>{user.name}</p>
-            </section>
+            <article className="slide-menu__content">
+                <header>
+
+                </header>
+                <section className="slide-menu__content-main">
+
+                </section>
+                <section>
+                    <button className="button" onClick={()=>logout()}>Log out</button>
+                </section>
+            </article>
         );
     };
 

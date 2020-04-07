@@ -76,11 +76,13 @@ body {
 .button-secondary--light,
 .button-primary,
 .button-primary--light {
+  display: block;
   border-radius: 0.25rem;
   padding: 1rem;
   border: none;
   font-weight: 600;
   font-size: 0.9em;
+  text-decoration: none;
 }
 
 .button-primary,
@@ -278,7 +280,7 @@ body {
   border-top: 2px solid #e3e3e3;
   padding: 1em 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   max-width: 600px;
 }
 
@@ -330,6 +332,38 @@ body {
   padding: 1em;
   right: 0;
   transition: all 0.5s cubic-bezier(0.44, -0.23, 0.57, 1);
+}
+
+.slide-menu__content {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 3fr 5fr 2fr;
+  text-align: center;
+}
+
+.slide-menu__content-main {
+  font-size: 1.2em;
+}
+
+.slide-menu__content .button,
+.slide-menu__content .button-secondary,
+.slide-menu__content .button-secondary--light,
+.slide-menu__content .button-primary,
+.slide-menu__content .button-primary--light {
+  width: 100%;
+}
+
+.slide-menu__content .button-primary,
+.slide-menu__content .button-primary--light {
+  width: calc(100% - 2em);
+}
+
+.slide-menu__content .button,
+.slide-menu__content .button-secondary,
+.slide-menu__content .button-secondary--light,
+.slide-menu__content .button-primary--light,
+.slide-menu__content .button-primary {
+  font-size: 0.8em;
 }
 
 .slide-menu--hidden {
