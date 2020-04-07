@@ -35,7 +35,7 @@ export default function Auth({ props, setUser, user }){
             setUser(checkAuth());
             props.history.push("/");
         }
-    },[]);
+    },[user]);
 
     return (
         <main>

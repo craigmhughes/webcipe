@@ -34,9 +34,8 @@ export default function Register({register, setRegister, setToken}){
         axios.post('/api/auth/register', creds)
         // Handle Register Error
         .then((resp)=>{
-            console.log(resp.data);
 
-            if(!resp.data.success){
+            if(resp.data.success === false){
                 let errors = resp.data.error;
 
                 // Restructure error object
