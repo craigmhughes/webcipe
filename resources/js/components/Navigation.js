@@ -21,7 +21,8 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
 
     // Control click event of overlay menu
     const overlayClick = (e)=>{
-        if(e.target.className !== "overlay" && !String(e.target.className).includes("button-primary")){
+        let targetName = e.target.className;
+        if(targetName !== "overlay" && (!targetName.includes("button-primary") && !targetName.includes("button-secondary"))){
             e.preventDefault();
         } else {
             setActiveMenu(!menuActive);
@@ -38,6 +39,7 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
                 <section className="slide-menu__content-main">
                     <p>Having an account means you can post your own recipes and save across other devices!</p>
                     <Link to="/login" className="button-primary">Login</Link>
+                    <Link to="/register" className="button-secondary">Sign Up</Link>
                 </section>
                 <section>
                     
@@ -50,8 +52,8 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
     const slideContentAuthed = ()=>{
         return(
             <article className="slide-menu__content">
-                <header>
-
+                <header className="slide-menu__header">
+                    <p className="slide-menu__name">{`Welcome, ${user.name.split(" ")[0]}.`}</p>
                 </header>
                 <section className="slide-menu__content-main">
 

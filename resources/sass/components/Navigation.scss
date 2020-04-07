@@ -61,8 +61,13 @@
     position: fixed;
     padding: 1em;
     right: 0;
+    text-align: center;
 
     transition: all 0.5s cubic-bezier(0.44, -0.23, 0.57, 1);
+
+    &__name {
+        font-size: 1.5em;
+    }
 
     &__content {
         @extend .container;
@@ -70,7 +75,7 @@
         height: 100%;
         display: grid;
         grid-template-rows: 3fr 5fr 2fr;
-        text-align: center;
+        
         
         &-main {
             font-size: 1.2em;
@@ -82,11 +87,16 @@
             &-primary {
                 width: calc(100% - 2em);
             }
+
+            &-secondary {
+                width: calc(100% - 2.2em);
+            }
             
         }
 
-        .button, .button-primary {
+        .button, .button-primary, .button-secondary {
             font-size: 0.8em;
+            margin: 0.5em 0;
         }
     }
 }

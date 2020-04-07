@@ -73,6 +73,7 @@ body {
         background: none;
         border: 2px solid $brand_color;
         color: $brand_color;
+        width: auto;
 
         &--light {
             @extend .button-secondary;

@@ -6,7 +6,8 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Redirect, Switch, } from "react-router-dom";
 
 // Components
-import Auth from './components/Auth.js';
+import Login from './components/Auth/Login';
+import Register from './components/Auth/Register';
 import Navigation from './components/Navigation.js';
 import checkAuth from './components/checkAuth';
 
@@ -16,6 +17,10 @@ export default function App (){
     const [menuActive, setActiveMenu] = useState(false);
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
+    /**
+     * Log User out & make Auth token unusable.
+     *
+     */
     function logout(){
         axios.post('/api/auth/logout')
         // Handle Login Error
@@ -27,6 +32,29 @@ export default function App (){
             setUser(null);
         });
     }
+
+    /**
+     * Set Auth Token to be used by Auth Components.
+     *
+     * @param {*} token = Authorization Token
+     * @param {*} props = Route props used to access history
+     */
+    function setToken (token, props){
+        localStorage.setItem("auth_token", token);
+        
+        axios.defaults.headers.common = {'Authorization': `bearer ${localStorage.auth_token}`};
+
+        axios.get('api/auth/user').then((res)=>{
+            if(!res.data.name){
+                return false;
+            }
+            localStorage.setItem("user", JSON.stringify(res.data));
+            setUser(res.data);
+        })
+        .catch(()=>localStorage.removeItem("auth_token"));
+
+        props.history.push("/");
+    };
 
     // On Component Mount
     useEffect(()=>{
@@ -49,7 +77,8 @@ export default function App (){
 
     return (
         <Router>
-            <Route exact path="/login" render={(props)=><Auth props={props} user={user} setUser={setUser}/>} />
+            <Route exact path="/login" render={(props)=><Login setToken={setToken} props={props}/>}/>
+            <Route exact path="/register" render={(props)=><Register setToken={setToken} props={props}/>}/>
             <div></div>
             <Navigation setActiveMenu={setActiveMenu} blur={menuActive} user={user} logout={logout}/>
         </Router>

@@ -28,8 +28,7 @@ body {
 .register__head,
 .register__form,
 .login,
-.register,
-.register--hidden {
+.register {
   width: 90%;
   margin: 0 auto;
   max-width: 1080px;
@@ -101,6 +100,7 @@ body {
   background: none;
   border: 2px solid #ED200E;
   color: #ED200E;
+  width: auto;
 }
 
 .button-secondary--light {
@@ -109,8 +109,7 @@ body {
 }
 
 .login,
-.register,
-.register--hidden {
+.register {
   display: grid;
   grid-template-rows: repeat(2, 1fr);
   min-height: 100vh;
@@ -168,8 +167,7 @@ body {
 }
 
 .login .input,
-.register .input,
-.register--hidden .input {
+.register .input {
   text-align: center;
 }
 
@@ -179,18 +177,24 @@ body {
 .login .button-primary,
 .login .button-primary--light,
 .register .button,
-.register--hidden .button,
 .register .button-secondary,
-.register--hidden .button-secondary,
 .register .button-secondary--light,
-.register--hidden .button-secondary--light,
 .register .button-primary,
-.register--hidden .button-primary,
-.register .button-primary--light,
-.register--hidden .button-primary--light {
+.register .button-primary--light {
   width: 100%;
   text-align: center;
   margin: 0.25rem 0;
+}
+
+.login .button-secondary,
+.login .button-secondary--light,
+.register .button-secondary,
+.register .button-secondary--light {
+  width: calc(100% - 2.8em);
+}
+
+.login {
+  grid-template-rows: 4fr 6fr;
 }
 
 .login__reg-link {
@@ -202,10 +206,29 @@ body {
   width: 100%;
   margin: 0.5em auto;
   padding: 0.75em 0;
+  text-decoration: none;
+  font-size: 0.8em;
 }
 
-.register,
-.register--hidden {
+.login__head {
+  position: relative;
+  height: 100%;
+}
+
+.login__logo {
+  margin: 0 auto;
+}
+
+.login__x {
+  height: 2em;
+  padding: 1em;
+  cursor: pointer;
+  position: absolute;
+  top: 1em;
+  right: 0;
+}
+
+.register {
   position: fixed;
   top: 0;
   left: 0;
@@ -214,6 +237,7 @@ body {
   padding: 1rem;
   background: #26272D;
   grid-template-rows: 2fr 8fr;
+  z-index: 100;
   transition: all 0.75s cubic-bezier(0.58, -0.26, 0.45, 1.33);
 }
 
@@ -234,40 +258,33 @@ body {
   justify-content: center;
 }
 
-.register .input,
-.register--hidden .input {
+.register .input {
   color: #fff;
 }
 
-.register .input::-webkit-input-placeholder, .register--hidden .input::-webkit-input-placeholder {
+.register .input::-webkit-input-placeholder {
   color: #fff;
 }
 
-.register .input::-moz-placeholder, .register--hidden .input::-moz-placeholder {
+.register .input::-moz-placeholder {
   color: #fff;
 }
 
-.register .input:-ms-input-placeholder, .register--hidden .input:-ms-input-placeholder {
+.register .input:-ms-input-placeholder {
   color: #fff;
 }
 
-.register .input::-ms-input-placeholder, .register--hidden .input::-ms-input-placeholder {
+.register .input::-ms-input-placeholder {
   color: #fff;
 }
 
-.register .input::placeholder,
-.register--hidden .input::placeholder {
+.register .input::placeholder {
   color: #fff;
 }
 
-.register .button--primary,
-.register--hidden .button--primary {
+.register .button--primary {
   background: #fff;
   color: #26272D;
-}
-
-.register--hidden {
-  top: 100%;
 }
 
 .navigation {
@@ -331,14 +348,18 @@ body {
   position: fixed;
   padding: 1em;
   right: 0;
+  text-align: center;
   transition: all 0.5s cubic-bezier(0.44, -0.23, 0.57, 1);
+}
+
+.slide-menu__name {
+  font-size: 1.5em;
 }
 
 .slide-menu__content {
   height: 100%;
   display: grid;
   grid-template-rows: 3fr 5fr 2fr;
-  text-align: center;
 }
 
 .slide-menu__content-main {
@@ -358,12 +379,18 @@ body {
   width: calc(100% - 2em);
 }
 
-.slide-menu__content .button,
 .slide-menu__content .button-secondary,
+.slide-menu__content .button-secondary--light {
+  width: calc(100% - 2.2em);
+}
+
+.slide-menu__content .button,
 .slide-menu__content .button-secondary--light,
 .slide-menu__content .button-primary--light,
-.slide-menu__content .button-primary {
+.slide-menu__content .button-primary,
+.slide-menu__content .button-secondary {
   font-size: 0.8em;
+  margin: 0.5em 0;
 }
 
 .slide-menu--hidden {
