@@ -56,7 +56,7 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
                     <p className="slide-menu__name">{`Welcome, ${user.name.split(" ")[0]}.`}</p>
                 </header>
                 <section className="slide-menu__content-main">
-
+                    <Link to="/recipes/new" className="button-primary slide-menu__create-link">Create Recipe</Link>
                 </section>
                 <section>
                     <button className="button" onClick={()=>logout()}>Log out</button>

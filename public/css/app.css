@@ -21,6 +21,7 @@ body {
 }
 
 .container,
+.create-recipe,
 .slide-menu__content,
 .navigation__list,
 .login__head,
@@ -356,6 +357,11 @@ body {
   font-size: 1.5em;
 }
 
+.slide-menu__create-link {
+  position: absolute;
+  bottom: 0;
+}
+
 .slide-menu__content {
   height: 100%;
   display: grid;
@@ -364,6 +370,7 @@ body {
 
 .slide-menu__content-main {
   font-size: 1.2em;
+  position: relative;
 }
 
 .slide-menu__content .button,
@@ -376,12 +383,12 @@ body {
 
 .slide-menu__content .button-primary,
 .slide-menu__content .button-primary--light {
-  width: calc(100% - 2em);
+  width: calc(100% - 2.5em);
 }
 
 .slide-menu__content .button-secondary,
 .slide-menu__content .button-secondary--light {
-  width: calc(100% - 2.2em);
+  width: calc(100% - 2.5em);
 }
 
 .slide-menu__content .button,
@@ -395,5 +402,18 @@ body {
 
 .slide-menu--hidden {
   right: -100%;
+}
+
+.create-recipe__head {
+  margin-top: 1em;
+  padding: 1em;
+  border-bottom: 1px solid #e3e3e3;
+  color: grey;
+}
+
+.create-recipe__head-title {
+  font-size: 1em;
+  font-weight: 500;
+  margin: 0;
 }
 

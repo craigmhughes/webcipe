@@ -1,0 +1,16 @@
+.create-recipe {
+    @extend .container;
+
+    &__head {
+        margin-top: 1em;
+        padding: 1em;
+        border-bottom: 1px solid #e3e3e3;
+        color: grey;
+
+        &-title {
+            font-size: 1em;
+            font-weight: 500;
+            margin: 0;
+        }
+    }
+}
