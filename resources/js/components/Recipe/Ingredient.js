@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 
-export default function Ingredient({updateForm, modal, setModal}){
+export default function Ingredient({updateForm, modal, setModal, idx, editIngredient, updateIngredient, resetEdits}){
 
-
+    const [edit, setEdit] = useState(editIngredient !== null);
 
     function abortIngredient(){
         let keys = ["name","quantity","measurement"];
@@ -32,16 +32,35 @@ export default function Ingredient({updateForm, modal, setModal}){
         });
 
         if(!valid) return false;
+        newIngredient['idx'] = idx;
 
-        updateForm('ingredients', newIngredient);
+        if(edit){
+            updateIngredient(newIngredient);
+        } else {
+            updateForm('ingredients', newIngredient);
+        }
+
+        
         abortIngredient();
     }
+
+    useEffect(() => {
+        setEdit(editIngredient !== null);
+
+        if(editIngredient){
+            let keys = ["name","quantity","measurement"];
+
+            keys.forEach(key => {
+                document.getElementsByName(`new-ingredient__${key}`)[0].value = editIngredient[key]
+            });
+        }
+    }, [editIngredient]);
 
     return(
         <div className={`cr-wrapper popout${!modal ? "--hidden" : ""}`}>
             <main className="create-recipe">
                 <header className="create-recipe__head">
-                    <h1 className="create-recipe__head-title">Add Ingredient</h1>
+                    <h1 className="create-recipe__head-title">{edit ? "Edit" : "Add"} Ingredient</h1>
                 </header>
                 <form className="create-recipe__form
                 ">
@@ -56,8 +75,11 @@ export default function Ingredient({updateForm, modal, setModal}){
                 </form>
             </main>
             <section className="create-recipe__footer">
-                <button type="button" className="button-primary" onClick={()=>createIngredient()}>Create Ingredient</button>
-                <button type="button" className="button-secondary" onClick={()=>abortIngredient()}><img src={require("../../../assets/icons/bin.svg")}/></button>
+                <button type="button" className="button-primary" onClick={()=>createIngredient()}>{edit ? "Edit" : "Add"} Ingredient</button>
+                <button type="button" className="button-secondary" onClick={()=>{
+                    abortIngredient();
+                    resetEdits();
+                }}><img src={require("../../../assets/icons/bin.svg")}/></button>
             </section>
         </div>
     );

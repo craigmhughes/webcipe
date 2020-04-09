@@ -19,6 +19,10 @@ export default function CreateRecipe(){
     const [ingredientModal, setIngredientModal] = useState(false);
     const [stepModal, setStepModal] = useState(false);
 
+    // Object to be edited. Set to null when not in use.
+    const [editIngredient, setEditIngredient] = useState(null);
+    const [editStep, setEditStep] = useState(null);
+
     /**
      * Update formData state by overwriting the value of the passed key.
      *
@@ -41,7 +45,38 @@ export default function CreateRecipe(){
 
         // Update state w/ new form.
         setFormData(newForm);
-        console.log(formData);
+        resetEdits();
+    }
+
+    function resetEdits(){
+        // Reset edit objects.
+        setEditIngredient(null);
+        setEditStep(null);
+    }
+
+    function updateIngredient(data){
+        let keys = ["name","quantity","measurement"];
+        let newForm = formData;
+
+        console.log(data.idx);
+
+        keys.forEach(key => {
+            newForm.ingredients[data["idx"]][key] = data[key];
+        });
+
+        // Update state w/ new form.
+        setFormData(newForm);
+        resetEdits();
+    }
+
+    function updateStep(data){
+        let newForm = formData;
+
+        newForm.steps[data.order].content = data.content;
+
+        // Update state w/ new form.
+        setFormData(newForm);
+        resetEdits();
     }
 
     function postRecipe(){
@@ -68,13 +103,29 @@ export default function CreateRecipe(){
     let stepEls = [];
 
     for(let ingredient of Object.entries(formData["ingredients"])){
-        ingredientEls.push(<li key={formData["ingredients"].indexOf(ingredient[1])}>{ingredient[1].name} - <span>{ingredient[1].quantity} {ingredient[1].measurement}</span></li>);
+        ingredientEls.push(
+            <li key={formData["ingredients"].indexOf(ingredient[1])} onClick={()=>{
+                setEditIngredient(ingredient[1]);
+                setIngredientModal(true);
+            }}>
+                {ingredient[1].name} - <span>{ingredient[1].quantity} {ingredient[1].measurement}</span>
+            </li>
+        );
     }
 
     for(let step of Object.entries(formData["steps"])){
-        let idx = formData["steps"].indexOf(step[1])
-        stepEls.push(<li key={idx}>Step {idx+1} - <span>{step[1].content}</span></li>);
+        let idx = formData["steps"].indexOf(step[1]);
+
+        stepEls.push(
+            <li key={idx} onClick={()=>{
+                setStepModal(true);
+                setEditStep(step[1]);
+            }}>
+                Step {idx+1} - <span>{step[1].content}</span>
+            </li>
+        );
     }
+    
 
     return(
         <div className="cr-wrapper">
@@ -104,8 +155,11 @@ export default function CreateRecipe(){
                 <button type="button" className="button-secondary"><img src={require("../../assets/icons/bin.svg")}/></button>
             </section>
 
-            <Ingredient updateForm={updateForm} modal={ingredientModal} setModal={setIngredientModal}/>
-            <Step updateForm={updateForm} modal={stepModal} setModal={setStepModal} steps={formData["steps"].length}/>
+            <Ingredient updateForm={updateForm} modal={ingredientModal} setModal={setIngredientModal} idx={formData["ingredients"].indexOf(editIngredient)} 
+                editIngredient={editIngredient} updateIngredient={updateIngredient} resetEdits={resetEdits}/>
+                
+            <Step updateForm={updateForm} modal={stepModal} setModal={setStepModal} steps={formData["steps"].length} editStep={editStep} 
+                updateStep={updateStep} resetEdits={resetEdits}/>
         </div>
     );
 }

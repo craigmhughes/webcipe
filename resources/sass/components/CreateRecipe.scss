@@ -24,7 +24,8 @@
 
 .create-recipe {
     @extend .container;
-    // overflow-y: scroll;
+    overflow: auto;
+    overflow-x: hidden;
 
     &__head {
         margin-top: 1em;

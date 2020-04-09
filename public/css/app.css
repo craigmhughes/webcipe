@@ -428,6 +428,11 @@ body {
   top: 100%;
 }
 
+.create-recipe {
+  overflow: auto;
+  overflow-x: hidden;
+}
+
 .create-recipe__head {
   margin-top: 1em;
   padding: 1em;
