@@ -3,19 +3,110 @@
 namespace Webcipe\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Validator;
+use Webcipe\Recipe as Recipe;
+use Webcipe\Ingredient as Ingredient;
+use Webcipe\Step as Step;
 
 class RecipeController extends Controller
 {
+    public function __construct(Recipe $recipe){
+        $this->recipes = $recipe->all();
+    }
+
+    /**
+     * Retrieve all records of Recipe.
+     */
     public function Index(Request $request){
 
-        $response = "bruh";
+        $recipes = $this->recipes;
 
-        try {
-            $user = auth()->userOrFail();
-        } catch (\Tymon\JWTAuth\Exceptions\UserNotDefinedException $e){
-            return response()->json(["error" => $e->getMessage()], 404);
+        return response()->json(['recipes' => $recipes], 200);
+    }
+
+    /**
+     * Create new Recipe.
+     */
+    public function Store(Request $request){
+
+        // Use only the fields needed.
+        $data = $request->only(["title","description","ingredients","steps"]);
+
+        // Create validation rules.
+        $validator = Validator::make($data, [
+            'title' => ['required'],
+            'description' => ['nullable'],
+            'ingredients' => ['required'],
+            'steps' => ['required']
+        ]);
+        
+        //  Run validation and return on error.
+        if($validator->fails()){
+            return response()->json(['error' => $validator->messages()]);
         }
 
-        return response()->json(auth()->user(), 200);
+        // Get lists from Request and pair with it's validation rules.
+        $data_lists = [ 
+            [
+                $request["ingredients"],
+                [
+                    'name' => ['required'],
+                    'quantity' => ['nullable'],
+                    'measurement' => ['required'] 
+                ]
+            ], 
+            [
+                $request["steps"],
+                [
+                    'order' => ['required'],
+                    'content' => ['required']
+                ]
+            ]
+        ];
+
+        // Loop over data_lists to get objects with validation.
+        foreach($data_lists as $data_item){
+            // Overwrite $data to target Ingredient list.
+            $data = $data_item[0];
+
+            // Loop through each item and validate
+            foreach($data as $data_obj){
+                // Recreate validation rules.
+                $validator = Validator::make($data_obj, $data_item[1]);
+
+                //  Run validation and return on error.
+                if($validator->fails()){
+                    return response()->json(['error' => $validator->messages()]);
+                }
+            }
+        }
+
+        // After this point, data has been validated and can be stored.
+        $recipe = Recipe::create([
+            'title' => $request['title'],
+            'author_id' => auth()->user()['id'],
+            'description' => $request['description']
+        ]);
+
+        foreach($request['ingredients'] as $ingredient){
+            Ingredient::create([
+                'name' => $ingredient['name'],
+                'recipe_id' => $recipe['id'],
+                'quantity' => $ingredient['quantity'],
+                'measurement' => $ingredient['measurement']
+            ]);
+        }
+
+        foreach($request['steps'] as $step){
+            Step::create([
+                'recipe_id' => $recipe['id'],
+                'order' => $step['order'],
+                'content' => $step['content']
+            ]);
+        }
+
+        // Return Recipe.
+        return response()->json($recipe, 201);
+
     }
 }

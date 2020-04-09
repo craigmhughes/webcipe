@@ -12,7 +12,7 @@ class Recipe extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'description'
+        'title', 'description','author_id'
     ];
 
     /**
@@ -21,6 +21,6 @@ class Recipe extends Model
      * @var array
      */
     protected $hidden = [
-        'id'
+        
     ];
 }

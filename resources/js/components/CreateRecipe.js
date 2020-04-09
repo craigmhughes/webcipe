@@ -1,6 +1,41 @@
+const axios = require('axios').default;
+
 import React from 'react';
 
+
 export default function CreateRecipe(){
+
+    // axios.get('/api/recipes').then((res)=>console.log(res));
+    axios.defaults.headers.common = {'Authorization': `bearer ${localStorage.auth_token}`};
+    axios.post('/api/recipes', {
+        'title': "Test",
+        'description': null,
+        'ingredients': [
+            {
+                'name': "milk",
+                'quantity': 100,
+                'measurement': "ml"
+            },
+            {
+                'name': "bread",
+                'quantity': 1,
+                'measurement': "loaf"
+            }
+        ],
+        'steps': [
+            {
+                'order': 0,
+                'content': "testing step one"
+            },
+            {
+                'order': 1,
+                'content': "testing step two"
+            }
+        ]
+    })
+    .then((res)=>{
+        console.log(res);
+    });
 
     return(
         <div className="cr-wrapper">
@@ -10,10 +45,10 @@ export default function CreateRecipe(){
                 </header>
                 <form className="create-recipe__form
                 ">
-                    <label for="new-recipe__title" className="create-recipe__label">Title</label>
+                    <label htmlFor="new-recipe__title" className="create-recipe__label">Title</label>
                     <input type="text" name="new-recipe__title" className="input create-recipe__input"></input>
 
-                    <label for="new-recipe__desc" className="create-recipe__label">Description <span className="create-recipe__label--emph">(Optional)</span></label>
+                    <label htmlFor="new-recipe__desc" className="create-recipe__label">Description <span className="create-recipe__label--emph">(Optional)</span></label>
                     <input type="text" name="new-recipe__desc" className="input create-recipe__input"></input>
 
                     <p className="create-recipe__label">Ingredients List</p>

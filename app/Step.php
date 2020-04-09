@@ -12,7 +12,7 @@ class Step extends Model
      * @var array
      */
     protected $fillable = [
-        'order','content'
+        'order','content','recipe_id'
     ];
 
     /**
