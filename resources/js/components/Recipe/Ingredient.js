@@ -15,20 +15,26 @@ export default function Ingredient({updateForm, modal, setModal}){
     }
 
     function createIngredient(){
-        let keys = ["name","quantity","measurement"];
+        let keys = ["name","quantity",["measurement", "nullable"]];
         let newIngredient = {};
         let valid = true;
 
         keys.forEach(key => {
-            let val = document.getElementsByName(`new-ingredient__${key}`)[0].value;
-            if(val.length < 1) valid = false;
-            newIngredient[key] = val;
+            // Nullable field will not need checking.
+            if(typeof key === 'object'){
+                newIngredient[key[0]] = document.getElementsByName(`new-ingredient__${key[0]}`)[0].value.length > 0 ? 
+                    document.getElementsByName(`new-ingredient__${key[0]}`)[0].value : null;
+            } else {
+                let val = document.getElementsByName(`new-ingredient__${key}`)[0].value;
+                if(val.length < 1) valid = false;
+                newIngredient[key] = val;
+            }
         });
 
         if(!valid) return false;
 
         updateForm('ingredients', newIngredient);
-        setModal(false);
+        abortIngredient();
     }
 
     return(

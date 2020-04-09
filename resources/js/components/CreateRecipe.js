@@ -64,6 +64,18 @@ export default function CreateRecipe(){
         }
     }
 
+    let ingredientEls = [];
+    let stepEls = [];
+
+    for(let ingredient of Object.entries(formData["ingredients"])){
+        ingredientEls.push(<li key={formData["ingredients"].indexOf(ingredient[1])}>{ingredient[1].name} - <span>{ingredient[1].quantity} {ingredient[1].measurement}</span></li>);
+    }
+
+    for(let step of Object.entries(formData["steps"])){
+        let idx = formData["steps"].indexOf(step[1])
+        stepEls.push(<li key={idx}>Step {idx+1} - <span>{step[1].content}</span></li>);
+    }
+
     return(
         <div className="cr-wrapper">
             <main className="create-recipe">
@@ -79,9 +91,11 @@ export default function CreateRecipe(){
                     <input type="text" name="new-recipe__description" className="input create-recipe__input" onChange={()=>updateForm("description")}></input>
 
                     <p className="create-recipe__label">Ingredients List</p>
+                    <ul>{ingredientEls}</ul>
                     <button type="button" className="button-secondary" onClick={()=>setIngredientModal(true)}>Add Ingredient</button>
 
                     <p className="create-recipe__label">Steps</p>
+                    <ul>{stepEls}</ul>
                     <button type="button" className="button-secondary" onClick={()=>setStepModal(true)}>Add Step</button>
                 </form>
             </main>
