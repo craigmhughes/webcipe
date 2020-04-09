@@ -21,7 +21,7 @@ class Recipe extends Model
      * @var array
      */
     protected $hidden = [
-        
+        'created_at'
     ];
 
     public function ingredients(){

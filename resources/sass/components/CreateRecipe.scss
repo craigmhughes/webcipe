@@ -9,11 +9,22 @@
 
     display: grid;
     grid-template-rows: 8.5fr 1.5fr;
+
+    &.popout {
+        z-index: 101;
+        transition: all 0.5s cubic-bezier(0.44, -0.53, 0.57, 1.3);
+        top: 0;
+
+        &--hidden {
+            @extend .popout;
+            top: 100%;
+        }
+    }
 }
 
 .create-recipe {
     @extend .container;
-    overflow-y: scroll;
+    // overflow-y: scroll;
 
     &__head {
         margin-top: 1em;

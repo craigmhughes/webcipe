@@ -11,7 +11,7 @@ use Webcipe\Step as Step;
 class RecipeController extends Controller
 {
     public function __construct(Recipe $recipe){
-        $this->recipes = $recipe->all();
+        $this->recipes = $recipe->with('ingredients','steps')->get();
     }
 
     /**
