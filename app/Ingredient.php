@@ -23,4 +23,8 @@ class Ingredient extends Model
     protected $hidden = [
         'id'
     ];
+
+    public function recipe(){
+        return $this->belongsTo('Webcipe\Recipe');
+    }
 }

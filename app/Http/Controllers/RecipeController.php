@@ -105,6 +105,9 @@ class RecipeController extends Controller
             ]);
         }
 
+        $recipe['ingredients'] = $recipe->ingredients;
+        $recipe['steps'] = $recipe->steps;
+
         // Return Recipe.
         return response()->json($recipe, 201);
 

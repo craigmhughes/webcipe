@@ -23,4 +23,12 @@ class Recipe extends Model
     protected $hidden = [
         
     ];
+
+    public function ingredients(){
+        return $this->hasMany('Webcipe\Ingredient');
+    }
+
+    public function steps(){
+        return $this->hasMany('Webcipe\Step');
+    }
 }
