@@ -4,14 +4,19 @@ export default function Ingredient({updateForm, modal, setModal, idx, editIngred
 
     const [edit, setEdit] = useState(editIngredient !== null);
 
-    function abortIngredient(){
+    function abortIngredient(del){
         let keys = ["name","quantity","measurement"];
 
         keys.forEach(key => {
             document.getElementsByName(`new-ingredient__${key}`)[0].value = null;
         });
 
+        if(del){
+            updateForm("ingredients", editIngredient, true);
+        }
+
         setModal(false);
+        resetEdits();
     }
 
     function createIngredient(){
@@ -72,13 +77,13 @@ export default function Ingredient({updateForm, modal, setModal, idx, editIngred
 
                     <label htmlFor="new-ingredient__measurement" className="create-recipe__label">Measurement</label>
                     <input type="text" name="new-ingredient__measurement" className="input create-recipe__input"></input>
+                    <button type="button" className="button-primary" onClick={()=>abortIngredient()}>Cancel</button>
                 </form>
             </main>
             <section className="create-recipe__footer">
                 <button type="button" className="button-primary" onClick={()=>createIngredient()}>{edit ? "Edit" : "Add"} Ingredient</button>
                 <button type="button" className="button-secondary" onClick={()=>{
-                    abortIngredient();
-                    resetEdits();
+                    abortIngredient(true);
                 }}><img src={require("../../../assets/icons/bin.svg")}/></button>
             </section>
         </div>

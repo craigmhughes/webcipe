@@ -4,12 +4,21 @@ export default function Step({updateForm, modal, setModal, steps, editStep, upda
 
     const [edit, setEdit] = useState(editStep !== null);
 
-    function abortStep(){
+    /**
+     * Exit modal.
+     *
+     * @param {Boolean} del should the edit object be deleted or just forgotten.
+     */
+    function abortStep(del){
         let keys = ["content"];
 
         keys.forEach(key => {
             document.getElementsByName(`new-step__${key}`)[0].value = null;
         });
+
+        if(del){
+            updateForm("steps", editStep, true);
+        }
 
         setModal(false);
         resetEdits();
@@ -62,11 +71,12 @@ export default function Step({updateForm, modal, setModal, steps, editStep, upda
                     <label htmlFor="new-step__content" className="create-recipe__label">Content</label>
                     <input type="text" name="new-step__content" className="input create-recipe__input"></input>
                     <input type="hidden" name="new-step__order"></input>
+                    <button type="button" className="button-primary" onClick={()=>abortStep()}>Cancel</button>
                 </form>
             </main>
             <section className="create-recipe__footer">
                 <button type="button" className="button-primary" onClick={()=>createStep()}>{edit ? "Update" : "Add"} Step</button>
-                <button type="button" className="button-secondary" onClick={()=>abortStep()}><img src={require("../../../assets/icons/bin.svg")}/></button>
+                <button type="button" className="button-secondary" onClick={()=>abortStep(true)}><img src={require("../../../assets/icons/bin.svg")}/></button>
             </section>
         </div>
     );

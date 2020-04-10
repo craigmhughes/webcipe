@@ -29,7 +29,7 @@ export default function CreateRecipe(){
      * @param {*} key Targeted key.
      * @param {*} update Add to current value if exists, else overwrite.
      */
-    function updateForm(key, update){
+    function updateForm(key, update, del){
 
         // Get Input Value
         let val = update ?? document.getElementsByName(`new-recipe__${key}`)[0].value;
@@ -37,7 +37,12 @@ export default function CreateRecipe(){
         // Generate new form & overwrite value.
         let newForm = formData;
 
-        if(update){
+        if (del && update) {
+
+            // console.log(newForm[key]);
+
+            newForm[key].splice(update.idx, 1);
+        } else if(update){
             newForm[key].push(update);
         } else {
             newForm[key] = val;
@@ -103,8 +108,11 @@ export default function CreateRecipe(){
     let stepEls = [];
 
     for(let ingredient of Object.entries(formData["ingredients"])){
+        let idx = formData["ingredients"].indexOf(ingredient[1]);
+        ingredient[1].idx = idx;
+
         ingredientEls.push(
-            <li key={formData["ingredients"].indexOf(ingredient[1])} onClick={()=>{
+            <li key={idx} onClick={()=>{
                 setEditIngredient(ingredient[1]);
                 setIngredientModal(true);
             }}>
@@ -115,6 +123,7 @@ export default function CreateRecipe(){
 
     for(let step of Object.entries(formData["steps"])){
         let idx = formData["steps"].indexOf(step[1]);
+        step[1].idx = idx;
 
         stepEls.push(
             <li key={idx} onClick={()=>{
@@ -157,7 +166,7 @@ export default function CreateRecipe(){
 
             <Ingredient updateForm={updateForm} modal={ingredientModal} setModal={setIngredientModal} idx={formData["ingredients"].indexOf(editIngredient)} 
                 editIngredient={editIngredient} updateIngredient={updateIngredient} resetEdits={resetEdits}/>
-                
+
             <Step updateForm={updateForm} modal={stepModal} setModal={setStepModal} steps={formData["steps"].length} editStep={editStep} 
                 updateStep={updateStep} resetEdits={resetEdits}/>
         </div>
