@@ -6,7 +6,7 @@ import Ingredient from './Recipe/Ingredient';
 import Step from './Recipe/Step';
 
 
-export default function CreateRecipe(){
+export default function CreateRecipe({props, isEdit}){
 
     // Default Form state
     const [formData, setFormData] = useState({
@@ -15,6 +15,8 @@ export default function CreateRecipe(){
         'ingredients': [],
         'steps': []
     });
+
+    const [edit, setEdit] = useState(isEdit);
 
     const [ingredientModal, setIngredientModal] = useState(false);
     const [stepModal, setStepModal] = useState(false);
@@ -88,10 +90,16 @@ export default function CreateRecipe(){
         axios.defaults.headers.common = {'Authorization': `bearer ${localStorage.auth_token}`};
         let valid = true;
 
+        let ignore = ["description"];
+
         // Validate data (check empty inputs)
         for(let key of Object.keys(formData)){
-            if(!formData[key]) valid = false;
-            else if(formData[key].length < 1) valid = false;
+
+            if(!formData[key]) {
+                valid = !ignore.includes(key) ? false : valid;
+            } else if(formData[key].length < 1) {
+                valid = false;
+            }
         }
 
         if(!valid){
@@ -161,7 +169,10 @@ export default function CreateRecipe(){
             </main>
             <section className="create-recipe__footer">
                 <button type="button" className="button-primary" onClick={()=>postRecipe()}>Create Recipe</button>
-                <button type="button" className="button-secondary"><img src={require("../../assets/icons/bin.svg")}/></button>
+                <button type="button" className="button-secondary" 
+                    onClick={()=>{ if(!edit) props.history.push('/') }}>
+                        <img src={require("../../assets/icons/bin.svg")}/>
+                </button>
             </section>
 
             <Ingredient updateForm={updateForm} modal={ingredientModal} setModal={setIngredientModal} idx={formData["ingredients"].indexOf(editIngredient)} 
