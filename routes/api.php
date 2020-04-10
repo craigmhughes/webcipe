@@ -31,4 +31,5 @@ Route::get("recipes", "RecipeController@Index");
 Route::group(['middleware' => 'auth'], function (){
     Route::post("recipes", "RecipeController@Store");
     Route::put("recipes/{id}", "RecipeController@Update");
+    Route::delete("recipes/{id}", "RecipeController@Delete");
 });

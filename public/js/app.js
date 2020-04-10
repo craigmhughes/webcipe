@@ -35350,7 +35350,15 @@ function CreateRecipe(_ref) {
     }
   }
 
-  function abortRecipe() {
+  function abortRecipe(del) {
+    if (del) {
+      axios["delete"]("/api/recipes/".concat(formData.id), formData).then(function (res) {
+        return console.log(res);
+      })["catch"](function (err) {
+        return console.error(res);
+      });
+    }
+
     setEditRecipe(null);
     props.history.push('/');
   }
@@ -35465,7 +35473,7 @@ function CreateRecipe(_ref) {
     type: "button",
     className: "button-secondary",
     onClick: function onClick() {
-      if (!edit) abortRecipe();
+      abortRecipe(edit);
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: __webpack_require__(/*! ../../assets/icons/bin.svg */ "./resources/assets/icons/bin.svg")

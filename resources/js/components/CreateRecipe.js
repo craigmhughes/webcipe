@@ -116,7 +116,14 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
         }
     }
 
-    function abortRecipe(){
+    function abortRecipe(del){
+
+        if(del){
+            axios.delete(`/api/recipes/${formData.id}`, formData)
+            .then((res)=>console.log(res))
+            .catch((err)=>console.error(res));
+        }
+
         setEditRecipe(null);
         props.history.push('/');
     }
@@ -188,7 +195,7 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
             <section className="create-recipe__footer">
                 <button type="button" className="button-primary" onClick={()=>postRecipe()}>{edit ? "Update" : "Create"} Recipe</button>
                 <button type="button" className="button-secondary" 
-                    onClick={()=>{ if(!edit) abortRecipe() }}>
+                    onClick={()=>{ abortRecipe(edit) }}>
                         <img src={require("../../assets/icons/bin.svg")}/>
                 </button>
             </section>

@@ -208,4 +208,17 @@ class RecipeController extends Controller
 
         return response()->json(null, 201);
     }
+
+    /**
+     * Delete existing Recipe.
+     */
+    public function Delete(Request $request, $id){
+        $recipe = Recipe::find($request['id']);
+
+        $recipe->ingredients()->delete();
+        $recipe->steps()->delete();
+        $recipe->delete();
+
+        return response()->json(null, 200);
+    }
 }
