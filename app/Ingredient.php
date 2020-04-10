@@ -12,7 +12,7 @@ class Ingredient extends Model
      * @var array
      */
     protected $fillable = [
-        'name','quantity','measurement'
+        'name','quantity','measurement','recipe_id'
     ];
 
     /**
@@ -21,6 +21,10 @@ class Ingredient extends Model
      * @var array
      */
     protected $hidden = [
-        'id'
+        'id', 'created_at', 'updated_at'
     ];
+
+    public function recipe(){
+        return $this->belongsTo('Webcipe\Recipe');
+    }
 }

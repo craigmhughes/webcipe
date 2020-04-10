@@ -12,7 +12,7 @@ class Step extends Model
      * @var array
      */
     protected $fillable = [
-        'order','content'
+        'order','content','recipe_id'
     ];
 
     /**
@@ -21,6 +21,6 @@ class Step extends Model
      * @var array
      */
     protected $hidden = [
-        'id','recipe_id'
+        'id','recipe_id','created_at', 'updated_at'
     ];
 }

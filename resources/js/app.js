@@ -9,6 +9,8 @@ import { BrowserRouter as Router, Route, Redirect, Switch, } from "react-router-
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import Navigation from './components/Navigation.js';
+import CreateRecipe from './components/CreateRecipe.js';
+import Saved from './components/Saved.js';
 
 export default function App (){
 
@@ -73,9 +75,12 @@ export default function App (){
 
     return (
         <Router>
+            <Route exact path="/recipes/new" render={(props)=><CreateRecipe props={props}/>}/>
+
+            <Route exact path="/" render={(props)=><Saved props={props}/>}/>
+
             <Route exact path="/login" render={(props)=><Login setToken={setToken} props={props}/>}/>
             <Route exact path="/register" render={(props)=><Register setToken={setToken} props={props}/>}/>
-            <div></div>
             <Navigation setActiveMenu={setActiveMenu} blur={menuActive} user={user} logout={logout}/>
         </Router>
     );

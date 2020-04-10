@@ -24,4 +24,9 @@ Route::group(['prefix' => 'auth'], function () {
     Route::get("user", "AuthController@User");
 });
 
-Route::resource("recipes", "RecipeController");
+Route::get("recipes", "RecipeController@Index");
+
+Route::group(['middleware' => 'auth'], function (){
+    Route::post("recipes", "RecipeController@Store");
+    Route::get("recipes/user", "RecipeController@UserIndex");
+});

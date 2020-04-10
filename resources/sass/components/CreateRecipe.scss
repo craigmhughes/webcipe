@@ -1,0 +1,102 @@
+.cr-wrapper {
+    background: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+
+    display: grid;
+    grid-template-rows: 8.5fr 1.5fr;
+
+    &.popout {
+        z-index: 101;
+        transition: all 0.5s cubic-bezier(0.44, -0.53, 0.57, 1.3);
+        top: 0;
+
+        &--hidden {
+            @extend .popout;
+            top: 100%;
+        }
+    }
+}
+
+.create-recipe {
+    @extend .container;
+    overflow: auto;
+    overflow-x: hidden;
+
+    &__head {
+        margin-top: 1em;
+        padding: 1em;
+        border-bottom: 1px solid #e3e3e3;
+        color: grey;
+
+        &-title {
+            font-size: 1em;
+            font-weight: 500;
+            margin: 0;
+        }
+    }
+
+    &__footer {
+        @extend .container;
+        display: flex;
+
+        align-items: center;
+        justify-content: space-between;
+
+        .button-primary {
+            width: calc(80% - 1em);
+            height: max-content;
+        }
+
+        .button-secondary {
+            width: 20%;
+            height: max-content;
+            border-color: #e3e3e3;
+            padding: 1em;
+
+            & > img {
+                height: 1.2em;
+            }
+        }
+    }
+
+    &__form {
+        margin-top: 2em;
+    }
+
+    &__input {
+        border: none;
+        border-bottom: 2px solid #e3e3e3;
+        border-radius: 0;
+        margin-bottom: 1.5em;
+
+        transition: border-color 0.25s ease-in-out;
+
+        &:focus {
+            border-color: #222;
+        }
+    }
+
+    &__label {
+        color: grey;
+        margin: 0;
+
+        &--emph {
+            font-size: 0.7em;
+            margin-left: 0.5em;
+        }
+    }
+
+    .button-secondary {
+        width: 100%;
+        margin: 1.5em 0;
+        border-radius: 3em;
+        padding: 1em 0;
+        color: #222;
+        border-color: #e3e3e3;
+    }
+}

@@ -69,6 +69,11 @@
         font-size: 1.5em;
     }
 
+    &__create-link {
+        position: absolute;
+        bottom: 0;
+    }
+
     &__content {
         @extend .container;
 
@@ -79,17 +84,18 @@
         
         &-main {
             font-size: 1.2em;
+            position: relative;
         }
 
         .button {
             width: 100%;
 
             &-primary {
-                width: calc(100% - 2em);
+                width: calc(100% - 2.5em);
             }
 
             &-secondary {
-                width: calc(100% - 2.2em);
+                width: calc(100% - 2.5em);
             }
             
         }

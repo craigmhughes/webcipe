@@ -12,7 +12,7 @@ class Recipe extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'description'
+        'title', 'description','author_id'
     ];
 
     /**
@@ -21,6 +21,14 @@ class Recipe extends Model
      * @var array
      */
     protected $hidden = [
-        'id'
+        'created_at'
     ];
+
+    public function ingredients(){
+        return $this->hasMany('Webcipe\Ingredient');
+    }
+
+    public function steps(){
+        return $this->hasMany('Webcipe\Step');
+    }
 }
