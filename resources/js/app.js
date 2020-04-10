@@ -76,9 +76,6 @@ export default function App (){
         <Router>
             <Route exact path="/recipes/new" render={(props)=><CreateRecipe props={props}/>}/>
 
-            {/* TESTING - Will show on refresh, delete adter complete */}
-            <Route exact path="/" render={(props)=><CreateRecipe props={props}/>}/>
-
             <Route exact path="/login" render={(props)=><Login setToken={setToken} props={props}/>}/>
             <Route exact path="/register" render={(props)=><Register setToken={setToken} props={props}/>}/>
             <Navigation setActiveMenu={setActiveMenu} blur={menuActive} user={user} logout={logout}/>

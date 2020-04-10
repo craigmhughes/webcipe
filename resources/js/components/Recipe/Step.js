@@ -71,12 +71,12 @@ export default function Step({updateForm, modal, setModal, steps, editStep, upda
                     <label htmlFor="new-step__content" className="create-recipe__label">Content</label>
                     <input type="text" name="new-step__content" className="input create-recipe__input"></input>
                     <input type="hidden" name="new-step__order"></input>
-                    <button type="button" className="button-primary" onClick={()=>abortStep()}>Cancel</button>
+                    {edit ? <button type="button" className="button-primary" onClick={()=>abortStep()}>Cancel</button> : null}
                 </form>
             </main>
             <section className="create-recipe__footer">
                 <button type="button" className="button-primary" onClick={()=>createStep()}>{edit ? "Update" : "Add"} Step</button>
-                <button type="button" className="button-secondary" onClick={()=>abortStep(true)}><img src={require("../../../assets/icons/bin.svg")}/></button>
+                <button type="button" className="button-secondary" onClick={()=>abortStep(edit)}><img src={require("../../../assets/icons/bin.svg")}/></button>
             </section>
         </div>
     );

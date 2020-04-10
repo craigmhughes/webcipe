@@ -77,13 +77,13 @@ export default function Ingredient({updateForm, modal, setModal, idx, editIngred
 
                     <label htmlFor="new-ingredient__measurement" className="create-recipe__label">Measurement</label>
                     <input type="text" name="new-ingredient__measurement" className="input create-recipe__input"></input>
-                    <button type="button" className="button-primary" onClick={()=>abortIngredient()}>Cancel</button>
+                    {edit ? <button type="button" className="button-primary" onClick={()=>abortIngredient()}>Cancel</button> : null}
                 </form>
             </main>
             <section className="create-recipe__footer">
                 <button type="button" className="button-primary" onClick={()=>createIngredient()}>{edit ? "Edit" : "Add"} Ingredient</button>
                 <button type="button" className="button-secondary" onClick={()=>{
-                    abortIngredient(true);
+                    abortIngredient(edit);
                 }}><img src={require("../../../assets/icons/bin.svg")}/></button>
             </section>
         </div>
