@@ -34817,7 +34817,18 @@ function App() {
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(JSON.parse(localStorage.getItem("user"))),
       _useState4 = _slicedToArray(_useState3, 2),
       user = _useState4[0],
-      setUser = _useState4[1];
+      setUser = _useState4[1]; // Pass a recipe object to edit.
+
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState6 = _slicedToArray(_useState5, 2),
+      editRecipe = _useState6[0],
+      setEditRecipe = _useState6[1];
+
+  function updateEditRecipe(val, props) {
+    setEditRecipe(val);
+    props.history.push('/recipes/new');
+  }
   /**
    * Log User out & make Auth token unusable.
    *
@@ -34883,7 +34894,9 @@ function App() {
     path: "/recipes/new",
     render: function render(props) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_CreateRecipe_js__WEBPACK_IMPORTED_MODULE_6__["default"], {
-        props: props
+        props: props,
+        editRecipe: editRecipe,
+        setEditRecipe: setEditRecipe
       });
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
@@ -34891,7 +34904,8 @@ function App() {
     path: "/",
     render: function render(props) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Saved_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
-        props: props
+        props: props,
+        setEditRecipe: updateEditRecipe
       });
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
@@ -35206,23 +35220,24 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")["d
 
 function CreateRecipe(_ref) {
   var props = _ref.props,
-      isEdit = _ref.isEdit;
+      editRecipe = _ref.editRecipe,
+      setEditRecipe = _ref.setEditRecipe;
 
-  // Default Form state
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(editRecipe),
+      _useState2 = _slicedToArray(_useState, 2),
+      edit = _useState2[0],
+      setEdit = _useState2[1]; // Default Form state
+
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(edit !== null && edit !== void 0 ? edit : {
     'title': null,
     'description': null,
     'ingredients': [],
     'steps': []
   }),
-      _useState2 = _slicedToArray(_useState, 2),
-      formData = _useState2[0],
-      setFormData = _useState2[1];
-
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(isEdit),
       _useState4 = _slicedToArray(_useState3, 2),
-      edit = _useState4[0],
-      setEdit = _useState4[1];
+      formData = _useState4[0],
+      setFormData = _useState4[1];
 
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState6 = _slicedToArray(_useState5, 2),
@@ -35259,7 +35274,6 @@ function CreateRecipe(_ref) {
     var newForm = formData;
 
     if (del && update) {
-      // console.log(newForm[key]);
       newForm[key].splice(update.idx, 1);
     } else if (update) {
       newForm[key].push(update);
@@ -35318,15 +35332,37 @@ function CreateRecipe(_ref) {
     if (!valid) {
       return false;
     } else {
-      console.log(true);
-      axios.post('/api/recipes', formData).then(function (res) {
-        return console.log(res);
-      })["catch"](function (err) {
-        return console.error(res);
-      });
+      if (edit) {
+        console.log("PUT");
+        axios.put("/api/recipes/".concat(formData.id), formData).then(function (res) {
+          return props.history.push('/');
+        })["catch"](function (err) {
+          return console.error(res);
+        });
+      } else {
+        console.log("POST");
+        axios.post('/api/recipes', formData).then(function (res) {
+          return props.history.push('/');
+        })["catch"](function (err) {
+          return console.error(res);
+        });
+      }
     }
   }
 
+  function abortRecipe() {
+    setEditRecipe(null);
+    props.history.push('/');
+  }
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    var _formData$title, _formData$description;
+
+    setEdit(editRecipe); // Fill default values of inputs with formData
+
+    document.getElementsByName("new-recipe__title")[0].value = (_formData$title = formData.title) !== null && _formData$title !== void 0 ? _formData$title : null;
+    document.getElementsByName("new-recipe__description")[0].value = (_formData$description = formData.description) !== null && _formData$description !== void 0 ? _formData$description : null;
+  }, [editRecipe]);
   var ingredientEls = [];
   var stepEls = [];
 
@@ -35372,7 +35408,12 @@ function CreateRecipe(_ref) {
     className: "create-recipe__head"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
     className: "create-recipe__head-title"
-  }, "Create New Recipe")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+  }, edit ? "Update Existing" : "Create New", " Recipe"), edit ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: __webpack_require__(/*! ../../assets/icons/x.svg */ "./resources/assets/icons/x.svg"),
+    onClick: function onClick() {
+      return abortRecipe();
+    }
+  }) : null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     className: "create-recipe__form "
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: "new-recipe__title",
@@ -35420,11 +35461,11 @@ function CreateRecipe(_ref) {
     onClick: function onClick() {
       return postRecipe();
     }
-  }, "Create Recipe"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }, edit ? "Update" : "Create", " Recipe"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: "button-secondary",
     onClick: function onClick() {
-      if (!edit) props.history.push('/');
+      if (!edit) abortRecipe();
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: __webpack_require__(/*! ../../assets/icons/bin.svg */ "./resources/assets/icons/bin.svg")
@@ -35921,7 +35962,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")["default"];
 
 
-function Saved() {
+function Saved(_ref) {
+  var props = _ref.props,
+      setEditRecipe = _ref.setEditRecipe;
+
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState2 = _slicedToArray(_useState, 2),
       recipes = _useState2[0],
@@ -35931,7 +35975,7 @@ function Saved() {
     axios.defaults.headers.common = {
       'Authorization': "bearer ".concat(localStorage.auth_token)
     };
-    axios.get('/api/recipes/user').then(function (res) {
+    axios.get('/api/auth/recipes').then(function (res) {
       if (res.data.recipes) {
         setRecipes(res.data.recipes);
       }
@@ -35950,11 +35994,18 @@ function Saved() {
         _step;
 
     try {
-      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var _loop = function _loop() {
         var recipe = _step.value;
         recipeEls.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          key: recipe.id
+          key: recipe.id,
+          onClick: function onClick() {
+            return setEditRecipe(recipe, props);
+          }
         }, recipe.title));
+      };
+
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        _loop();
       }
     } catch (err) {
       _iterator.e(err);

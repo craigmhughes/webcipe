@@ -22,11 +22,13 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post("register", "AuthController@Register");
     Route::post("logout", "AuthController@Logout");
     Route::get("user", "AuthController@User");
+
+    Route::get("recipes", "RecipeController@UserIndex");
 });
 
 Route::get("recipes", "RecipeController@Index");
 
 Route::group(['middleware' => 'auth'], function (){
     Route::post("recipes", "RecipeController@Store");
-    Route::get("recipes/user", "RecipeController@UserIndex");
+    Route::put("recipes/{id}", "RecipeController@Update");
 });

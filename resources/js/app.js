@@ -18,6 +18,14 @@ export default function App (){
     const [menuActive, setActiveMenu] = useState(false);
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
+    // Pass a recipe object to edit.
+    const [editRecipe, setEditRecipe] = useState(null);
+
+    function updateEditRecipe(val, props){
+        setEditRecipe(val);
+        props.history.push('/recipes/new');
+    }
+
     /**
      * Log User out & make Auth token unusable.
      *
@@ -75,9 +83,9 @@ export default function App (){
 
     return (
         <Router>
-            <Route exact path="/recipes/new" render={(props)=><CreateRecipe props={props}/>}/>
+            <Route exact path="/recipes/new" render={(props)=><CreateRecipe props={props} editRecipe={editRecipe} setEditRecipe={setEditRecipe}/>}/>
 
-            <Route exact path="/" render={(props)=><Saved props={props}/>}/>
+            <Route exact path="/" render={(props)=><Saved props={props} setEditRecipe={updateEditRecipe}/>}/>
 
             <Route exact path="/login" render={(props)=><Login setToken={setToken} props={props}/>}/>
             <Route exact path="/register" render={(props)=><Register setToken={setToken} props={props}/>}/>

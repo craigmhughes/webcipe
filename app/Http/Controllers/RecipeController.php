@@ -122,4 +122,90 @@ class RecipeController extends Controller
         return response()->json($recipe, 201);
 
     }
+
+    /**
+     * Update existing Recipe.
+     */
+    public function Update(Request $request){
+
+        // Use only the fields needed.
+        $data = $request->only(["id","title","description","ingredients","steps"]);
+
+        // Create validation rules.
+        $validator = Validator::make($data, [
+            'title' => ['required'],
+            'description' => ['nullable'],
+            'ingredients' => ['required'],
+            'steps' => ['required']
+        ]);
+        
+        //  Run validation and return on error.
+        if($validator->fails()){
+            return response()->json(['error' => $validator->messages()]);
+        }
+
+        $recipe = Recipe::find($data["id"]);
+        $recipe->title = $data["title"];
+        $recipe->description = $data["description"];
+
+        // Get lists from Request and pair with it's validation rules.
+        $data_lists = [ 
+            [
+                $request["ingredients"],
+                [
+                    'name' => ['required'],
+                    'quantity' => ['required'],
+                    'measurement' => ['nullable'] 
+                ]
+            ], 
+            [
+                $request["steps"],
+                [
+                    'order' => ['required'],
+                    'content' => ['required']
+                ]
+            ]
+        ];
+
+        // Loop over data_lists to get objects with validation.
+        foreach($data_lists as $data_item){
+            // Overwrite $data to target Ingredient list.
+            $data = $data_item[0];
+
+            // Loop through each item and validate
+            foreach($data as $data_obj){
+                // Recreate validation rules.
+                $validator = Validator::make($data_obj, $data_item[1]);
+
+                //  Run validation and return on error.
+                if($validator->fails()){
+                    return response()->json(['error' => $validator->messages()]);
+                }
+            }
+        }
+
+        $recipe->ingredients()->delete();
+        $recipe->steps()->delete();
+        
+        foreach($request['ingredients'] as $ingredient){
+            Ingredient::create([
+                'name' => $ingredient['name'],
+                'recipe_id' => $recipe['id'],
+                'quantity' => $ingredient['quantity'],
+                'measurement' => $ingredient['measurement']
+            ]);
+        }
+
+        foreach($request['steps'] as $step){
+            Step::create([
+                'recipe_id' => $recipe['id'],
+                'order' => $step['order'],
+                'content' => $step['content']
+            ]);
+        }
+
+        $recipe->save();
+
+        return response()->json(null, 201);
+    }
 }

@@ -1,22 +1,22 @@
 const axios = require('axios').default;
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import Ingredient from './Recipe/Ingredient';
 import Step from './Recipe/Step';
 
 
-export default function CreateRecipe({props, isEdit}){
+export default function CreateRecipe({props, editRecipe, setEditRecipe}){
+
+    const [edit, setEdit] = useState(editRecipe);
 
     // Default Form state
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState(edit ?? {
         'title': null,
         'description': null,
         'ingredients': [],
         'steps': []
     });
-
-    const [edit, setEdit] = useState(isEdit);
 
     const [ingredientModal, setIngredientModal] = useState(false);
     const [stepModal, setStepModal] = useState(false);
@@ -40,9 +40,6 @@ export default function CreateRecipe({props, isEdit}){
         let newForm = formData;
 
         if (del && update) {
-
-            // console.log(newForm[key]);
-
             newForm[key].splice(update.idx, 1);
         } else if(update){
             newForm[key].push(update);
@@ -105,12 +102,32 @@ export default function CreateRecipe({props, isEdit}){
         if(!valid){
             return false;
         } else {
-            console.log(true)
-            axios.post('/api/recipes', formData)
-            .then((res)=>console.log(res))
-            .catch((err)=>console.error(res));
+            if(edit){
+                console.log("PUT");
+                axios.put(`/api/recipes/${formData.id}`, formData)
+                .then((res)=>props.history.push('/'))
+                .catch((err)=>console.error(res));
+            } else {
+                console.log("POST");
+                axios.post('/api/recipes', formData)
+                .then((res)=>props.history.push('/'))
+                .catch((err)=>console.error(res));
+            }
         }
     }
+
+    function abortRecipe(){
+        setEditRecipe(null);
+        props.history.push('/');
+    }
+
+    useEffect(()=>{
+        setEdit(editRecipe);
+
+        // Fill default values of inputs with formData
+        document.getElementsByName(`new-recipe__title`)[0].value = formData.title ?? null;
+        document.getElementsByName(`new-recipe__description`)[0].value = formData.description ?? null;
+    },[editRecipe]);
 
     let ingredientEls = [];
     let stepEls = [];
@@ -148,7 +165,8 @@ export default function CreateRecipe({props, isEdit}){
         <div className="cr-wrapper">
             <main className="create-recipe">
                 <header className="create-recipe__head">
-                    <h1 className="create-recipe__head-title">Create New Recipe</h1>
+                    <h1 className="create-recipe__head-title">{edit ? "Update Existing" : "Create New"} Recipe</h1>
+                    {edit ? <img src={require('../../assets/icons/x.svg')} onClick={()=>abortRecipe()}/> : null }
                 </header>
                 <form className="create-recipe__form
                 ">
@@ -168,9 +186,9 @@ export default function CreateRecipe({props, isEdit}){
                 </form>
             </main>
             <section className="create-recipe__footer">
-                <button type="button" className="button-primary" onClick={()=>postRecipe()}>Create Recipe</button>
+                <button type="button" className="button-primary" onClick={()=>postRecipe()}>{edit ? "Update" : "Create"} Recipe</button>
                 <button type="button" className="button-secondary" 
-                    onClick={()=>{ if(!edit) props.history.push('/') }}>
+                    onClick={()=>{ if(!edit) abortRecipe() }}>
                         <img src={require("../../assets/icons/bin.svg")}/>
                 </button>
             </section>

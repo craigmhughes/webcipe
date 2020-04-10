@@ -1,14 +1,14 @@
 const axios = require('axios').default;
 import React, {useState, useEffect} from 'react';
 
-export default function Saved(){
+export default function Saved({  props, setEditRecipe }){
 
     const [recipes, setRecipes] = useState(null);
 
     function getRecipes(){
         axios.defaults.headers.common = {'Authorization': `bearer ${localStorage.auth_token}`};
 
-        axios.get('/api/recipes/user')
+        axios.get('/api/auth/recipes')
             .then((res)=> {if(res.data.recipes){setRecipes(res.data.recipes)}})
             .catch((err)=>console.error(res));
     }
@@ -20,7 +20,7 @@ export default function Saved(){
     let recipeEls = [];
     if(recipes !== null){
         for(let recipe of recipes){
-            recipeEls.push(<li key={recipe.id}>{recipe.title}</li>);
+            recipeEls.push(<li key={recipe.id} onClick={()=>setEditRecipe(recipe, props)}>{recipe.title}</li>);
         }
     }
     
