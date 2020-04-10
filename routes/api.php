@@ -28,4 +28,5 @@ Route::get("recipes", "RecipeController@Index");
 
 Route::group(['middleware' => 'auth'], function (){
     Route::post("recipes", "RecipeController@Store");
+    Route::get("recipes/user", "RecipeController@UserIndex");
 });

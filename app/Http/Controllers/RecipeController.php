@@ -25,6 +25,16 @@ class RecipeController extends Controller
     }
 
     /**
+     * Retrieve all records of Recipe associated with user.
+     */
+    public function UserIndex(Request $request){
+
+        $recipes = Recipe::where('author_id', auth()->user()['id'])->with('ingredients','steps')->get();
+
+        return response()->json(['recipes' => $recipes], 200);
+    }
+
+    /**
      * Create new Recipe.
      */
     public function Store(Request $request){

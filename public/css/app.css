@@ -21,6 +21,7 @@ body {
 }
 
 .container,
+.saved,
 .create-recipe__footer,
 .create-recipe,
 .slide-menu__content,
@@ -509,5 +510,9 @@ body {
   padding: 1em 0;
   color: #222;
   border-color: #e3e3e3;
+}
+
+.saved__title {
+  font-weight: 500;
 }
 
