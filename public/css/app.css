@@ -1,6 +1,6 @@
 body {
   font-size: 14px;
-  font-family: "Poppins", sans-serif;
+  font-family: "Questrial", "arial", sans-serif;
   margin: 0;
 }
 
@@ -49,23 +49,23 @@ body {
 }
 
 .input::-webkit-input-placeholder {
-  font-family: "Poppins", sans-serif;
+  font-family: "Questrial", "arial", sans-serif;
 }
 
 .input::-moz-placeholder {
-  font-family: "Poppins", sans-serif;
+  font-family: "Questrial", "arial", sans-serif;
 }
 
 .input:-ms-input-placeholder {
-  font-family: "Poppins", sans-serif;
+  font-family: "Questrial", "arial", sans-serif;
 }
 
 .input::-ms-input-placeholder {
-  font-family: "Poppins", sans-serif;
+  font-family: "Questrial", "arial", sans-serif;
 }
 
 .input::placeholder {
-  font-family: "Poppins", sans-serif;
+  font-family: "Questrial", "arial", sans-serif;
 }
 
 .input-light {
@@ -85,6 +85,7 @@ body {
   font-weight: 600;
   font-size: 0.9em;
   text-decoration: none;
+  font-family: "Questrial", "arial", sans-serif;
 }
 
 .button-primary,
