@@ -10,31 +10,48 @@ describe('Authentication', function() {
 
   describe('login()', function() {
 
-    it('Log user in with correct credentials given', (done)=>{
-      
-      async function manipulate() {
-        return (new Promise( async function(resolve, reject) {
-          let driver = await new Builder().forBrowser('chrome').build();
-
-          async function login(){
-            await driver.get('localhost:8000/login');
-            await driver.findElement(By.name('email')).sendKeys('c@h.com');
-            return await driver.findElement(By.name('password')).sendKeys('password', Key.RETURN);
-          }
-
-          login().then(async ()=>{
-            await driver.wait(until.urlIs("http://localhost:8000/"), 2000).then(()=>resolve(driver));        
-          });
-          
-        }));
+    const tests = [
+      {
+        scenario: "incorrect",
+        credentials: ["c@h.com","badPassword"],
+        expectedUrl: "http://localhost:8000/login"
+      },
+      {
+        scenario: "correct",
+        credentials: ["c@h.com","password"],
+        expectedUrl: "http://localhost:8000/"
       }
+    ];
 
+    for(test of tests){
+      it(`Log user in with ${test.scenario} credentials given`, (done)=>{
       
-      manipulate().then(async (driver)=>{
-        assert.equal(await driver.getCurrentUrl(), "http://localhost:8000/");
-        driver.quit();
-      }).then(done).catch(err=>done(err));
-      
-    });
+        async function manipulate() {
+          return (new Promise( async function(resolve, reject) {
+            let driver = await new Builder().forBrowser('chrome').build();
+  
+            async function login(){
+              await driver.get('localhost:8000/login');
+              await driver.findElement(By.name('email')).sendKeys(test.credentials[0]);
+              return await driver.findElement(By.name('password')).sendKeys(test.credentials[1], Key.RETURN);
+            }
+  
+            login().then(async ()=>{
+              await driver.wait(until.urlIs(test.expectedUrl), 2000).then(()=>resolve(driver));        
+            });
+            
+          }));
+        }
+  
+        
+        manipulate().then(async (driver)=>{
+          assert.equal(await driver.getCurrentUrl(), test.expectedUrl);
+          await driver.quit()
+        }).then(done).catch(err=>done(err));
+        
+      });
+    }
   });
+
+  
 });
