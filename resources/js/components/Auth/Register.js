@@ -63,7 +63,7 @@ export default function Register({setToken, props}){
     return (
         <article className={`register`}>
             <header className="register__head">
-                <img src={require("../../../assets/images/webcipe-text-w.svg")} className="register__logo"/>
+                <img src="/assets/images/webcipe-text-w.svg" className="register__logo"/>
             </header>
             <form onSubmit={(e)=>handleSubmit(e)} className="register__form">
                 <input type="text" placeholder="Name" name="reg_name" className="input"></input>

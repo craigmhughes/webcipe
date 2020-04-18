@@ -84,7 +84,7 @@ export default function Ingredient({updateForm, modal, setModal, idx, editIngred
                 <button type="button" className="button-primary" onClick={()=>createIngredient()}>{edit ? "Edit" : "Add"} Ingredient</button>
                 <button type="button" className="button-secondary" onClick={()=>{
                     abortIngredient(edit);
-                }}><img src={require("../../../assets/icons/bin.svg")}/></button>
+                }}><img src="/assets/icons/bin.svg"/></button>
             </section>
         </div>
     );

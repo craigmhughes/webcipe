@@ -76,7 +76,7 @@ export default function Step({updateForm, modal, setModal, steps, editStep, upda
             </main>
             <section className="create-recipe__footer">
                 <button type="button" className="button-primary" onClick={()=>createStep()}>{edit ? "Update" : "Add"} Step</button>
-                <button type="button" className="button-secondary" onClick={()=>abortStep(edit)}><img src={require("../../../assets/icons/bin.svg")}/></button>
+                <button type="button" className="button-secondary" onClick={()=>abortStep(edit)}><img src="/assets/icons/bin.svg"/></button>
             </section>
         </div>
     );

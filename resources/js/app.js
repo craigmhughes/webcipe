@@ -12,6 +12,9 @@ import Navigation from './components/Navigation.js';
 import CreateRecipe from './components/CreateRecipe.js';
 import Saved from './components/Saved.js';
 
+// Service Workers
+// import TestSW from './workers/test-sw.js';
+
 export default function App (){
 
     // Control blur state of app when menu is active. Pass to components as to not blur the whole app.
@@ -96,4 +99,9 @@ export default function App (){
 
 if (document.getElementById('root')) {
     ReactDOM.render(<App />, document.getElementById('root'));
+}
+
+// Register Service Workers (Located in public dir)
+if(navigator.serviceWorker){
+    navigator.serviceWorker.register('./test-sw.js');
 }

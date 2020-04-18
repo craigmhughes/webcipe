@@ -42,11 +42,11 @@ export default function Login({ setToken, props }){
     return (
         <article className="login">
             <header className="login__head">
-                <img src={require("../../../assets/icons/x.svg")} className="login__x" onClick={()=>props.history.goBack()}/>
-                <img src={require("../../../assets/images/webcipe-text.svg")} className="login__logo"/>
+                <img src="/assets/icons/x.svg" className="login__x" onClick={()=>props.history.goBack()}/>
+                <img src="/assets/images/webcipe-text.svg" className="login__logo"/>
             </header>
             <form className="login__form" onSubmit={(e)=>handleSubmit(e)}>
-                <p className={`login__err${err ? "--show" : ""}`}><img src={require("../../../assets/icons/ghost.svg")}/>Incorrect E-Mail Address or Password</p>
+                <p className={`login__err${err ? "--show" : ""}`}><img src="/assets/icons/ghost.svg"/>Incorrect E-Mail Address or Password</p>
                 <input type="email" placeholder="E-Mail Address" name="email" className="input"></input>
                 <input type="password" placeholder="Password" name="password" className="input"></input>
 

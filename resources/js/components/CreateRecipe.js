@@ -173,7 +173,7 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
             <main className="create-recipe">
                 <header className="create-recipe__head">
                     <h1 className="create-recipe__head-title">{edit ? "Update Existing" : "Create New"} Recipe</h1>
-                    {edit ? <img src={require('../../assets/icons/x.svg')} onClick={()=>abortRecipe()}/> : null }
+                    {edit ? <img src='/assets/icons/x.svg' onClick={()=>abortRecipe()}/> : null }
                 </header>
                 <form className="create-recipe__form
                 ">
@@ -196,7 +196,7 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
                 <button type="button" className="button-primary" onClick={()=>postRecipe()}>{edit ? "Update" : "Create"} Recipe</button>
                 <button type="button" className="button-secondary" 
                     onClick={()=>{ abortRecipe(edit) }}>
-                        <img src={require("../../assets/icons/bin.svg")}/>
+                        <img src="/assets/icons/bin.svg"/>
                 </button>
             </section>
 

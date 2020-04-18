@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
+// Images
+
 export default withRouter(function Navigation({ setActiveMenu, blur, user, logout }){
 
     const [activeLink, setActiveLink] = useState(0);
@@ -78,19 +80,19 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
             </section>
             <nav className={`navigation__list ${blur ? "blur":""}`}>
                 <Link to="/" className={`navigation__link ${activeLink === 0 ? "active" : ""}`} onClick={()=>navClick(0)}>
-                    <img src={require("../../assets/icons/search.svg")}/>Explore
+                    <img src="/assets/icons/search.svg"/>Explore
                 </Link>
 
                 <Link to="/" className={`navigation__link ${activeLink === 1 ? "active" : ""}`} onClick={()=>navClick(1)}>
-                    <img src={require("../../assets/icons/bookmark.svg")}/>Saved
+                    <img src="/assets/icons/bookmark.svg"/>Saved
                 </Link>
                 
                 <Link to="/" className={`navigation__link ${activeLink === 2 ? "active" : ""}`} onClick={()=>navClick(2)}>
-                    <img src={require("../../assets/icons/shopping-basket.svg")}/>Ingredients
+                    <img src="/assets/icons/shopping-basket.svg"/>Ingredients
                 </Link>
                 
                 <Link to="/" className={`navigation__link ${activeLink === 3 ? "active" : ""}`} onClick={()=>navClick(3)}>
-                    <img src={require("../../assets/icons/bars.svg")}/>Menu
+                    <img src="/assets/icons/bars.svg"/>Menu
                 </Link>
             </nav>
         </section>

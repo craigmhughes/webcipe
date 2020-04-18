@@ -90,7 +90,7 @@ body {
 
 .button-primary,
 .button-primary--light {
-  background: #ED200E;
+  background: #25A122;
   color: #fff;
 }
 
@@ -102,8 +102,8 @@ body {
 .button-secondary,
 .button-secondary--light {
   background: none;
-  border: 2px solid #ED200E;
-  color: #ED200E;
+  border: 2px solid #25A122;
+  color: #25A122;
   width: auto;
 }
 
