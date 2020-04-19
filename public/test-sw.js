@@ -60,8 +60,8 @@ self.addEventListener("fetch", e => {
             // Allow connections to chrome extensions
             if(e.request.url.includes("chrome-extension")) return e.request;
 
-            return res || false;
-            // return res || fetch(e.request);
+            // return res || false;
+            return res || fetch(e.request);
         })
     );
 

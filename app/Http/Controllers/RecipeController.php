@@ -7,6 +7,7 @@ use Validator;
 use Webcipe\Recipe as Recipe;
 use Webcipe\Ingredient as Ingredient;
 use Webcipe\Step as Step;
+use Webcipe\User as User;
 
 class RecipeController extends Controller
 {
@@ -20,6 +21,12 @@ class RecipeController extends Controller
     public function Index(Request $request){
 
         $recipes = $this->recipes;
+
+        // Replace Author ID with an Author name for each recipe.
+        $recipes = $recipes->map(function($recipe){
+            $recipe['author_id'] = User::find($recipe['author_id'])['name'];
+            return $recipe;
+        });
 
         return response()->json(['recipes' => $recipes], 200);
     }

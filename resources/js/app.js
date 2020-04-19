@@ -10,7 +10,9 @@ import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import Navigation from './components/Navigation.js';
 import CreateRecipe from './components/CreateRecipe.js';
+import ShowRecipe from './components/ShowRecipe.js';
 import Saved from './components/Saved.js';
+import Explore from './components/Explore.js';
 
 // Service Workers
 // import TestSW from './workers/test-sw.js';
@@ -24,9 +26,17 @@ export default function App (){
     // Pass a recipe object to edit.
     const [editRecipe, setEditRecipe] = useState(null);
 
+    // Pass a recipe object to show.
+    const [showRecipe, setShowRecipe] = useState(null);
+
     function updateEditRecipe(val, props){
         setEditRecipe(val);
         props.history.push('/recipes/new');
+    }
+
+    function updateShowRecipe(val, props){
+        setShowRecipe(val);
+        props.history.push('/recipes/view');
     }
 
     /**
@@ -82,6 +92,22 @@ export default function App (){
 
     // On Component Mount
     useEffect(()=>{
+        setShowRecipe({
+            author_id: "Laurie Bream",
+            description: "test desc",
+            id: 1,
+            ingredients: [
+                {recipe_id: 1, name: "Egg", quantity: 1, measurement: null},
+                {recipe_id: 1, name: "Milk", quantity: 200, measurement: "ml"}
+            ],
+            steps: [
+                {order: 0, content: "Add Milk to Egg"},
+                {order: 1, content: "Drink"}
+            ],
+            title: "Easy Omlette",
+            updated_at: "2020-04-10 18:03:37"
+        });
+
         // If token exists, use it to look up user details.
         if(localStorage.auth_token){
             checkAuth();
@@ -93,8 +119,10 @@ export default function App (){
     return (
         <Router>
             <Route exact path="/recipes/new" render={(props)=><CreateRecipe props={props} editRecipe={editRecipe} setEditRecipe={setEditRecipe}/>}/>
+            <Route exact path="/" render={(props)=><ShowRecipe props={props} showRecipe={showRecipe} setShowRecipe={setShowRecipe}/>}/>
 
-            <Route exact path="/" render={(props)=><Saved props={props} setEditRecipe={updateEditRecipe}/>}/>
+            {/* <Route exact path="/" render={(props)=><Saved props={props} setEditRecipe={updateEditRecipe}/>}/> */}
+            {/* <Route exact path="/" render={(props)=><Explore props={props} setShowRecipe={updateShowRecipe}/>}/> */}
 
             <Route exact path="/login" render={(props)=><Login setToken={setToken} props={props}/>}/>
             <Route exact path="/register" render={(props)=><Register setToken={setToken} props={props}/>}/>
