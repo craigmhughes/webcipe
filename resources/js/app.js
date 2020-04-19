@@ -58,7 +58,13 @@ export default function App (){
             localStorage.setItem("user", JSON.stringify(res.data));
             setUser(res.data);
         })
-        .catch(()=>localStorage.removeItem("auth_token"));
+        .catch(()=>{
+            if(localStorage.auth_token || localStorage.user){
+                localStorage.removeItem("auth_token");
+                localStorage.removeItem("user");
+                location.reload();
+            }
+        });
     }
 
     /**

@@ -34765,7 +34765,11 @@ function App() {
       localStorage.setItem("user", JSON.stringify(res.data));
       setUser(res.data);
     })["catch"](function () {
-      return localStorage.removeItem("auth_token");
+      if (localStorage.auth_token || localStorage.user) {
+        localStorage.removeItem("auth_token");
+        localStorage.removeItem("user");
+        location.reload();
+      }
     });
   }
   /**
