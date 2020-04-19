@@ -1,29 +1,32 @@
-let cacheName = "v1";
+let cacheName = "v2";
 
-let cachedAssets = [
+let filesToCache = [
     "/",
-    "../../css/app.css",
-    "../../js/app.js",
-
-    // IMAGES
-    // "../../images/bars.svg",
-    // "../../images/bin.svg",
-    // "../../images/bookmark.svg",
-    // "../../images/chevron-left.svg",
-    // "../../images/ghost.svg",
-    // "../../images/search.svg",
-    // "../../images/shopping-basket.svg",
-    // "../../images/webcipe-text-w.svg",
-    // "../../images/webcipe-text/svg",
-    // "../../images/webcipe.svg",
-    // "../../images/x.svg"
+    "/manifest.json",
+    "/css/app.css",
+    "/js/app.js",
+    // Fonts
+    "/assets/fonts/poppins-regular.woff2",
+    "/assets/fonts/poppins-regular.woff",
+    // Icons
+    "/assets/icons/bars.svg",
+    "/assets/icons/bin.svg",
+    "/assets/icons/bookmark.svg",
+    "/assets/icons/chevron-left.svg",
+    "/assets/icons/ghost.svg",
+    "/assets/icons/search.svg",
+    "/assets/icons/shopping-basket.svg",
+    "/assets/images/webcipe-text-w.svg",
+    "/assets/images/webcipe-text.svg",
+    "/assets/images/webcipe.svg",
+    "/assets/icons/x.svg"
 ];
 
 self.addEventListener("install", e => {
     e.waitUntil(
         caches.open(cacheName)
         .then((cache)=>{
-            cache.addAll(cachedAssets)
+            cache.addAll(filesToCache)
         })
         .then(()=> self.skipWaiting())
         .catch(err=> console.log(err))
@@ -52,6 +55,7 @@ self.addEventListener("fetch", e => {
         // If requested fetch is cached, return cached version.
         caches.match(e.request).then( res =>{
             // return res || fetch(e.request);
+
             return res || false;
         })
     );

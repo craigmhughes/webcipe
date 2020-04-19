@@ -1,6 +1,16 @@
+/* poppins-regular - latin */
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Poppins Regular"), local("Poppins-Regular"), url("/assets/fonts/poppins-regular.woff2") format("woff2"), url("/assets/fonts/poppins-regular.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
 body {
   font-size: 14px;
-  font-family: "Questrial", "arial", sans-serif;
+  font-family: "Poppins", "arial", sans-serif;
   margin: 0;
 }
 
@@ -49,23 +59,23 @@ body {
 }
 
 .input::-webkit-input-placeholder {
-  font-family: "Questrial", "arial", sans-serif;
+  font-family: "Poppins", "arial", sans-serif;
 }
 
 .input::-moz-placeholder {
-  font-family: "Questrial", "arial", sans-serif;
+  font-family: "Poppins", "arial", sans-serif;
 }
 
 .input:-ms-input-placeholder {
-  font-family: "Questrial", "arial", sans-serif;
+  font-family: "Poppins", "arial", sans-serif;
 }
 
 .input::-ms-input-placeholder {
-  font-family: "Questrial", "arial", sans-serif;
+  font-family: "Poppins", "arial", sans-serif;
 }
 
 .input::placeholder {
-  font-family: "Questrial", "arial", sans-serif;
+  font-family: "Poppins", "arial", sans-serif;
 }
 
 .input-light {
@@ -85,7 +95,7 @@ body {
   font-weight: 600;
   font-size: 0.9em;
   text-decoration: none;
-  font-family: "Questrial", "arial", sans-serif;
+  font-family: "Poppins", "arial", sans-serif;
 }
 
 .button-primary,
