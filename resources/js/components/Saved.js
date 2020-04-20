@@ -6,6 +6,7 @@ export default function Saved({  props, setShowRecipe, getDb }){
 
     const [recipes, setRecipes] = useState(null);
 
+    // UNCOMMENT WHEN ABLE TO PULL IN USERS RECIPES
     // function getRecipes(){
     //     axios.defaults.headers.common = {'Authorization': `bearer ${localStorage.auth_token}`};
 
@@ -16,7 +17,7 @@ export default function Saved({  props, setShowRecipe, getDb }){
 
     async function getRecipes(){
         const db = await getDb();
-        return await db.getAllFromIndex('recipes', 'date');
+        return await db.getAllFromIndex('recipes', 'id');
     }
 
     useEffect(() => {
@@ -39,7 +40,7 @@ export default function Saved({  props, setShowRecipe, getDb }){
                 <h1 className="saved-recipes__title">Saved Recipes</h1>
             </header>
             <main>
-                <ul>
+                <ul className="saved-recipes__recipe-list">
                     {recipeEls}
                 </ul>
             </main>

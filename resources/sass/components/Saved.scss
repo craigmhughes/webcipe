@@ -24,4 +24,20 @@
         padding: 0;
         margin: 0 auto;
     }
+
+    &__recipe-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        & > li {
+            font-size: 1.1em;
+            padding: 1em;
+            border-bottom: 1px solid #cfcfcf;
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+    }
 }

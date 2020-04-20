@@ -8,7 +8,6 @@ export default function Explore({  props, setShowRecipe }){
     function getRecipes(){
         axios.get('/api/recipes')
             .then((res)=> {if(res.data.recipes){
-                console.log(res.data.recipes);
                 setRecipes(res.data.recipes);
             }})
             .catch((err)=>console.error(res));
@@ -27,11 +26,15 @@ export default function Explore({  props, setShowRecipe }){
     
 
     return (
-        <main className="saved">
-            <h1 className="saved__title">View Recipes</h1>
-            <ul>
-                {recipeEls}
-            </ul>
-        </main>
+        <article className="saved-recipes">
+            <header className="saved-recipes__header">
+                <h1 className="saved-recipes__title">View Recipes</h1>
+            </header>
+            <main>
+                <ul className="saved-recipes__recipe-list">
+                    {recipeEls}
+                </ul>
+            </main>
+        </article>
     );
 }

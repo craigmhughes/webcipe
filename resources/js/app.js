@@ -104,7 +104,7 @@ export default function App (){
                     autoIncrement: true
                 });
 
-                store.createIndex('date','date');
+                store.createIndex('id','id');
             }
         });
 
@@ -113,22 +113,6 @@ export default function App (){
 
     // On Component Mount
     useEffect(()=>{
-        setShowRecipe({
-            author_id: "Laurie Bream",
-            description: "test desc",
-            id: 1,
-            ingredients: [
-                {recipe_id: 1, name: "Egg", quantity: 1, measurement: null},
-                {recipe_id: 1, name: "Milk", quantity: 200, measurement: "ml"}
-            ],
-            steps: [
-                {order: 0, content: "Add Milk to Egg"},
-                {order: 1, content: "Drink"}
-            ],
-            title: "Easy Omlette",
-            updated_at: "2020-04-10 18:03:37"
-        });
-
         getDb();
 
         // If token exists, use it to look up user details.

@@ -35903,7 +35903,7 @@ function App() {
                     keyPath: 'id',
                     autoIncrement: true
                   });
-                  store.createIndex('date', 'date');
+                  store.createIndex('id', 'id');
                 }
               });
 
@@ -35921,31 +35921,6 @@ function App() {
   }
 
   Object(react__WEBPACK_IMPORTED_MODULE_2__["useEffect"])(function () {
-    setShowRecipe({
-      author_id: "Laurie Bream",
-      description: "test desc",
-      id: 1,
-      ingredients: [{
-        recipe_id: 1,
-        name: "Egg",
-        quantity: 1,
-        measurement: null
-      }, {
-        recipe_id: 1,
-        name: "Milk",
-        quantity: 200,
-        measurement: "ml"
-      }],
-      steps: [{
-        order: 0,
-        content: "Add Milk to Egg"
-      }, {
-        order: 1,
-        content: "Drink"
-      }],
-      title: "Easy Omlette",
-      updated_at: "2020-04-10 18:03:37"
-    });
     getDb(); // If token exists, use it to look up user details.
 
     if (localStorage.auth_token) {
@@ -36630,7 +36605,6 @@ function Explore(_ref) {
   function getRecipes() {
     axios.get('/api/recipes').then(function (res) {
       if (res.data.recipes) {
-        console.log(res.data.recipes);
         setRecipes(res.data.recipes);
       }
     })["catch"](function (err) {
@@ -36668,11 +36642,15 @@ function Explore(_ref) {
     }
   }
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
-    className: "saved"
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
+    className: "saved-recipes"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
+    className: "saved-recipes__header"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-    className: "saved__title"
-  }, "View Recipes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, recipeEls));
+    className: "saved-recipes__title"
+  }, "View Recipes")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    className: "saved-recipes__recipe-list"
+  }, recipeEls)));
 }
 
 /***/ }),
@@ -37166,7 +37144,8 @@ function Saved(_ref) {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(null),
       _useState2 = _slicedToArray(_useState, 2),
       recipes = _useState2[0],
-      setRecipes = _useState2[1]; // function getRecipes(){
+      setRecipes = _useState2[1]; // UNCOMMENT WHEN ABLE TO PULL IN USERS RECIPES
+  // function getRecipes(){
   //     axios.defaults.headers.common = {'Authorization': `bearer ${localStorage.auth_token}`};
   //     axios.get('/api/auth/recipes')
   //         .then((res)=> {if(res.data.recipes){setRecipes(res.data.recipes)}})
@@ -37191,7 +37170,7 @@ function Saved(_ref) {
             case 2:
               db = _context.sent;
               _context.next = 5;
-              return db.getAllFromIndex('recipes', 'date');
+              return db.getAllFromIndex('recipes', 'id');
 
             case 5:
               return _context.abrupt("return", _context.sent);
@@ -37246,7 +37225,9 @@ function Saved(_ref) {
     className: "saved-recipes__header"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", {
     className: "saved-recipes__title"
-  }, "Saved Recipes")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("main", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, recipeEls)));
+  }, "Saved Recipes")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("main", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
+    className: "saved-recipes__recipe-list"
+  }, recipeEls)));
 }
 
 /***/ }),
@@ -37265,6 +37246,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var idb__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! idb */ "./node_modules/idb/build/esm/index.js");
 
 
 function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
@@ -37288,6 +37270,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")["default"];
 
 
+
 function ShowRecipe(_ref) {
   var props = _ref.props,
       showRecipe = _ref.showRecipe,
@@ -37300,8 +37283,7 @@ function ShowRecipe(_ref) {
 
   function saveRecipe() {
     return _saveRecipe.apply(this, arguments);
-  } // If recipe is falsy, redirect away.
-
+  }
 
   function _saveRecipe() {
     _saveRecipe = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
@@ -37310,16 +37292,30 @@ function ShowRecipe(_ref) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.next = 2;
+              if (saved) {
+                _context.next = 7;
+                break;
+              }
+
+              _context.next = 3;
               return getDb();
 
-            case 2:
+            case 3:
               db = _context.sent;
-              showRecipe['date'] = Date.now();
               _context.next = 6;
               return db.add('recipes', showRecipe);
 
             case 6:
+              return _context.abrupt("return");
+
+            case 7:
+              _context.next = 9;
+              return deleteRecipe(showRecipe.id);
+
+            case 9:
+              return _context.abrupt("return", _context.sent);
+
+            case 10:
             case "end":
               return _context.stop();
           }
@@ -37327,6 +37323,33 @@ function ShowRecipe(_ref) {
       }, _callee);
     }));
     return _saveRecipe.apply(this, arguments);
+  }
+
+  function deleteRecipe(_x) {
+    return _deleteRecipe.apply(this, arguments);
+  } // If recipe is falsy, redirect away.
+
+
+  function _deleteRecipe() {
+    _deleteRecipe = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(key) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return getDb();
+
+            case 2:
+              return _context2.abrupt("return", _context2.sent["delete"]('recipes', key));
+
+            case 3:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+    return _deleteRecipe.apply(this, arguments);
   }
 
   if (!showRecipe) {
@@ -37358,32 +37381,33 @@ function ShowRecipe(_ref) {
   }
 
   function _checkSaved() {
-    _checkSaved = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-      var db, _iterator2, _step2, recipe;
+    _checkSaved = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      var db, foundSave, _iterator2, _step2, recipe;
 
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
         while (1) {
-          switch (_context2.prev = _context2.next) {
+          switch (_context3.prev = _context3.next) {
             case 0:
-              _context2.next = 2;
+              _context3.next = 2;
               return getDb();
 
             case 2:
-              db = _context2.sent;
-              _context2.t0 = _createForOfIteratorHelper;
-              _context2.next = 6;
-              return db.getAllFromIndex('recipes', 'date');
+              db = _context3.sent;
+              foundSave = false;
+              _context3.t0 = _createForOfIteratorHelper;
+              _context3.next = 7;
+              return db.getAllFromIndex('recipes', 'id');
 
-            case 6:
-              _context2.t1 = _context2.sent;
-              _iterator2 = (0, _context2.t0)(_context2.t1);
+            case 7:
+              _context3.t1 = _context3.sent;
+              _iterator2 = (0, _context3.t0)(_context3.t1);
 
               try {
                 for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
                   recipe = _step2.value;
 
                   if (showRecipe.id === recipe.id) {
-                    setSaved(true);
+                    foundSave = true;
                   }
                 }
               } catch (err) {
@@ -37392,12 +37416,14 @@ function ShowRecipe(_ref) {
                 _iterator2.f();
               }
 
-            case 9:
+              setSaved(foundSave);
+
+            case 11:
             case "end":
-              return _context2.stop();
+              return _context3.stop();
           }
         }
-      }, _callee2);
+      }, _callee3);
     }));
     return _checkSaved.apply(this, arguments);
   }
@@ -37413,10 +37439,16 @@ function ShowRecipe(_ref) {
     className: "show-recipe__title"
   }, showRecipe.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
     className: "show-recipe__author"
-  }, "Created by: ", showRecipe.author_id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+  }, "Created by: ", showRecipe.author_id), saved ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+    onClick: function onClick() {
+      saveRecipe().then(checkSaved());
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+    src: "/assets/icons/x.svg"
+  }), "Delete") : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "show-recipe__save-list",
     onClick: function onClick() {
-      return saveRecipe();
+      return saveRecipe().then(checkSaved());
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
     className: "show-recipe__save-recipe".concat(saved ? "--saved" : "")
