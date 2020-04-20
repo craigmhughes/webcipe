@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react';
 
 export default function ShowRecipe({  props, showRecipe, getDb }){
 
+    const [saved, setSaved] = useState(false);
     
     async function saveRecipe(){
         const db = await getDb();
@@ -24,6 +25,19 @@ export default function ShowRecipe({  props, showRecipe, getDb }){
     for(let step of showRecipe.steps){
         recipeSteps.push(<li key={step.order} className="show-recipe__recipe-step"><h2>Step {step.order + 1}:</h2><p>{step.content}</p></li>);
     }
+
+    async function checkSaved(){
+        const db = await getDb();
+        for(let recipe of await db.getAllFromIndex('recipes', 'date')){
+            if(showRecipe.id === recipe.id){
+                setSaved(true);
+            }
+        }
+    }
+
+    useEffect(()=>{
+        checkSaved();
+    },[]);
         
 
     return (
@@ -33,9 +47,9 @@ export default function ShowRecipe({  props, showRecipe, getDb }){
                 <p className="show-recipe__author">Created by: {showRecipe.author_id}</p>
                 
                 <div className="show-recipe__save-list" onClick={()=>saveRecipe()}>
-                    <p className="show-recipe__save-recipe">
-                        <img src="/assets/icons/bookmark.svg"/>
-                        Save Recipe
+                    <p className={`show-recipe__save-recipe${saved ? "--saved" : ""}`}>
+                        <img src={`/assets/icons/${saved ? "check" : "bookmark"}.svg`}/>
+                        {saved ? "Saved" : "Save Recipe"}
                     </p>
 
                     <p className="show-recipe__save-ingredient">

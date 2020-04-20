@@ -553,22 +553,37 @@ body {
   display: flex;
   border: 1px solid grey;
   font-size: 0.9em;
-  padding: 0.5em 1em;
+  padding: 0.25em 0.5em;
   margin-top: 1em;
 }
 
 .show-recipe__save-recipe,
-.show-recipe__save-ingredient {
-  padding: 0 0.5em;
+.show-recipe__save-recipe--saved,
+.show-recipe__save-ingredient,
+.show-recipe__save-ingredient--saved {
+  padding: 0.5em;
   margin: 0;
 }
 
 .show-recipe__save-recipe > img,
-.show-recipe__save-ingredient > img {
+.show-recipe__save-recipe--saved > img,
+.show-recipe__save-ingredient > img,
+.show-recipe__save-ingredient--saved > img {
   height: 1em;
   padding-right: 0.5em;
   position: relative;
   top: 2px;
+}
+
+.show-recipe__save-recipe--saved {
+  background: #BFE8BE;
+  border-radius: 5em;
+  color: #6B9D69;
+  padding: 0.5em 1em;
+}
+
+.show-recipe__save-recipe--saved > img {
+  opacity: 0.25;
 }
 
 .show-recipe__recipe {
