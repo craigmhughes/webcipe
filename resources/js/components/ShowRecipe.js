@@ -1,9 +1,17 @@
 const axios = require('axios').default;
 import React, {useState, useEffect} from 'react';
 
-export default function ShowRecipe({  props, showRecipe }){
+export default function ShowRecipe({  props, showRecipe, getDb }){
 
-    console.log(showRecipe);
+    
+    async function saveRecipe(){
+        const db = await getDb();
+
+        showRecipe['date'] = Date.now();
+        
+        await db.add('recipes', showRecipe);
+    }
+
 
     // If recipe is falsy, redirect away.
     if(!showRecipe){
@@ -14,7 +22,7 @@ export default function ShowRecipe({  props, showRecipe }){
     let recipeSteps = [];
 
     for(let step of showRecipe.steps){
-        recipeSteps.push(<li className="show-recipe__recipe-step"><h2>Step {step.order + 1}:</h2><p>{step.content}</p></li>);
+        recipeSteps.push(<li key={step.order} className="show-recipe__recipe-step"><h2>Step {step.order + 1}:</h2><p>{step.content}</p></li>);
     }
         
 
@@ -24,7 +32,7 @@ export default function ShowRecipe({  props, showRecipe }){
                 <h1 className="show-recipe__title">{showRecipe.title}</h1>
                 <p className="show-recipe__author">Created by: {showRecipe.author_id}</p>
                 
-                <div className="show-recipe__save-list">
+                <div className="show-recipe__save-list" onClick={()=>saveRecipe()}>
                     <p className="show-recipe__save-recipe">
                         <img src="/assets/icons/bookmark.svg"/>
                         Save Recipe

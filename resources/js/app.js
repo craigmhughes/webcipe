@@ -1,6 +1,6 @@
 // require('./bootstrap');
 const axios = require('axios').default;
-
+import { openDB, deleteDB, wrap, unwrap } from 'idb';
 import React, { Component, useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Redirect, Switch, } from "react-router-dom";
@@ -22,6 +22,7 @@ export default function App (){
     // Control blur state of app when menu is active. Pass to components as to not blur the whole app.
     const [menuActive, setActiveMenu] = useState(false);
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+    const [db, setDb] = useState(null);
 
     // Pass a recipe object to edit.
     const [editRecipe, setEditRecipe] = useState(null);
@@ -90,6 +91,26 @@ export default function App (){
         props.history.push("/");
     };
 
+    async function getDb(){
+        if (!('indexedDB' in window)) {
+            console.log('This browser doesn\'t support IndexedDB');
+            return false;
+        }
+
+        return await openDB('Recipes', 1, {
+            upgrade(db){
+                const store = db.createObjectStore('recipes', {
+                    keyPath: 'id',
+                    autoIncrement: true
+                });
+
+                store.createIndex('date','date');
+            }
+        });
+
+        
+    }
+
     // On Component Mount
     useEffect(()=>{
         setShowRecipe({
@@ -108,6 +129,8 @@ export default function App (){
             updated_at: "2020-04-10 18:03:37"
         });
 
+        getDb();
+
         // If token exists, use it to look up user details.
         if(localStorage.auth_token){
             checkAuth();
@@ -119,10 +142,10 @@ export default function App (){
     return (
         <Router>
             <Route exact path="/recipes/new" render={(props)=><CreateRecipe props={props} editRecipe={editRecipe} setEditRecipe={setEditRecipe}/>}/>
-            <Route exact path="/" render={(props)=><ShowRecipe props={props} showRecipe={showRecipe} setShowRecipe={setShowRecipe}/>}/>
+            <Route exact path="/recipes/view" render={(props)=><ShowRecipe props={props} showRecipe={showRecipe} setShowRecipe={setShowRecipe} getDb={getDb}/>}/>
 
-            {/* <Route exact path="/" render={(props)=><Saved props={props} setEditRecipe={updateEditRecipe}/>}/> */}
-            {/* <Route exact path="/" render={(props)=><Explore props={props} setShowRecipe={updateShowRecipe}/>}/> */}
+            <Route exact path="/saved" render={(props)=><Saved props={props} setShowRecipe={updateShowRecipe} getDb={getDb}/>}/>
+            <Route exact path="/" render={(props)=><Explore props={props} setShowRecipe={updateShowRecipe}/>}/>
 
             <Route exact path="/login" render={(props)=><Login setToken={setToken} props={props}/>}/>
             <Route exact path="/register" render={(props)=><Register setToken={setToken} props={props}/>}/>

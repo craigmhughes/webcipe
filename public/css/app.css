@@ -31,7 +31,7 @@ body {
 }
 
 .container,
-.saved,
+.saved-recipes,
 .show-recipe,
 .create-recipe__footer,
 .create-recipe,
@@ -578,7 +578,29 @@ body {
   margin: 0 auto;
 }
 
-.saved__title {
-  font-weight: 500;
+.saved-recipes {
+  display: grid;
+  grid-template-rows: 2.5fr 7.5fr;
+}
+
+.saved-recipes__header {
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.saved-recipes__title {
+  font-size: 2em;
+  margin: 0;
+}
+
+.saved-recipes__recipe {
+  width: 90%;
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
 }
 

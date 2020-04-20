@@ -1,36 +1,48 @@
 const axios = require('axios').default;
 import React, {useState, useEffect} from 'react';
 
-export default function Saved({  props, setEditRecipe }){
+
+export default function Saved({  props, setShowRecipe, getDb }){
 
     const [recipes, setRecipes] = useState(null);
 
-    function getRecipes(){
-        axios.defaults.headers.common = {'Authorization': `bearer ${localStorage.auth_token}`};
+    // function getRecipes(){
+    //     axios.defaults.headers.common = {'Authorization': `bearer ${localStorage.auth_token}`};
 
-        axios.get('/api/auth/recipes')
-            .then((res)=> {if(res.data.recipes){setRecipes(res.data.recipes)}})
-            .catch((err)=>console.error(res));
+    //     axios.get('/api/auth/recipes')
+    //         .then((res)=> {if(res.data.recipes){setRecipes(res.data.recipes)}})
+    //         .catch((err)=>console.error(res));
+    // }
+
+    async function getRecipes(){
+        const db = await getDb();
+        return await db.getAllFromIndex('recipes', 'date');
     }
 
     useEffect(() => {
-        getRecipes();
-    }, []);
+        getRecipes().then(res => {
+            if(recipes === null){setRecipes(res)}
+        });
+        
+    },[recipes]);
 
     let recipeEls = [];
     if(recipes !== null){
         for(let recipe of recipes){
-            recipeEls.push(<li key={recipe.id} onClick={()=>setEditRecipe(recipe, props)}>{recipe.title}</li>);
+            recipeEls.push(<li key={recipe.id} onClick={()=>setShowRecipe(recipe, props)}>{recipe.title}</li>);
         }
     }
-    
 
     return (
-        <main className="saved">
-            <h1 className="saved__title">My Recipes</h1>
-            <ul>
-                {recipeEls}
-            </ul>
-        </main>
+        <article className="saved-recipes">
+            <header className="saved-recipes__header">
+                <h1 className="saved-recipes__title">Saved Recipes</h1>
+            </header>
+            <main>
+                <ul>
+                    {recipeEls}
+                </ul>
+            </main>
+        </article>
     );
 }

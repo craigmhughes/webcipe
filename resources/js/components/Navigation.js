@@ -83,7 +83,7 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
                     <img src="/assets/icons/search.svg"/>Explore
                 </Link>
 
-                <Link to="/" className={`navigation__link ${activeLink === 1 ? "active" : ""}`} onClick={()=>navClick(1)}>
+                <Link to="/saved" className={`navigation__link ${activeLink === 1 ? "active" : ""}`} onClick={()=>navClick(1)}>
                     <img src="/assets/icons/bookmark.svg"/>Saved
                 </Link>
                 
