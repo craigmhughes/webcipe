@@ -57,27 +57,23 @@ export default function ShowRecipe({  props, showRecipe, getDb }){
             <header className="show-recipe__header">
                 <h1 className="show-recipe__title">{showRecipe.title}</h1>
                 <p className="show-recipe__author">Created by: {showRecipe.author_id}</p>
-
-                { saved ? 
-                
-                    <p onClick={()=>{saveRecipe().then(checkSaved())}}>
-                        <img src="/assets/icons/x.svg"/>
-                        Delete
-                    </p> 
-                
-                : null
-                }
                 
                 <div className="show-recipe__save-list" onClick={()=>saveRecipe().then(checkSaved())}>
                     <p className={`show-recipe__save-recipe${saved ? "--saved" : ""}`}>
-                        <img src={`/assets/icons/${saved ? "check" : "bookmark"}.svg`}/>
-                        {saved ? "Saved" : "Save Recipe"}
+                        <img src={`/assets/icons/bookmark.svg`}/>
                     </p>
 
                     <p className="show-recipe__save-ingredient">
                         <img src="/assets/icons/shopping-basket.svg"/>
-                        Save Ingredient
                     </p>
+                    
+                    {/* Render Delete icon if saved */}
+                    {!saved ? null :
+                    <p  className="show-recipe__delete-recipe"
+                        onClick={()=>{saveRecipe().then(checkSaved())}}>
+                        <img src="/assets/icons/bin-alt.svg"/>
+                    </p>
+                    }
                 </div>
             </header>
             <main>

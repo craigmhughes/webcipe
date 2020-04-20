@@ -37439,13 +37439,7 @@ function ShowRecipe(_ref) {
     className: "show-recipe__title"
   }, showRecipe.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
     className: "show-recipe__author"
-  }, "Created by: ", showRecipe.author_id), saved ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
-    onClick: function onClick() {
-      saveRecipe().then(checkSaved());
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
-    src: "/assets/icons/x.svg"
-  }), "Delete") : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+  }, "Created by: ", showRecipe.author_id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "show-recipe__save-list",
     onClick: function onClick() {
       return saveRecipe().then(checkSaved());
@@ -37453,12 +37447,19 @@ function ShowRecipe(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
     className: "show-recipe__save-recipe".concat(saved ? "--saved" : "")
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
-    src: "/assets/icons/".concat(saved ? "check" : "bookmark", ".svg")
-  }), saved ? "Saved" : "Save Recipe"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+    src: "/assets/icons/bookmark.svg"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
     className: "show-recipe__save-ingredient"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
     src: "/assets/icons/shopping-basket.svg"
-  }), "Save Ingredient"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("main", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
+  })), !saved ? null : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+    className: "show-recipe__delete-recipe",
+    onClick: function onClick() {
+      saveRecipe().then(checkSaved());
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+    src: "/assets/icons/bin-alt.svg"
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("main", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
     className: "show-recipe__recipe"
   }, recipeSteps)));
 }

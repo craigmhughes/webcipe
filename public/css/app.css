@@ -32,6 +32,7 @@ body {
 
 .container,
 .saved-recipes,
+.show-recipe__save-list,
 .show-recipe,
 .create-recipe__footer,
 .create-recipe,
@@ -553,24 +554,27 @@ body {
   display: flex;
   border: 1px solid grey;
   font-size: 0.9em;
-  padding: 0.25em 0.5em;
+  padding: 0.25em;
   margin-top: 1em;
+  justify-content: space-around;
 }
 
 .show-recipe__save-recipe,
 .show-recipe__save-recipe--saved,
 .show-recipe__save-ingredient,
-.show-recipe__save-ingredient--saved {
-  padding: 0.5em;
+.show-recipe__save-ingredient--saved,
+.show-recipe__delete-recipe {
   margin: 0;
+  width: inherit;
+  padding: 0.5em 1em;
 }
 
 .show-recipe__save-recipe > img,
 .show-recipe__save-recipe--saved > img,
 .show-recipe__save-ingredient > img,
-.show-recipe__save-ingredient--saved > img {
-  height: 1em;
-  padding-right: 0.5em;
+.show-recipe__save-ingredient--saved > img,
+.show-recipe__delete-recipe > img {
+  height: 1.25em;
   position: relative;
   top: 2px;
 }
@@ -579,7 +583,6 @@ body {
   background: #BFE8BE;
   border-radius: 5em;
   color: #6B9D69;
-  padding: 0.5em 1em;
 }
 
 .show-recipe__save-recipe--saved > img {
