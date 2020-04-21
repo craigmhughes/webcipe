@@ -13,6 +13,7 @@ import CreateRecipe from './components/CreateRecipe.js';
 import ShowRecipe from './components/ShowRecipe.js';
 import Saved from './components/Saved.js';
 import Explore from './components/Explore.js';
+import IngredientList from './components/IngredientList.js';
 
 // Service Workers
 // import TestSW from './workers/test-sw.js';
@@ -130,6 +131,7 @@ export default function App (){
         <Router>
             <Route exact path="/recipes/new" render={(props)=><CreateRecipe props={props} editRecipe={editRecipe} setEditRecipe={setEditRecipe}/>}/>
             <Route exact path="/recipes/view" render={(props)=><ShowRecipe props={props} showRecipe={showRecipe} setShowRecipe={setShowRecipe} getDb={getDb}/>}/>
+            <Route exact path="/ingredients" render={(props)=><IngredientList props={props} getDb={getDb}/>}/>
 
             <Route exact path="/saved" render={(props)=><Saved props={props} setShowRecipe={updateShowRecipe} getDb={getDb}/>}/>
             <Route exact path="/" render={(props)=><Explore props={props} setShowRecipe={updateShowRecipe}/>}/>

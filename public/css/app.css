@@ -618,6 +618,10 @@ body {
   border-bottom: 1px solid #e3e3e3;
 }
 
+.show-recipe__recipe-ingredient > p {
+  margin: 0;
+}
+
 .show-recipe__recipe-ingredient > p > span {
   margin-left: 1em;
   color: grey;
@@ -685,6 +689,7 @@ body {
   display: grid;
   grid-template-rows: 25% 75%;
   height: 100%;
+  overflow: hidden;
 }
 
 .saved-recipes > main {
@@ -698,6 +703,22 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.saved-recipes__clear-button {
+  font-size: 1em;
+  font-family: "Poppins", "arial", sans-serif;
+  padding: 0.5em 1em;
+  margin-top: 1em;
+  background: none;
+  display: flex;
+  align-items: center;
+  border: 1px solid #e3e3e3;
+  border-radius: 5em;
+}
+
+.saved-recipes__clear-button > img {
+  margin-right: 0.5em;
 }
 
 .saved-recipes__title {

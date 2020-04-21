@@ -87,13 +87,13 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
                     <img src="/assets/icons/bookmark.svg"/>Saved
                 </Link>
                 
-                <Link to="/" className={`navigation__link ${activeLink === 2 ? "active" : ""}`} onClick={()=>navClick(2)}>
+                <Link to="/ingredients" className={`navigation__link ${activeLink === 2 ? "active" : ""}`} onClick={()=>navClick(2)}>
                     <img src="/assets/icons/shopping-basket.svg"/>Ingredients
                 </Link>
                 
-                <Link to="/" className={`navigation__link ${activeLink === 3 ? "active" : ""}`} onClick={()=>navClick(3)}>
+                <a className={`navigation__link ${activeLink === 3 ? "active" : ""}`} onClick={()=>navClick(3)}>
                     <img src="/assets/icons/bars.svg"/>Menu
-                </Link>
+                </a>
             </nav>
         </section>
     );

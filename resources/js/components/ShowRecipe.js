@@ -11,8 +11,7 @@ export default function ShowRecipe({  props, showRecipe, getDb }){
             const db = await getDb();
             await db.add('recipes', showRecipe);
             return;
-        } 
-        console.log("Saving Recipe");
+        }
         
         return await deleteRecipe(showRecipe.id);
     }

@@ -35747,6 +35747,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_ShowRecipe_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/ShowRecipe.js */ "./resources/js/components/ShowRecipe.js");
 /* harmony import */ var _components_Saved_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/Saved.js */ "./resources/js/components/Saved.js");
 /* harmony import */ var _components_Explore_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/Explore.js */ "./resources/js/components/Explore.js");
+/* harmony import */ var _components_IngredientList_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/IngredientList.js */ "./resources/js/components/IngredientList.js");
 
 
 function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
@@ -35774,6 +35775,7 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")["d
 
 
  // Components
+
 
 
 
@@ -35964,6 +35966,15 @@ function App() {
         props: props,
         showRecipe: showRecipe,
         setShowRecipe: setShowRecipe,
+        getDb: getDb
+      });
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Route"], {
+    exact: true,
+    path: "/ingredients",
+    render: function render(props) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_IngredientList_js__WEBPACK_IMPORTED_MODULE_12__["default"], {
+        props: props,
         getDb: getDb
       });
     }
@@ -36672,6 +36683,206 @@ function Explore(_ref) {
 
 /***/ }),
 
+/***/ "./resources/js/components/IngredientList.js":
+/*!***************************************************!*\
+  !*** ./resources/js/components/IngredientList.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return IngredientList; });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")["default"];
+
+
+function IngredientList(_ref) {
+  var props = _ref.props,
+      getDb = _ref.getDb;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(null),
+      _useState2 = _slicedToArray(_useState, 2),
+      ingredients = _useState2[0],
+      setIngredients = _useState2[1];
+
+  function getIngredients() {
+    return _getIngredients.apply(this, arguments);
+  }
+
+  function _getIngredients() {
+    _getIngredients = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      var db;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return getDb();
+
+            case 2:
+              db = _context.sent;
+              _context.next = 5;
+              return db.getAllFromIndex('ingredients', 'id');
+
+            case 5:
+              return _context.abrupt("return", _context.sent);
+
+            case 6:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
+    return _getIngredients.apply(this, arguments);
+  }
+
+  function clearIngredients() {
+    return _clearIngredients.apply(this, arguments);
+  }
+
+  function _clearIngredients() {
+    _clearIngredients = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      var db, _iterator2, _step2, _ingredient;
+
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return getDb();
+
+            case 2:
+              db = _context2.sent;
+              _context2.t0 = _createForOfIteratorHelper;
+              _context2.next = 6;
+              return db.getAllFromIndex('ingredients', 'id');
+
+            case 6:
+              _context2.t1 = _context2.sent;
+              _iterator2 = (0, _context2.t0)(_context2.t1);
+              _context2.prev = 8;
+
+              _iterator2.s();
+
+            case 10:
+              if ((_step2 = _iterator2.n()).done) {
+                _context2.next = 16;
+                break;
+              }
+
+              _ingredient = _step2.value;
+              _context2.next = 14;
+              return db["delete"]('ingredients', _ingredient.id);
+
+            case 14:
+              _context2.next = 10;
+              break;
+
+            case 16:
+              _context2.next = 21;
+              break;
+
+            case 18:
+              _context2.prev = 18;
+              _context2.t2 = _context2["catch"](8);
+
+              _iterator2.e(_context2.t2);
+
+            case 21:
+              _context2.prev = 21;
+
+              _iterator2.f();
+
+              return _context2.finish(21);
+
+            case 24:
+              setIngredients(null);
+
+            case 25:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2, null, [[8, 18, 21, 24]]);
+    }));
+    return _clearIngredients.apply(this, arguments);
+  }
+
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    getIngredients().then(function (res) {
+      if (ingredients === null) {
+        setIngredients(res);
+      }
+    });
+  }, [ingredients]);
+  var ingredientEls = [];
+
+  if (ingredients !== null) {
+    var _iterator = _createForOfIteratorHelper(ingredients),
+        _step;
+
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var _ingredient$measureme;
+
+        var ingredient = _step.value;
+        ingredientEls.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
+          key: ingredients.indexOf(ingredient),
+          className: "show-recipe__recipe-ingredient"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, ingredient.name, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, ingredient.quantity, " ", (_ingredient$measureme = ingredient.measurement) !== null && _ingredient$measureme !== void 0 ? _ingredient$measureme : null))));
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+  }
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("article", {
+    className: "saved-recipes"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("header", {
+    className: "saved-recipes__header"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", {
+    className: "saved-recipes__title"
+  }, "View Ingredients"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+    onClick: function onClick() {
+      return clearIngredients();
+    },
+    className: "saved-recipes__clear-button"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+    src: "/assets/icons/bin-alt.svg"
+  }), "Clear Ingredients")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("main", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
+    className: "saved-recipes__recipe-list"
+  }, ingredientEls)));
+}
+
+/***/ }),
+
 /***/ "./resources/js/components/Navigation.js":
 /*!***********************************************!*\
   !*** ./resources/js/components/Navigation.js ***!
@@ -36808,15 +37019,14 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/assets/icons/bookmark.svg"
   }), "Saved"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: "/",
+    to: "/ingredients",
     className: "navigation__link ".concat(activeLink === 2 ? "active" : ""),
     onClick: function onClick() {
       return navClick(2);
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/assets/icons/shopping-basket.svg"
-  }), "Ingredients"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: "/",
+  }), "Ingredients"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     className: "navigation__link ".concat(activeLink === 3 ? "active" : ""),
     onClick: function onClick() {
       return navClick(3);
@@ -37332,14 +37542,13 @@ function ShowRecipe(_ref) {
               return _context.abrupt("return");
 
             case 7:
-              console.log("Saving Recipe");
-              _context.next = 10;
+              _context.next = 9;
               return deleteRecipe(showRecipe.id);
 
-            case 10:
+            case 9:
               return _context.abrupt("return", _context.sent);
 
-            case 11:
+            case 10:
             case "end":
               return _context.stop();
           }
