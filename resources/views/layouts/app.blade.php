@@ -16,7 +16,7 @@
     <!-- <link href="https://fonts.googleapis.com/css?family=Poppins:300,700&display=swap" rel="stylesheet"> -->
 
     <!-- Favicon -->
-    <link rel="icon" href="{{ asset('assets/images/ICO.svg') }}">
+    <link rel="icon" href="{{ asset('assets/images/ICO2.svg') }}">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">

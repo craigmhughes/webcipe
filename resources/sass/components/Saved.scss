@@ -2,7 +2,12 @@
     @extend .container;
 
     display: grid;
-    grid-template-rows: 2.5fr 7.5fr;
+    grid-template-rows: 25% 75%;
+    height: 100%;
+
+    & > main {
+        overflow-y: auto;
+    }
 
     &__header {
         text-align: center;

@@ -102,7 +102,7 @@ body {
 
 .button-primary,
 .button-primary--light {
-  background: #25A122;
+  background: #26272D;
   color: #fff;
 }
 
@@ -114,8 +114,8 @@ body {
 .button-secondary,
 .button-secondary--light {
   background: none;
-  border: 2px solid #25A122;
-  color: #25A122;
+  border: 2px solid #26272D;
+  color: #26272D;
   width: auto;
 }
 
@@ -527,7 +527,11 @@ body {
 
 .show-recipe {
   display: grid;
-  grid-template-rows: 3.5fr 6.5fr;
+  grid-template-rows: 35% 65%;
+}
+
+.show-recipe > main {
+  overflow-y: auto;
 }
 
 .show-recipe__header {
@@ -598,7 +602,12 @@ body {
 
 .saved-recipes {
   display: grid;
-  grid-template-rows: 2.5fr 7.5fr;
+  grid-template-rows: 25% 75%;
+  height: 100%;
+}
+
+.saved-recipes > main {
+  overflow-y: auto;
 }
 
 .saved-recipes__header {

@@ -2,7 +2,11 @@
     @extend .container;
 
     display: grid;
-    grid-template-rows: 3.5fr 6.5fr;
+    grid-template-rows: 35% 65%;
+
+    & > main {
+        overflow-y: auto;
+    }
 
     &__header {
         text-align: center;
