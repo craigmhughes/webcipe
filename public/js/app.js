@@ -35749,6 +35749,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Explore_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/Explore.js */ "./resources/js/components/Explore.js");
 
 
+function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -35883,6 +35885,7 @@ function App() {
 
   function _getDb() {
     _getDb = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      var stores;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -35896,21 +35899,35 @@ function App() {
               return _context.abrupt("return", false);
 
             case 3:
-              _context.next = 5;
-              return Object(idb__WEBPACK_IMPORTED_MODULE_1__["openDB"])('Recipes', 1, {
+              // ObjectStore names
+              stores = ['recipes', 'ingredients'];
+              _context.next = 6;
+              return Object(idb__WEBPACK_IMPORTED_MODULE_1__["openDB"])('Webcipe', 1, {
                 upgrade: function upgrade(db) {
-                  var store = db.createObjectStore('recipes', {
-                    keyPath: 'id',
-                    autoIncrement: true
-                  });
-                  store.createIndex('id', 'id');
+                  var _iterator = _createForOfIteratorHelper(stores),
+                      _step;
+
+                  try {
+                    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                      var storeName = _step.value;
+                      var store = db.createObjectStore(storeName, {
+                        keyPath: 'id',
+                        autoIncrement: true
+                      });
+                      store.createIndex('id', 'id');
+                    }
+                  } catch (err) {
+                    _iterator.e(err);
+                  } finally {
+                    _iterator.f();
+                  }
                 }
               });
 
-            case 5:
+            case 6:
               return _context.abrupt("return", _context.sent);
 
-            case 6:
+            case 7:
             case "end":
               return _context.stop();
           }
@@ -37246,7 +37263,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var idb__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! idb */ "./node_modules/idb/build/esm/index.js");
 
 
 function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
@@ -37267,9 +37283,6 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")["default"];
-
-
 
 function ShowRecipe(_ref) {
   var props = _ref.props,
@@ -37283,8 +37296,13 @@ function ShowRecipe(_ref) {
 
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
       _useState4 = _slicedToArray(_useState3, 2),
-      showIngredients = _useState4[0],
-      setShowIngredients = _useState4[1];
+      savedIngredients = _useState4[0],
+      setSavedIngredients = _useState4[1];
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
+      _useState6 = _slicedToArray(_useState5, 2),
+      showIngredients = _useState6[0],
+      setShowIngredients = _useState6[1];
 
   function saveRecipe() {
     return _saveRecipe.apply(this, arguments);
@@ -37314,13 +37332,14 @@ function ShowRecipe(_ref) {
               return _context.abrupt("return");
 
             case 7:
-              _context.next = 9;
+              console.log("Saving Recipe");
+              _context.next = 10;
               return deleteRecipe(showRecipe.id);
 
-            case 9:
+            case 10:
               return _context.abrupt("return", _context.sent);
 
-            case 10:
+            case 11:
             case "end":
               return _context.stop();
           }
@@ -37330,31 +37349,190 @@ function ShowRecipe(_ref) {
     return _saveRecipe.apply(this, arguments);
   }
 
-  function deleteRecipe(_x) {
-    return _deleteRecipe.apply(this, arguments);
-  } // If recipe is falsy, redirect away.
+  function saveIngredients() {
+    return _saveIngredients.apply(this, arguments);
+  }
 
+  function _saveIngredients() {
+    _saveIngredients = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      var db, _iterator3, _step3, ingredient;
 
-  function _deleteRecipe() {
-    _deleteRecipe = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(key) {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              _context2.next = 2;
+              if (savedIngredients) {
+                _context2.next = 22;
+                break;
+              }
+
+              _context2.next = 3;
               return getDb();
 
-            case 2:
-              return _context2.abrupt("return", _context2.sent["delete"]('recipes', key));
-
             case 3:
+              db = _context2.sent;
+              // Loop through and save all ingredients
+              _iterator3 = _createForOfIteratorHelper(showRecipe.ingredients);
+              _context2.prev = 5;
+
+              _iterator3.s();
+
+            case 7:
+              if ((_step3 = _iterator3.n()).done) {
+                _context2.next = 13;
+                break;
+              }
+
+              ingredient = _step3.value;
+              _context2.next = 11;
+              return db.add('ingredients', ingredient);
+
+            case 11:
+              _context2.next = 7;
+              break;
+
+            case 13:
+              _context2.next = 18;
+              break;
+
+            case 15:
+              _context2.prev = 15;
+              _context2.t0 = _context2["catch"](5);
+
+              _iterator3.e(_context2.t0);
+
+            case 18:
+              _context2.prev = 18;
+
+              _iterator3.f();
+
+              return _context2.finish(18);
+
+            case 21:
+              return _context2.abrupt("return");
+
+            case 22:
+              _context2.next = 24;
+              return deleteIngredients(showRecipe.id);
+
+            case 24:
+              return _context2.abrupt("return", _context2.sent);
+
+            case 25:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2);
+      }, _callee2, null, [[5, 15, 18, 21]]);
+    }));
+    return _saveIngredients.apply(this, arguments);
+  }
+
+  function deleteRecipe(_x) {
+    return _deleteRecipe.apply(this, arguments);
+  }
+
+  function _deleteRecipe() {
+    _deleteRecipe = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(key) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              console.log("Deleting Recipe");
+              _context3.next = 3;
+              return getDb();
+
+            case 3:
+              return _context3.abrupt("return", _context3.sent["delete"]('recipes', key));
+
+            case 4:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
     }));
     return _deleteRecipe.apply(this, arguments);
+  }
+
+  function deleteIngredients(_x2) {
+    return _deleteIngredients.apply(this, arguments);
+  } // If recipe is falsy, redirect away.
+
+
+  function _deleteIngredients() {
+    _deleteIngredients = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(key) {
+      var db, ingredientsToDelete, _iterator4, _step4, ingredient, del;
+
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              console.log("Deleting Ingredients");
+              _context5.next = 3;
+              return getDb();
+
+            case 3:
+              db = _context5.sent;
+              ingredientsToDelete = [];
+              _context5.t0 = _createForOfIteratorHelper;
+              _context5.next = 8;
+              return db.getAllFromIndex('ingredients', 'id');
+
+            case 8:
+              _context5.t1 = _context5.sent;
+              _iterator4 = (0, _context5.t0)(_context5.t1);
+
+              try {
+                for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+                  ingredient = _step4.value;
+
+                  if (ingredient.recipe_id === key) {
+                    ingredientsToDelete.push(ingredient.id);
+                  }
+                }
+              } catch (err) {
+                _iterator4.e(err);
+              } finally {
+                _iterator4.f();
+              }
+
+              _context5.next = 13;
+              return ingredientsToDelete.filter( /*#__PURE__*/function () {
+                var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(id) {
+                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+                    while (1) {
+                      switch (_context4.prev = _context4.next) {
+                        case 0:
+                          console.log(id);
+                          _context4.next = 3;
+                          return db["delete"]('ingredients', id);
+
+                        case 3:
+                        case "end":
+                          return _context4.stop();
+                      }
+                    }
+                  }, _callee4);
+                }));
+
+                return function (_x3) {
+                  return _ref2.apply(this, arguments);
+                };
+              }());
+
+            case 13:
+              del = _context5.sent;
+              return _context5.abrupt("return");
+
+            case 15:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, _callee5);
+    }));
+    return _deleteIngredients.apply(this, arguments);
   }
 
   if (!showRecipe) {
@@ -37406,49 +37584,73 @@ function ShowRecipe(_ref) {
   }
 
   function _checkSaved() {
-    _checkSaved = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-      var db, foundSave, _iterator3, _step3, recipe;
+    _checkSaved = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+      var db, foundSave, foundIngredients, _iterator5, _step5, recipe, _iterator6, _step6, _ingredient;
 
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
         while (1) {
-          switch (_context3.prev = _context3.next) {
+          switch (_context6.prev = _context6.next) {
             case 0:
-              _context3.next = 2;
+              _context6.next = 2;
               return getDb();
 
             case 2:
-              db = _context3.sent;
+              db = _context6.sent;
               foundSave = false;
-              _context3.t0 = _createForOfIteratorHelper;
-              _context3.next = 7;
+              foundIngredients = false;
+              _context6.t0 = _createForOfIteratorHelper;
+              _context6.next = 8;
               return db.getAllFromIndex('recipes', 'id');
 
-            case 7:
-              _context3.t1 = _context3.sent;
-              _iterator3 = (0, _context3.t0)(_context3.t1);
+            case 8:
+              _context6.t1 = _context6.sent;
+              _iterator5 = (0, _context6.t0)(_context6.t1);
 
               try {
-                for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-                  recipe = _step3.value;
+                for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+                  recipe = _step5.value;
 
                   if (showRecipe.id === recipe.id) {
-                    foundSave = true;
+                    foundSave = true; // break;
                   }
                 }
               } catch (err) {
-                _iterator3.e(err);
+                _iterator5.e(err);
               } finally {
-                _iterator3.f();
+                _iterator5.f();
+              }
+
+              _context6.t2 = _createForOfIteratorHelper;
+              _context6.next = 14;
+              return db.getAllFromIndex('ingredients', 'id');
+
+            case 14:
+              _context6.t3 = _context6.sent;
+              _iterator6 = (0, _context6.t2)(_context6.t3);
+
+              try {
+                for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+                  _ingredient = _step6.value;
+
+                  if (showRecipe.id === _ingredient.recipe_id) {
+                    foundIngredients = true; // break;
+                  }
+                }
+              } catch (err) {
+                _iterator6.e(err);
+              } finally {
+                _iterator6.f();
               }
 
               setSaved(foundSave);
+              setSavedIngredients(foundIngredients);
 
-            case 11:
+            case 19:
             case "end":
-              return _context3.stop();
+              return _context6.stop();
           }
         }
-      }, _callee3);
+      }, _callee6);
     }));
     return _checkSaved.apply(this, arguments);
   }
@@ -37465,22 +37667,25 @@ function ShowRecipe(_ref) {
   }, showRecipe.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
     className: "show-recipe__author"
   }, "Created by: ", showRecipe.author_id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-    className: "show-recipe__save-list",
-    onClick: function onClick() {
-      return saveRecipe().then(checkSaved());
-    }
+    className: "show-recipe__save-list"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
-    className: "show-recipe__save-recipe".concat(saved ? "--saved" : "")
+    className: "show-recipe__save-recipe".concat(saved ? "--saved" : ""),
+    onClick: function onClick() {
+      saveRecipe().then(checkSaved());
+    }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
     src: "/assets/icons/bookmark.svg"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
-    className: "show-recipe__save-ingredient"
+    className: "show-recipe__save-ingredient".concat(savedIngredients ? "--saved" : ""),
+    onClick: function onClick() {
+      saveIngredients().then(checkSaved());
+    }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
     src: "/assets/icons/shopping-basket.svg"
   })), !saved ? null : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
     className: "show-recipe__delete-recipe",
     onClick: function onClick() {
-      saveRecipe().then(checkSaved());
+      deleteRecipe(showRecipe.id).then(checkSaved());
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
     src: "/assets/icons/bin-alt.svg"
@@ -37492,7 +37697,7 @@ function ShowRecipe(_ref) {
     }
   }, "Ingredients List ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
     src: "/assets/icons/chevron-".concat(showIngredients ? "up" : "down", ".svg")
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, ingredients, saved ? null : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, "Click the shopping basket above to save to your shopping list"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, ingredients, savedIngredients ? null : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, "Click the shopping basket above to save to your shopping list"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
     className: "show-recipe__recipe"
   }, recipeSteps)));
 }

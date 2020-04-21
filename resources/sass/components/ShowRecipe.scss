@@ -67,6 +67,14 @@
 
     &__save-ingredient--saved {
         @extend .show-recipe__save-ingredient;
+
+        background: #BFE8BE;
+        border-radius: 5em;
+        color: #6B9D69;
+
+        & > img {
+            opacity: 0.25;
+        }
     }
 
     &__recipe {

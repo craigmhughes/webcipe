@@ -97,18 +97,21 @@ export default function App (){
             return false;
         }
 
-        return await openDB('Recipes', 1, {
-            upgrade(db){
-                const store = db.createObjectStore('recipes', {
-                    keyPath: 'id',
-                    autoIncrement: true
-                });
+        // ObjectStore names
+        const stores = ['recipes','ingredients'];
 
-                store.createIndex('id','id');
+        return await openDB('Webcipe', 1, {
+            upgrade(db){
+                for(let storeName of stores){
+                    const store = db.createObjectStore(storeName, {
+                        keyPath: 'id',
+                        autoIncrement: true
+                    });
+
+                    store.createIndex('id','id');
+                }
             }
         });
-
-        
     }
 
     // On Component Mount

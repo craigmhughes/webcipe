@@ -597,6 +597,16 @@ body {
   opacity: 0.25;
 }
 
+.show-recipe__save-ingredient--saved {
+  background: #BFE8BE;
+  border-radius: 5em;
+  color: #6B9D69;
+}
+
+.show-recipe__save-ingredient--saved > img {
+  opacity: 0.25;
+}
+
 .show-recipe__recipe {
   width: 90%;
   list-style: none;
