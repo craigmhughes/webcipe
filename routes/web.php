@@ -18,3 +18,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// Catch all. React router will take care of front end routing.
+Route::get('{any}', function () {
+    return view('home'); 
+})->where('any', '.*');

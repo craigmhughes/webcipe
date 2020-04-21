@@ -3,10 +3,10 @@
     "start_url": "/",
     "display": "standalone",
     "background_color": "#fff",
-    "theme_color": "#25A122",
+    "theme_color": "#222",
     "description": "A recipe PWA.",
     "icons": [{
-      "src": "images/webcipe.svg",
-      "sizes": "150x151"
+      "src": "/assets/images/ICO.svg",
+      "sizes": "144x144"
     }]
 }
