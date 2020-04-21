@@ -84,7 +84,7 @@ export default function ShowRecipe({  props, showRecipe, getDb }){
             </header>
             <main>
                 <section className={`show-recipe__ingredients${showIngredients ? "--expanded" : ""}`}>
-                    <h2 onClick={()=>setShowIngredients(!showIngredients)}>Ingredients List</h2>
+                    <h2 onClick={()=>setShowIngredients(!showIngredients)}>Ingredients List <img src={`/assets/icons/chevron-${showIngredients ? "up":"down"}.svg`}/></h2>
                     <ul>
                         {ingredients}
                         {saved ? null : <p>Click the shopping basket above to save to your shopping list</p>}

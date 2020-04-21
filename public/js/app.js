@@ -37490,7 +37490,9 @@ function ShowRecipe(_ref) {
     onClick: function onClick() {
       return setShowIngredients(!showIngredients);
     }
-  }, "Ingredients List"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, ingredients, saved ? null : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, "Click the shopping basket above to save to your shopping list"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
+  }, "Ingredients List ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+    src: "/assets/icons/chevron-".concat(showIngredients ? "up" : "down", ".svg")
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, ingredients, saved ? null : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, "Click the shopping basket above to save to your shopping list"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
     className: "show-recipe__recipe"
   }, recipeSteps)));
 }

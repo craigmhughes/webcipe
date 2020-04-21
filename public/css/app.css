@@ -631,6 +631,14 @@ body {
   margin-top: 0;
   font-size: 1.2em;
   margin-bottom: 0;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.show-recipe__ingredients > h2 > img,
+.show-recipe__ingredients--expanded > h2 > img {
+  margin-left: 1em;
 }
 
 .show-recipe__ingredients > ul,
