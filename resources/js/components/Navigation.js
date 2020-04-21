@@ -39,7 +39,7 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
 
                 </header>
                 <section className="slide-menu__content-main">
-                    <p>Having an account means you can post your own recipes and save across other devices!</p>
+                    <p>Having an account means you can post your own recipes!</p>
                     <Link to="/login" className="button-primary">Login</Link>
                     <Link to="/register" className="button-secondary">Sign Up</Link>
                 </section>

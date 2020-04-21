@@ -36731,7 +36731,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       className: "slide-menu__content"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
       className: "slide-menu__content-main"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Having an account means you can post your own recipes and save across other devices!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Having an account means you can post your own recipes!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
       to: "/login",
       className: "button-primary"
     }, "Login"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
@@ -37281,6 +37281,11 @@ function ShowRecipe(_ref) {
       saved = _useState2[0],
       setSaved = _useState2[1];
 
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      showIngredients = _useState4[0],
+      setShowIngredients = _useState4[1];
+
   function saveRecipe() {
     return _saveRecipe.apply(this, arguments);
   }
@@ -37358,6 +37363,7 @@ function ShowRecipe(_ref) {
   }
 
   var recipeSteps = [];
+  var ingredients = [];
 
   var _iterator = _createForOfIteratorHelper(showRecipe.steps),
       _step;
@@ -37376,13 +37382,32 @@ function ShowRecipe(_ref) {
     _iterator.f();
   }
 
+  var _iterator2 = _createForOfIteratorHelper(showRecipe.ingredients),
+      _step2;
+
+  try {
+    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+      var _ingredient$measureme;
+
+      var ingredient = _step2.value;
+      ingredients.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
+        key: showRecipe.ingredients.indexOf(ingredient),
+        className: "show-recipe__recipe-ingredient"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, ingredient.name, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, ingredient.quantity, " ", (_ingredient$measureme = ingredient.measurement) !== null && _ingredient$measureme !== void 0 ? _ingredient$measureme : null))));
+    }
+  } catch (err) {
+    _iterator2.e(err);
+  } finally {
+    _iterator2.f();
+  }
+
   function checkSaved() {
     return _checkSaved.apply(this, arguments);
   }
 
   function _checkSaved() {
     _checkSaved = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-      var db, foundSave, _iterator2, _step2, recipe;
+      var db, foundSave, _iterator3, _step3, recipe;
 
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
         while (1) {
@@ -37400,20 +37425,20 @@ function ShowRecipe(_ref) {
 
             case 7:
               _context3.t1 = _context3.sent;
-              _iterator2 = (0, _context3.t0)(_context3.t1);
+              _iterator3 = (0, _context3.t0)(_context3.t1);
 
               try {
-                for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-                  recipe = _step2.value;
+                for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+                  recipe = _step3.value;
 
                   if (showRecipe.id === recipe.id) {
                     foundSave = true;
                   }
                 }
               } catch (err) {
-                _iterator2.e(err);
+                _iterator3.e(err);
               } finally {
-                _iterator2.f();
+                _iterator3.f();
               }
 
               setSaved(foundSave);
@@ -37459,7 +37484,13 @@ function ShowRecipe(_ref) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
     src: "/assets/icons/bin-alt.svg"
-  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("main", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("main", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("section", {
+    className: "show-recipe__ingredients".concat(showIngredients ? "--expanded" : "")
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h2", {
+    onClick: function onClick() {
+      return setShowIngredients(!showIngredients);
+    }
+  }, "Ingredients List"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, ingredients, saved ? null : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, "Click the shopping basket above to save to your shopping list"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
     className: "show-recipe__recipe"
   }, recipeSteps)));
 }

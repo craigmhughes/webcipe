@@ -3,6 +3,8 @@
 
     display: grid;
     grid-template-rows: 35% 65%;
+    height: 100%;
+    overflow: hidden;
 
     & > main {
         overflow-y: auto;
@@ -72,5 +74,63 @@
         list-style: none;
         padding: 0;
         margin: 0 auto;
+
+        &-ingredient {
+            border-bottom: 1px solid #e3e3e3;
+
+            & > p > span {
+                margin-left: 1em;
+                color: grey;
+            }
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+    }
+
+
+    &__ingredients {
+        @extend .container;
+        border: 1px solid #e3e3e3;
+        border-radius: 1em;
+        padding-bottom: 0em;
+
+        & > h2 {
+            padding: 1em 2em;
+            text-align: center;
+            margin-top: 0;
+            font-size: 1.2em;
+            margin-bottom: 0;
+        }
+
+        & > ul {
+            padding: 0;
+            height: 0;
+            overflow: hidden;
+            list-style: none;
+            margin: 0;
+
+            & > p {
+                font-size: 0.8em;
+                color: grey;
+                text-align: center;
+            }
+        }
+    }
+
+    &__ingredients--expanded {
+        @extend .show-recipe__ingredients;
+        padding-bottom: 0.5em;
+
+        & > h2 {
+            border-bottom: 1px solid #e3e3e3;
+        }
+
+        & > ul {
+            height: auto;
+            overflow: auto;
+            padding: 0 2em;
+        }
     }
 }

@@ -6,6 +6,7 @@ import {openDB} from 'idb';
 export default function ShowRecipe({  props, showRecipe, getDb }){
 
     const [saved, setSaved] = useState(false);
+    const [showIngredients, setShowIngredients] = useState(false);
     
     async function saveRecipe(){
         if(!saved){
@@ -29,9 +30,14 @@ export default function ShowRecipe({  props, showRecipe, getDb }){
     }
 
     let recipeSteps = [];
+    let ingredients = [];
 
     for(let step of showRecipe.steps){
         recipeSteps.push(<li key={step.order} className="show-recipe__recipe-step"><h2>Step {step.order + 1}:</h2><p>{step.content}</p></li>);
+    }
+
+    for(let ingredient of showRecipe.ingredients){
+    ingredients.push(<li key={showRecipe.ingredients.indexOf(ingredient)} className="show-recipe__recipe-ingredient"><p>{ingredient.name}<span>{ingredient.quantity} {ingredient.measurement ?? null}</span></p></li>);
     }
 
     async function checkSaved(){
@@ -77,6 +83,13 @@ export default function ShowRecipe({  props, showRecipe, getDb }){
                 </div>
             </header>
             <main>
+                <section className={`show-recipe__ingredients${showIngredients ? "--expanded" : ""}`}>
+                    <h2 onClick={()=>setShowIngredients(!showIngredients)}>Ingredients List</h2>
+                    <ul>
+                        {ingredients}
+                        {saved ? null : <p>Click the shopping basket above to save to your shopping list</p>}
+                    </ul>
+                </section>
                 <ul className="show-recipe__recipe">
                     {recipeSteps}
                 </ul>

@@ -32,6 +32,8 @@ body {
 
 .container,
 .saved-recipes,
+.show-recipe__ingredients,
+.show-recipe__ingredients--expanded,
 .show-recipe__save-list,
 .show-recipe,
 .create-recipe__footer,
@@ -528,6 +530,8 @@ body {
 .show-recipe {
   display: grid;
   grid-template-rows: 35% 65%;
+  height: 100%;
+  overflow: hidden;
 }
 
 .show-recipe > main {
@@ -598,6 +602,65 @@ body {
   list-style: none;
   padding: 0;
   margin: 0 auto;
+}
+
+.show-recipe__recipe-ingredient {
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.show-recipe__recipe-ingredient > p > span {
+  margin-left: 1em;
+  color: grey;
+}
+
+.show-recipe__recipe-ingredient:last-child {
+  border-bottom: none;
+}
+
+.show-recipe__ingredients,
+.show-recipe__ingredients--expanded {
+  border: 1px solid #e3e3e3;
+  border-radius: 1em;
+  padding-bottom: 0em;
+}
+
+.show-recipe__ingredients > h2,
+.show-recipe__ingredients--expanded > h2 {
+  padding: 1em 2em;
+  text-align: center;
+  margin-top: 0;
+  font-size: 1.2em;
+  margin-bottom: 0;
+}
+
+.show-recipe__ingredients > ul,
+.show-recipe__ingredients--expanded > ul {
+  padding: 0;
+  height: 0;
+  overflow: hidden;
+  list-style: none;
+  margin: 0;
+}
+
+.show-recipe__ingredients > ul > p,
+.show-recipe__ingredients--expanded > ul > p {
+  font-size: 0.8em;
+  color: grey;
+  text-align: center;
+}
+
+.show-recipe__ingredients--expanded {
+  padding-bottom: 0.5em;
+}
+
+.show-recipe__ingredients--expanded > h2 {
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.show-recipe__ingredients--expanded > ul {
+  height: auto;
+  overflow: auto;
+  padding: 0 2em;
 }
 
 .saved-recipes {
