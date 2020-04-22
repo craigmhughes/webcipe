@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <link rel="manifest" href="{{ secure_asset('manifest.json') }}">
     <meta name="theme-color" content="#26272D">
 
     <!-- CSRF Token -->
@@ -17,11 +17,11 @@
     <!-- <link href="https://fonts.googleapis.com/css?family=Poppins:300,700&display=swap" rel="stylesheet"> -->
 
     <!-- Icons -->
-    <link rel="icon" href="{{ asset('assets/images/ICO2.svg') }}">
-    <link rel="apple-touch-icon" href="{{ asset('assets/icons/ICO-Apple.png') }}">
+    <link rel="icon" href="{{ secure_asset('assets/images/ICO2.svg') }}">
+    <link rel="apple-touch-icon" href="{{ secure_asset('assets/icons/ICO-Apple.png') }}">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
     
 </head>
 <body>
@@ -33,6 +33,6 @@
     </div>
 
     <!-- React -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ secure_asset('js/app.js') }}"></script>
 </body>
 </html>
