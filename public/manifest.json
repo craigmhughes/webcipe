@@ -1,5 +1,6 @@
 {
     "name": "Webcipe",
+    "short_name": "Webcipe",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#fff",
@@ -8,5 +9,10 @@
     "icons": [{
       "src": "/assets/images/ICO2.svg",
       "sizes": "144x144"
-    }]
+    },
+    {
+      "src": "/assets/images/ICO.png",
+      "sizes": "512x512"
+    }
+    ]
 }

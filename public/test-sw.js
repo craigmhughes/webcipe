@@ -35,14 +35,19 @@ self.addEventListener("activate", e => {
     );
 });
 
+// Keywords to cache
 let assetsToCache = ["fonts", "images", "icons"]
 
+// Listen for fetch requests.
 self.addEventListener("fetch", e => {
 
+    // Loop over Keywords to cache assets which match.
     for(asset of assetsToCache){
         if(e.request.url.includes(asset)){
             return e.respondWith(
                 caches.open(cacheName).then((cache)=>{
+
+                    // Carry out fetch request and cache response.
                     return fetch(e.request).then(resp => {
                         cache.put(e.request, resp.clone());
                         return resp;
@@ -55,11 +60,10 @@ self.addEventListener("fetch", e => {
     e.respondWith(
         // If requested fetch is cached, return cached version.
         caches.match(e.request).then( res =>{
-            // return res || fetch(e.request);
-
             // Allow connections to chrome extensions
             if(e.request.url.includes("chrome-extension")) return e.request;
 
+            // Uncomment and comment out the line below to block connections.
             // return res || false;
             return res || fetch(e.request);
         })

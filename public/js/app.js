@@ -36717,8 +36717,6 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")["default"];
-
 
 function IngredientList(_ref) {
   var props = _ref.props,

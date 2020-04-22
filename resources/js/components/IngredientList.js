@@ -1,4 +1,3 @@
-const axios = require('axios').default;
 import React, {useState, useEffect} from 'react';
 
 export default function IngredientList({  props, getDb }){

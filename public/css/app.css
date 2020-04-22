@@ -618,10 +618,6 @@ body {
   border-bottom: 1px solid #e3e3e3;
 }
 
-.show-recipe__recipe-ingredient > p {
-  margin: 0;
-}
-
 .show-recipe__recipe-ingredient > p > span {
   margin-left: 1em;
   color: grey;
