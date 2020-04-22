@@ -375,9 +375,9 @@ body {
   font-size: 1.5em;
 }
 
-.slide-menu__create-link {
-  position: absolute;
-  bottom: 0;
+.slide-menu__link {
+  background: #e3e3e3;
+  color: #26272D;
 }
 
 .slide-menu__content {
@@ -389,6 +389,10 @@ body {
 .slide-menu__content-main {
   font-size: 1.2em;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
 }
 
 .slide-menu__content .button,

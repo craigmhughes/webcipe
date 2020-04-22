@@ -14,6 +14,7 @@ import ShowRecipe from './components/ShowRecipe.js';
 import Saved from './components/Saved.js';
 import Explore from './components/Explore.js';
 import IngredientList from './components/IngredientList.js';
+import CreatedRecipes from './components/CreatedRecipes.js';
 
 // Service Workers
 // import TestSW from './workers/test-sw.js';
@@ -23,7 +24,6 @@ export default function App (){
     // Control blur state of app when menu is active. Pass to components as to not blur the whole app.
     const [menuActive, setActiveMenu] = useState(false);
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
-    const [db, setDb] = useState(null);
 
     // Pass a recipe object to edit.
     const [editRecipe, setEditRecipe] = useState(null);
@@ -133,6 +133,7 @@ export default function App (){
             <Route exact path="/recipes/view" render={(props)=><ShowRecipe props={props} showRecipe={showRecipe} setShowRecipe={setShowRecipe} getDb={getDb}/>}/>
             <Route exact path="/ingredients" render={(props)=><IngredientList props={props} getDb={getDb}/>}/>
 
+            <Route exact path="/user/recipes" render={(props)=><CreatedRecipes props={props} setEditRecipe={updateEditRecipe} getDb={getDb}/>}/>
             <Route exact path="/saved" render={(props)=><Saved props={props} setShowRecipe={updateShowRecipe} getDb={getDb}/>}/>
             <Route exact path="/" render={(props)=><Explore props={props} setShowRecipe={updateShowRecipe}/>}/>
 
