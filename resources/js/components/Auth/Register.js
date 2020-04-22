@@ -6,15 +6,21 @@ import {Link} from 'react-router-dom';
  * Register Component
  *
  * @export
- * @param {*} {register, setRegister}
+ * @param {*} {setToken, props}
  * @returns
  */
 export default function Register({setToken, props}){
 
-    //  Form Errors
+    // Holds all error feedback messages.
     const [err, setErr] = useState({});
 
+    /**
+     * Override form submission.
+     * 
+     * @param {*} e Submit form event.
+     */
     const handleSubmit = (e) => {
+        // Stop default form handling.
         e.preventDefault();
 
         let creds = {
@@ -24,13 +30,12 @@ export default function Register({setToken, props}){
             "password_confirmation": String(document.getElementsByName("reg_password_confirmation")[0].value)
         }
 
+        // Quick method of validation (works in conjunction with standard HTML form validation). Actual validation takes place on server.
         for (let key in creds){
             if(creds[key].length < 1){
                 return false;
             }
         }
-
-        console.log(creds);
 
         axios.post('/api/auth/register', creds)
         // Handle Register Error

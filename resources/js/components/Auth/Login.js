@@ -6,14 +6,21 @@ import {Link} from 'react-router-dom';
  * Login Component
  *
  * @export
- * @param {*} { setRegister }
+ * @param {*} { setToken, props }
  * @returns
  */
 export default function Login({ setToken, props }){
 
+    // Toggles error feedback message.
     const [err, setErr] = useState(false)
     
+    /**
+     * Override form submission
+     * 
+     * @param {*} e Submit form event.
+     */
     const handleSubmit = (e) => {
+        // Stop default form handling.
         e.preventDefault();
 
         let creds = {
@@ -21,10 +28,11 @@ export default function Login({ setToken, props }){
             "password": String(document.getElementsByName("password")[0].value)
         }
 
+        // Quick method of validation (works in conjunction with standard HTML form validation). Actual validation takes place on server.
         if(creds.email.length < 1 || creds.password.length < 1){
             return false;
         }
-
+        
         axios.post('/api/auth/login', creds)
         // Handle Login Error
         .catch((err)=>{

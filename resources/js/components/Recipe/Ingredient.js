@@ -2,8 +2,15 @@ import React, {useState, useEffect} from 'react';
 
 export default function Ingredient({updateForm, modal, setModal, idx, editIngredient, updateIngredient, resetEdits}){
 
+    // Boolean value of if an Ingredient is to be edited.
     const [edit, setEdit] = useState(editIngredient !== null);
 
+    /**
+     * Clear changes to ingredients.
+     * If del exists then delete changes, rather than forgetting them.
+     *
+     * @param {*} del If exists, delete item.
+     */
     function abortIngredient(del){
         let keys = ["name","quantity","measurement"];
 
@@ -19,6 +26,11 @@ export default function Ingredient({updateForm, modal, setModal, idx, editIngred
         resetEdits();
     }
 
+    /**
+     * Create new ingredient.
+     *
+     * @returns false if form is invalid.
+     */
     function createIngredient(){
         let keys = ["name","quantity",["measurement", "nullable"]];
         let newIngredient = {};
@@ -49,6 +61,7 @@ export default function Ingredient({updateForm, modal, setModal, idx, editIngred
         abortIngredient();
     }
 
+    // Run on component mount and on update of editIngredient.
     useEffect(() => {
         setEdit(editIngredient !== null);
 

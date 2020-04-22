@@ -5,12 +5,20 @@ import React, {useState, useEffect} from 'react';
 import Ingredient from './Recipe/Ingredient';
 import Step from './Recipe/Step';
 
-
+/**
+ * Component rendering the form for recipe creation.
+ * Will handle front end validation and pass to server on passing.
+ *
+ * @export
+ * @param {*} {props, editRecipe, setEditRecipe}
+ * @returns
+ */
 export default function CreateRecipe({props, editRecipe, setEditRecipe}){
 
+    // If true, form will change from POST to PUT
     const [edit, setEdit] = useState(editRecipe);
 
-    // Default Form state
+    // Default Form state. Will replace with edit object (recipe object).
     const [formData, setFormData] = useState(edit ?? {
         'title': null,
         'description': null,
@@ -18,6 +26,7 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
         'steps': []
     });
 
+    // Modal toggles
     const [ingredientModal, setIngredientModal] = useState(false);
     const [stepModal, setStepModal] = useState(false);
 
@@ -52,17 +61,26 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
         resetEdits();
     }
 
+    /**
+     * Erase objects stored in state.
+     */
     function resetEdits(){
         // Reset edit objects.
         setEditIngredient(null);
         setEditStep(null);
     }
 
+    /**
+     * Target ingredient that has been updated and replace 
+     * form state with a new form including the new ingredient.
+     *
+     * @param {*} data = Ingredient object
+     */
     function updateIngredient(data){
         let keys = ["name","quantity","measurement"];
         let newForm = formData;
 
-        console.log(data.idx);
+        console.log(data);
 
         keys.forEach(key => {
             newForm.ingredients[data["idx"]][key] = data[key];
@@ -73,6 +91,12 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
         resetEdits();
     }
 
+    /**
+     * Target step that has been updated and replace 
+     * form state with a new form including the new step.
+     *
+     * @param {*} data = Step object
+     */
     function updateStep(data){
         let newForm = formData;
 
@@ -83,6 +107,11 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
         resetEdits();
     }
 
+    /**
+     * Validates form and sends via POST/PUT request to save to server.
+     *
+     * @returns false if form is invalid
+     */
     function postRecipe(){
         axios.defaults.headers.common = {'Authorization': `bearer ${localStorage.auth_token}`};
         let valid = true;
@@ -103,12 +132,10 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
             return false;
         } else {
             if(edit){
-                console.log("PUT");
                 axios.put(`/api/recipes/${formData.id}`, formData)
                 .then((res)=>props.history.push('/'))
                 .catch((err)=>console.error(res));
             } else {
-                console.log("POST");
                 axios.post('/api/recipes', formData)
                 .then((res)=>props.history.push('/'))
                 .catch((err)=>console.error(res));
@@ -116,6 +143,11 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
         }
     }
 
+    /**
+     * Clears recipe from state and returns the user to the home page.
+     *
+     * @param {*} del = If truthy, sends DELETE request to delete existing recipe.
+     */
     function abortRecipe(del){
 
         if(del){
@@ -128,6 +160,9 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
         props.history.push('/');
     }
 
+    /**
+     * Run on component mount and update.
+     */
     useEffect(()=>{
         setEdit(editRecipe);
 
@@ -136,9 +171,11 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
         document.getElementsByName(`new-recipe__description`)[0].value = formData.description ?? null;
     },[editRecipe]);
 
+    // Elements to represent objects in arrays of Recipe object.
     let ingredientEls = [];
     let stepEls = [];
 
+    // Fill ingredientEls with found items.
     for(let ingredient of Object.entries(formData["ingredients"])){
         let idx = formData["ingredients"].indexOf(ingredient[1]);
         ingredient[1].idx = idx;
@@ -153,6 +190,7 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
         );
     }
 
+    // Fill stepEls with found items.
     for(let step of Object.entries(formData["steps"])){
         let idx = formData["steps"].indexOf(step[1]);
         step[1].idx = idx;

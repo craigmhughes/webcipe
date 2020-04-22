@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 
 export default function Step({updateForm, modal, setModal, steps, editStep, updateStep, resetEdits}){
 
+    // Boolean value of if an Step is to be edited.
     const [edit, setEdit] = useState(editStep !== null);
 
     /**
@@ -24,6 +25,11 @@ export default function Step({updateForm, modal, setModal, steps, editStep, upda
         resetEdits();
     }
 
+    /**
+     * Create new step.
+     *
+     * @returns false if form is invalid.
+     */
     function createStep(){
         let keys = edit ? ["content","order"]:["content"];
         let newStep = {};
@@ -48,6 +54,7 @@ export default function Step({updateForm, modal, setModal, steps, editStep, upda
         setEdit(false);
     }
 
+    // Run on component mount and on update of editStep and steps.
     useEffect(() => {
         setEdit(editStep !== null);
 

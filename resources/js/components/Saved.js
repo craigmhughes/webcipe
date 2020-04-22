@@ -4,22 +4,16 @@ import React, {useState, useEffect} from 'react';
 
 export default function Saved({  props, setShowRecipe, getDb }){
 
+    // Contains recipes found in IDB when getRecipes is called.
     const [recipes, setRecipes] = useState(null);
 
-    // UNCOMMENT WHEN ABLE TO PULL IN USERS RECIPES
-    // function getRecipes(){
-    //     axios.defaults.headers.common = {'Authorization': `bearer ${localStorage.auth_token}`};
-
-    //     axios.get('/api/auth/recipes')
-    //         .then((res)=> {if(res.data.recipes){setRecipes(res.data.recipes)}})
-    //         .catch((err)=>console.error(res));
-    // }
-
+    // Get all saved recipes from IDB.
     async function getRecipes(){
         const db = await getDb();
         return await db.getAllFromIndex('recipes', 'id');
     }
 
+    // Get recipes on component mount and update.
     useEffect(() => {
         getRecipes().then(res => {
             if(recipes === null){setRecipes(res)}
@@ -27,6 +21,7 @@ export default function Saved({  props, setShowRecipe, getDb }){
         
     },[recipes]);
 
+    // Create and fill list elements with the recipes found.
     let recipeEls = [];
     if(recipes !== null){
         for(let recipe of recipes){

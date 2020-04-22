@@ -2,13 +2,16 @@ import React, {useState, useEffect} from 'react';
 
 export default function IngredientList({  props, getDb }){
 
+    // Ingredients object
     const [ingredients, setIngredients] = useState(null);
 
+    // Return ingredients from IndexedDB
     async function getIngredients(){
         const db = await getDb();
         return await db.getAllFromIndex('ingredients', 'id');
     }
 
+    // Clears all ingredients from IDB.
     async function clearIngredients() {
         const db = await getDb();
 
@@ -19,6 +22,7 @@ export default function IngredientList({  props, getDb }){
         setIngredients(null);
     }
 
+    // Run onc omponent  mount and on change of ingredients.
     useEffect(() => {
         getIngredients().then(res => {
             if(ingredients === null){setIngredients(res)}
@@ -26,8 +30,8 @@ export default function IngredientList({  props, getDb }){
         
     },[ingredients]);
 
+    // Create and fill list of elements from found ingredients.
     let ingredientEls = [];
-
     if(ingredients !== null){
         for(let ingredient of ingredients){
             ingredientEls.push(<li key={ingredients.indexOf(ingredient)} className="show-recipe__recipe-ingredient"><p>{ingredient.name}<span>{ingredient.quantity} {ingredient.measurement ?? null}</span></p></li>);

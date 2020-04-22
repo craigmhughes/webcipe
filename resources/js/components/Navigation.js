@@ -5,10 +5,13 @@ import { Link, withRouter } from 'react-router-dom';
 
 export default withRouter(function Navigation({ setActiveMenu, blur, user, logout }){
 
+    // Sets highlighted link in bottom navbar.
     const [activeLink, setActiveLink] = useState(0);
+
     // menuActive = hover state of slide menu. activeMenu (passed as prop) = blur state to align w/ menuActive.
     const [menuActive, setMenuActive] = useState(false);
 
+    // Delegates which content to show in side nav.
     const [slideContent, setSlideContent] = useState(JSON.stringify(user));
 
     // Footer nav items click event
@@ -32,6 +35,7 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
         }
     };
 
+    // Create side menu content for user who is not logged in
     const slideContentUnauthed = ()=>{
         return(
             <section className="slide-menu__content">
@@ -51,6 +55,7 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
         );
     };
 
+    // Create side menu content for user who is logged in
     const slideContentAuthed = ()=>{
         return(
             <article className="slide-menu__content">
@@ -68,6 +73,7 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
         );
     };
 
+    // Run on component mount and when user changes.
     useEffect(()=>{
         setSlideContent(user ? slideContentAuthed : slideContentUnauthed);
     }, [user]);

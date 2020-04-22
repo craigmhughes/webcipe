@@ -36074,7 +36074,7 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")["d
  * Login Component
  *
  * @export
- * @param {*} { setRegister }
+ * @param {*} { setToken, props }
  * @returns
  */
 
@@ -36082,17 +36082,25 @@ function Login(_ref) {
   var setToken = _ref.setToken,
       props = _ref.props;
 
+  // Toggles error feedback message.
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
       err = _useState2[0],
       setErr = _useState2[1];
+  /**
+   * Override form submission
+   * 
+   * @param {*} e Submit form event.
+   */
+
 
   var handleSubmit = function handleSubmit(e) {
+    // Stop default form handling.
     e.preventDefault();
     var creds = {
       "email": String(document.getElementsByName("email")[0].value),
       "password": String(document.getElementsByName("password")[0].value)
-    };
+    }; // Quick method of validation (works in conjunction with standard HTML form validation). Actual validation takes place on server.
 
     if (creds.email.length < 1 || creds.password.length < 1) {
       return false;
@@ -36188,7 +36196,7 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")["d
  * Register Component
  *
  * @export
- * @param {*} {register, setRegister}
+ * @param {*} {setToken, props}
  * @returns
  */
 
@@ -36198,20 +36206,27 @@ function Register(_ref) {
   var setToken = _ref.setToken,
       props = _ref.props;
 
-  //  Form Errors
+  // Holds all error feedback messages.
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
       _useState2 = _slicedToArray(_useState, 2),
       err = _useState2[0],
       setErr = _useState2[1];
+  /**
+   * Override form submission.
+   * 
+   * @param {*} e Submit form event.
+   */
+
 
   var handleSubmit = function handleSubmit(e) {
+    // Stop default form handling.
     e.preventDefault();
     var creds = {
       "name": String(document.getElementsByName("reg_name")[0].value),
       "email": String(document.getElementsByName("reg_email")[0].value),
       "password": String(document.getElementsByName("reg_password")[0].value),
       "password_confirmation": String(document.getElementsByName("reg_password_confirmation")[0].value)
-    };
+    }; // Quick method of validation (works in conjunction with standard HTML form validation). Actual validation takes place on server.
 
     for (var key in creds) {
       if (creds[key].length < 1) {
@@ -36219,7 +36234,6 @@ function Register(_ref) {
       }
     }
 
-    console.log(creds);
     axios.post('/api/auth/register', creds) // Handle Register Error
     .then(function (resp) {
       if (resp.data.success === false) {
@@ -36319,15 +36333,25 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")["d
 
 
 
+/**
+ * Component rendering the form for recipe creation.
+ * Will handle front end validation and pass to server on passing.
+ *
+ * @export
+ * @param {*} {props, editRecipe, setEditRecipe}
+ * @returns
+ */
+
 function CreateRecipe(_ref) {
   var props = _ref.props,
       editRecipe = _ref.editRecipe,
       setEditRecipe = _ref.setEditRecipe;
 
+  // If true, form will change from POST to PUT
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(editRecipe),
       _useState2 = _slicedToArray(_useState, 2),
       edit = _useState2[0],
-      setEdit = _useState2[1]; // Default Form state
+      setEdit = _useState2[1]; // Default Form state. Will replace with edit object (recipe object).
 
 
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(edit !== null && edit !== void 0 ? edit : {
@@ -36338,7 +36362,8 @@ function CreateRecipe(_ref) {
   }),
       _useState4 = _slicedToArray(_useState3, 2),
       formData = _useState4[0],
-      setFormData = _useState4[1];
+      setFormData = _useState4[1]; // Modal toggles
+
 
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState6 = _slicedToArray(_useState5, 2),
@@ -36386,17 +36411,28 @@ function CreateRecipe(_ref) {
     setFormData(newForm);
     resetEdits();
   }
+  /**
+   * Erase objects stored in state.
+   */
+
 
   function resetEdits() {
     // Reset edit objects.
     setEditIngredient(null);
     setEditStep(null);
   }
+  /**
+   * Target ingredient that has been updated and replace 
+   * form state with a new form including the new ingredient.
+   *
+   * @param {*} data = Ingredient object
+   */
+
 
   function updateIngredient(data) {
     var keys = ["name", "quantity", "measurement"];
     var newForm = formData;
-    console.log(data.idx);
+    console.log(data);
     keys.forEach(function (key) {
       newForm.ingredients[data["idx"]][key] = data[key];
     }); // Update state w/ new form.
@@ -36404,6 +36440,13 @@ function CreateRecipe(_ref) {
     setFormData(newForm);
     resetEdits();
   }
+  /**
+   * Target step that has been updated and replace 
+   * form state with a new form including the new step.
+   *
+   * @param {*} data = Step object
+   */
+
 
   function updateStep(data) {
     var newForm = formData;
@@ -36412,6 +36455,12 @@ function CreateRecipe(_ref) {
     setFormData(newForm);
     resetEdits();
   }
+  /**
+   * Validates form and sends via POST/PUT request to save to server.
+   *
+   * @returns false if form is invalid
+   */
+
 
   function postRecipe() {
     axios.defaults.headers.common = {
@@ -36434,14 +36483,12 @@ function CreateRecipe(_ref) {
       return false;
     } else {
       if (edit) {
-        console.log("PUT");
         axios.put("/api/recipes/".concat(formData.id), formData).then(function (res) {
           return props.history.push('/');
         })["catch"](function (err) {
           return console.error(res);
         });
       } else {
-        console.log("POST");
         axios.post('/api/recipes', formData).then(function (res) {
           return props.history.push('/');
         })["catch"](function (err) {
@@ -36450,6 +36497,12 @@ function CreateRecipe(_ref) {
       }
     }
   }
+  /**
+   * Clears recipe from state and returns the user to the home page.
+   *
+   * @param {*} del = If truthy, sends DELETE request to delete existing recipe.
+   */
+
 
   function abortRecipe(del) {
     if (del) {
@@ -36463,6 +36516,10 @@ function CreateRecipe(_ref) {
     setEditRecipe(null);
     props.history.push('/');
   }
+  /**
+   * Run on component mount and update.
+   */
+
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     var _formData$title, _formData$description;
@@ -36471,9 +36528,10 @@ function CreateRecipe(_ref) {
 
     document.getElementsByName("new-recipe__title")[0].value = (_formData$title = formData.title) !== null && _formData$title !== void 0 ? _formData$title : null;
     document.getElementsByName("new-recipe__description")[0].value = (_formData$description = formData.description) !== null && _formData$description !== void 0 ? _formData$description : null;
-  }, [editRecipe]);
+  }, [editRecipe]); // Elements to represent objects in arrays of Recipe object.
+
   var ingredientEls = [];
-  var stepEls = [];
+  var stepEls = []; // Fill ingredientEls with found items.
 
   var _loop = function _loop() {
     var ingredient = _Object$entries[_i3];
@@ -36490,7 +36548,8 @@ function CreateRecipe(_ref) {
 
   for (var _i3 = 0, _Object$entries = Object.entries(formData["ingredients"]); _i3 < _Object$entries.length; _i3++) {
     _loop();
-  }
+  } // Fill stepEls with found items.
+
 
   var _loop2 = function _loop2() {
     var step = _Object$entries2[_i4];
@@ -36628,6 +36687,14 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")["default"];
 
 
+/**
+ * Component showing the user's created recipes available for edit.
+ *
+ * @export
+ * @param {*} {  props, setEditRecipe, getDb }
+ * @returns
+ */
+
 function CreatedRecipes(_ref) {
   var props = _ref.props,
       setEditRecipe = _ref.setEditRecipe,
@@ -36637,6 +36704,10 @@ function CreatedRecipes(_ref) {
       _useState2 = _slicedToArray(_useState, 2),
       recipes = _useState2[0],
       setRecipes = _useState2[1];
+  /**
+   * Fetch users recipes.
+   */
+
 
   function getRecipes() {
     axios.defaults.headers.common = {
@@ -36650,10 +36721,15 @@ function CreatedRecipes(_ref) {
       return console.error(res);
     });
   }
+  /**
+   * Run on component mount
+   */
+
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     getRecipes();
-  }, []);
+  }, []); // Build up list elements for each recipe found in server response.
+
   var recipeEls = [];
 
   if (recipes !== null) {
@@ -36687,7 +36763,7 @@ function CreatedRecipes(_ref) {
     className: "saved-recipes__header"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
     className: "saved-recipes__title"
-  }, "My Recipes")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+  }, "My Recipes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Click to edit a recipe")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
     className: "saved-recipes__recipe-list"
   }, recipeEls)));
 }
@@ -36727,10 +36803,12 @@ function Explore(_ref) {
   var props = _ref.props,
       setShowRecipe = _ref.setShowRecipe;
 
+  // Contains recipes from all users if connected.
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState2 = _slicedToArray(_useState, 2),
       recipes = _useState2[0],
-      setRecipes = _useState2[1];
+      setRecipes = _useState2[1]; // Request recipes from server.
+
 
   function getRecipes() {
     axios.get('/api/recipes').then(function (res) {
@@ -36740,11 +36818,13 @@ function Explore(_ref) {
     })["catch"](function (err) {
       return console.error(res);
     });
-  }
+  } // Run on component mount
+
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     getRecipes();
-  }, []);
+  }, []); // Create and fill list elements with the recipes found.
+
   var recipeEls = [];
 
   if (recipes !== null) {
@@ -36824,14 +36904,17 @@ function IngredientList(_ref) {
   var props = _ref.props,
       getDb = _ref.getDb;
 
+  // Ingredients object
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(null),
       _useState2 = _slicedToArray(_useState, 2),
       ingredients = _useState2[0],
-      setIngredients = _useState2[1];
+      setIngredients = _useState2[1]; // Return ingredients from IndexedDB
+
 
   function getIngredients() {
     return _getIngredients.apply(this, arguments);
-  }
+  } // Clears all ingredients from IDB.
+
 
   function _getIngredients() {
     _getIngredients = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
@@ -36863,7 +36946,8 @@ function IngredientList(_ref) {
 
   function clearIngredients() {
     return _clearIngredients.apply(this, arguments);
-  }
+  } // Run onc omponent  mount and on change of ingredients.
+
 
   function _clearIngredients() {
     _clearIngredients = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
@@ -36939,7 +37023,8 @@ function IngredientList(_ref) {
         setIngredients(res);
       }
     });
-  }, [ingredients]);
+  }, [ingredients]); // Create and fill list of elements from found ingredients.
+
   var ingredientEls = [];
 
   if (ingredients !== null) {
@@ -37016,6 +37101,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       user = _ref.user,
       logout = _ref.logout;
 
+  // Sets highlighted link in bottom navbar.
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0),
       _useState2 = _slicedToArray(_useState, 2),
       activeLink = _useState2[0],
@@ -37025,7 +37111,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState4 = _slicedToArray(_useState3, 2),
       menuActive = _useState4[0],
-      setMenuActive = _useState4[1];
+      setMenuActive = _useState4[1]; // Delegates which content to show in side nav.
+
 
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(JSON.stringify(user)),
       _useState6 = _slicedToArray(_useState5, 2),
@@ -37052,7 +37139,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       setActiveMenu(!menuActive);
       setMenuActive(!menuActive);
     }
-  };
+  }; // Create side menu content for user who is not logged in
+
 
   var slideContentUnauthed = function slideContentUnauthed() {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
@@ -37066,7 +37154,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       to: "/register",
       className: "button-secondary"
     }, "Sign Up")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null));
-  };
+  }; // Create side menu content for user who is logged in
+
 
   var slideContentAuthed = function slideContentAuthed() {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
@@ -37089,7 +37178,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         return logout();
       }
     }, "Log out")));
-  };
+  }; // Run on component mount and when user changes.
+
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     setSlideContent(user ? slideContentAuthed : slideContentUnauthed);
@@ -37177,10 +37267,18 @@ function Ingredient(_ref) {
       updateIngredient = _ref.updateIngredient,
       resetEdits = _ref.resetEdits;
 
+  // Boolean value of if an Ingredient is to be edited.
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(editIngredient !== null),
       _useState2 = _slicedToArray(_useState, 2),
       edit = _useState2[0],
       setEdit = _useState2[1];
+  /**
+   * Clear changes to ingredients.
+   * If del exists then delete changes, rather than forgetting them.
+   *
+   * @param {*} del If exists, delete item.
+   */
+
 
   function abortIngredient(del) {
     var keys = ["name", "quantity", "measurement"];
@@ -37195,6 +37293,12 @@ function Ingredient(_ref) {
     setModal(false);
     resetEdits();
   }
+  /**
+   * Create new ingredient.
+   *
+   * @returns false if form is invalid.
+   */
+
 
   function createIngredient() {
     var keys = ["name", "quantity", ["measurement", "nullable"]];
@@ -37220,7 +37324,8 @@ function Ingredient(_ref) {
     }
 
     abortIngredient();
-  }
+  } // Run on component mount and on update of editIngredient.
+
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     setEdit(editIngredient !== null);
@@ -37325,6 +37430,7 @@ function Step(_ref) {
       updateStep = _ref.updateStep,
       resetEdits = _ref.resetEdits;
 
+  // Boolean value of if an Step is to be edited.
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(editStep !== null),
       _useState2 = _slicedToArray(_useState, 2),
       edit = _useState2[0],
@@ -37349,6 +37455,12 @@ function Step(_ref) {
     setModal(false);
     resetEdits();
   }
+  /**
+   * Create new step.
+   *
+   * @returns false if form is invalid.
+   */
+
 
   function createStep() {
     var keys = edit ? ["content", "order"] : ["content"];
@@ -37370,7 +37482,8 @@ function Step(_ref) {
 
     abortStep();
     setEdit(false);
-  }
+  } // Run on component mount and on update of editStep and steps.
+
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     setEdit(editStep !== null);
@@ -37471,21 +37584,17 @@ function Saved(_ref) {
       setShowRecipe = _ref.setShowRecipe,
       getDb = _ref.getDb;
 
+  // Contains recipes found in IDB when getRecipes is called.
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(null),
       _useState2 = _slicedToArray(_useState, 2),
       recipes = _useState2[0],
-      setRecipes = _useState2[1]; // UNCOMMENT WHEN ABLE TO PULL IN USERS RECIPES
-  // function getRecipes(){
-  //     axios.defaults.headers.common = {'Authorization': `bearer ${localStorage.auth_token}`};
-  //     axios.get('/api/auth/recipes')
-  //         .then((res)=> {if(res.data.recipes){setRecipes(res.data.recipes)}})
-  //         .catch((err)=>console.error(res));
-  // }
+      setRecipes = _useState2[1]; // Get all saved recipes from IDB.
 
 
   function getRecipes() {
     return _getRecipes.apply(this, arguments);
-  }
+  } // Get recipes on component mount and update.
+
 
   function _getRecipes() {
     _getRecipes = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
@@ -37521,7 +37630,8 @@ function Saved(_ref) {
         setRecipes(res);
       }
     });
-  }, [recipes]);
+  }, [recipes]); // Create and fill list elements with the recipes found.
+
   var recipeEls = [];
 
   if (recipes !== null) {
@@ -37602,24 +37712,39 @@ function ShowRecipe(_ref) {
       showRecipe = _ref.showRecipe,
       getDb = _ref.getDb;
 
+  // Toggle bookmark icon highlight if recipe is saved.
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
       saved = _useState2[0],
-      setSaved = _useState2[1];
+      setSaved = _useState2[1]; // Toggle basket icon highlight if ingredient list is saved.
+
 
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
       _useState4 = _slicedToArray(_useState3, 2),
       savedIngredients = _useState4[0],
-      setSavedIngredients = _useState4[1];
+      setSavedIngredients = _useState4[1]; // Toggle show ingredients list. controls expanded state.
+
 
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
       _useState6 = _slicedToArray(_useState5, 2),
       showIngredients = _useState6[0],
       setShowIngredients = _useState6[1];
+  /**
+   * If recipe is unsaved, this will save to IDB.
+   * If not, this will pass the current shown recipe ID to the deleteRecipe
+   * function.
+   */
+
 
   function saveRecipe() {
     return _saveRecipe.apply(this, arguments);
   }
+  /**
+   * If ingredients list is unsaved, this will save to IDB.
+   * If not, this will pass the current shown recipe ID to the deleteIngredients
+   * function.
+   */
+
 
   function _saveRecipe() {
     _saveRecipe = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
@@ -37664,6 +37789,12 @@ function ShowRecipe(_ref) {
   function saveIngredients() {
     return _saveIngredients.apply(this, arguments);
   }
+  /**
+   * Deletes Recipe from IDB based on passed key value.
+   * 
+   * @param {*} key = ID of currently shown recipe.
+   */
+
 
   function _saveIngredients() {
     _saveIngredients = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
@@ -37743,6 +37874,13 @@ function ShowRecipe(_ref) {
   function deleteRecipe(_x) {
     return _deleteRecipe.apply(this, arguments);
   }
+  /**
+   * Deletes Ingredients from IDB based on passed key value.
+   * ID is used to find if an ingredient is owned by that particular recipe.
+   * 
+   * @param {*} key = ID of currently shown recipe.
+   */
+
 
   function _deleteRecipe() {
     _deleteRecipe = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(key) {
@@ -37750,14 +37888,13 @@ function ShowRecipe(_ref) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              console.log("Deleting Recipe");
-              _context3.next = 3;
+              _context3.next = 2;
               return getDb();
 
-            case 3:
+            case 2:
               return _context3.abrupt("return", _context3.sent["delete"]('recipes', key));
 
-            case 4:
+            case 3:
             case "end":
               return _context3.stop();
           }
@@ -37780,18 +37917,18 @@ function ShowRecipe(_ref) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
-              console.log("Deleting Ingredients");
-              _context5.next = 3;
+              _context5.next = 2;
               return getDb();
 
-            case 3:
+            case 2:
               db = _context5.sent;
-              ingredientsToDelete = [];
+              ingredientsToDelete = []; // Pushes identified ingredients owned by the recipe to the array for deletion.
+
               _context5.t0 = _createForOfIteratorHelper;
-              _context5.next = 8;
+              _context5.next = 7;
               return db.getAllFromIndex('ingredients', 'id');
 
-            case 8:
+            case 7:
               _context5.t1 = _context5.sent;
               _iterator4 = (0, _context5.t0)(_context5.t1);
 
@@ -37802,25 +37939,25 @@ function ShowRecipe(_ref) {
                   if (ingredient.recipe_id === key) {
                     ingredientsToDelete.push(ingredient.id);
                   }
-                }
+                } // Uses Array.filter() as this will run and delete each before returning.
+
               } catch (err) {
                 _iterator4.e(err);
               } finally {
                 _iterator4.f();
               }
 
-              _context5.next = 13;
+              _context5.next = 12;
               return ingredientsToDelete.filter( /*#__PURE__*/function () {
                 var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(id) {
                   return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
                     while (1) {
                       switch (_context4.prev = _context4.next) {
                         case 0:
-                          console.log(id);
-                          _context4.next = 3;
+                          _context4.next = 2;
                           return db["delete"]('ingredients', id);
 
-                        case 3:
+                        case 2:
                         case "end":
                           return _context4.stop();
                       }
@@ -37833,11 +37970,11 @@ function ShowRecipe(_ref) {
                 };
               }());
 
-            case 13:
+            case 12:
               del = _context5.sent;
               return _context5.abrupt("return");
 
-            case 15:
+            case 14:
             case "end":
               return _context5.stop();
           }
@@ -37850,10 +37987,11 @@ function ShowRecipe(_ref) {
   if (!showRecipe) {
     props.history.push('/');
     return false;
-  }
+  } // Create and fill list elements with the recipes and ingredients found.
+
 
   var recipeSteps = [];
-  var ingredients = [];
+  var ingredients = []; // Fill recipeSteps with found items.
 
   var _iterator = _createForOfIteratorHelper(showRecipe.steps),
       _step;
@@ -37865,7 +38003,8 @@ function ShowRecipe(_ref) {
         key: step.order,
         className: "show-recipe__recipe-step"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h2", null, "Step ", step.order + 1, ":"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, step.content)));
-    }
+    } // Fill ingredients with found items.
+
   } catch (err) {
     _iterator.e(err);
   } finally {
@@ -37885,6 +38024,11 @@ function ShowRecipe(_ref) {
         className: "show-recipe__recipe-ingredient"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, ingredient.name, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, ingredient.quantity, " ", (_ingredient$measureme = ingredient.measurement) !== null && _ingredient$measureme !== void 0 ? _ingredient$measureme : null))));
     }
+    /**
+     * Checks if recipe and ingredients are saved entries in the IDB.
+     * Sets their states to true on finding an entry.
+     */
+
   } catch (err) {
     _iterator2.e(err);
   } finally {
@@ -37893,7 +38037,8 @@ function ShowRecipe(_ref) {
 
   function checkSaved() {
     return _checkSaved.apply(this, arguments);
-  }
+  } // Run on component mount.
+
 
   function _checkSaved() {
     _checkSaved = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
@@ -37923,7 +38068,7 @@ function ShowRecipe(_ref) {
                   recipe = _step5.value;
 
                   if (showRecipe.id === recipe.id) {
-                    foundSave = true; // break;
+                    foundSave = true;
                   }
                 }
               } catch (err) {
@@ -37945,7 +38090,7 @@ function ShowRecipe(_ref) {
                   _ingredient = _step6.value;
 
                   if (showRecipe.id === _ingredient.recipe_id) {
-                    foundIngredients = true; // break;
+                    foundIngredients = true;
                   }
                 }
               } catch (err) {
