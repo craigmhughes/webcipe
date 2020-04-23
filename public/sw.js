@@ -1,11 +1,12 @@
-let cacheName = "v100";
+let cacheName = "v1";
 
 // Must cache all necessary files in order to work offline.
 let filesToCache = [
     "/",
     "/manifest.json",
     "/css/app.css",
-    "/js/app.js",
+    "/js/app.min.js",
+    "/sw.js",
     // Fonts
     "/assets/fonts/poppins-regular.woff2",
     // Icons
@@ -46,7 +47,6 @@ self.addEventListener("activate", e => {
             return Promise.all(
                 cacheNames.map(cache => {
                     if (cache !== cacheName){
-                        console.log("Delete Cache");
                         return caches.delete(cache);
                     }
                 })
@@ -71,7 +71,10 @@ self.addEventListener("fetch", e => {
                         return fetch(e.request).then(resp => {
                             cache.put(e.request, resp.clone());
                             return resp;
-                        })
+                        }).catch(err=>{
+                            console.log(err);
+                            return false;
+                        });
                     })
                 })
                 
@@ -82,14 +85,9 @@ self.addEventListener("fetch", e => {
     e.respondWith(
         // If requested fetch is cached, return cached version.
         caches.match(e.request).then( res =>{
-            // Allow connections to chrome extensions
-            if(e.request.url.includes("chrome-extension")) return e.request;
-
             // Uncomment and comment out the line below to block connections.
             // return res || false;
-            return res || fetch(e.request);
+            return res || fetch(e.request).catch(err=>{return false});
         })
-    );
-
-    
+    ); 
 });

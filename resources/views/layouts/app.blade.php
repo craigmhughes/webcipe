@@ -23,6 +23,10 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     
+    <!-- Apple Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#26272D">
+    <meta name="apple-mobile-web-app-title" content="Webcipe">
 </head>
 <body>
     <noscript>
@@ -33,6 +37,6 @@
     </div>
 
     <!-- React -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/app.min.js') }}"></script>
 </body>
 </html>
