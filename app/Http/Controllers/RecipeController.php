@@ -68,7 +68,7 @@ class RecipeController extends Controller
                 $request["ingredients"],
                 [
                     'name' => ['required'],
-                    'quantity' => ['required'],
+                    'quantity' => ['nullable'],
                     'measurement' => ['nullable'] 
                 ]
             ], 

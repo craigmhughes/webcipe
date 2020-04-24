@@ -190,7 +190,7 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
                 setEditIngredient(ingredient[1]);
                 setIngredientModal(true);
             }}>
-                {ingredient[1].name} - <span>{ingredient[1].quantity} {ingredient[1].measurement}</span>
+                {ingredient[1].name} {ingredient[1].quantity || ingredient[1].measurement ? "-" : null} <span>{ingredient[1].quantity} {ingredient[1].measurement}</span>
             </li>
         );
     }

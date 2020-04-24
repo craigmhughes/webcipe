@@ -36553,7 +36553,7 @@ function CreateRecipe(_ref) {
         setEditIngredient(ingredient[1]);
         setIngredientModal(true);
       }
-    }, ingredient[1].name, " - ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, ingredient[1].quantity, " ", ingredient[1].measurement)));
+    }, ingredient[1].name, " ", ingredient[1].quantity || ingredient[1].measurement ? "-" : null, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, ingredient[1].quantity, " ", ingredient[1].measurement)));
   };
 
   for (var _i3 = 0, _Object$entries = Object.entries(formData["ingredients"]); _i3 < _Object$entries.length; _i3++) {
