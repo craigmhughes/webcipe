@@ -37322,7 +37322,7 @@ function Ingredient(_ref) {
 
 
   function createIngredient() {
-    var keys = ["name", "quantity", ["measurement", "nullable"]];
+    var keys = ["name", ["quantity", "nullable"], ["measurement", "nullable"]];
     var newIngredient = {};
     var valid = true;
     keys.forEach(function (key) {
@@ -37386,7 +37386,9 @@ function Ingredient(_ref) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: "new-ingredient__quantity",
     className: "create-recipe__label"
-  }, "Quantity"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }, "Quantity ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "create-recipe__label--emph"
+  }, "(Optional)")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "number",
     step: "0.01",
     name: "new-ingredient__quantity",

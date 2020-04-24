@@ -35,7 +35,7 @@ export default function Ingredient({updateForm, modal, setModal, idx, editIngred
      * @returns false if form is invalid.
      */
     function createIngredient(){
-        let keys = ["name","quantity",["measurement", "nullable"]];
+        let keys = ["name",["quantity", "nullable"],["measurement", "nullable"]];
         let newIngredient = {};
         let valid = true;
 
@@ -92,7 +92,7 @@ export default function Ingredient({updateForm, modal, setModal, idx, editIngred
                     <label htmlFor="new-ingredient__name" className="create-recipe__label">Name</label>
                     <input type="text" name="new-ingredient__name" className="input create-recipe__input"></input>
 
-                    <label htmlFor="new-ingredient__quantity" className="create-recipe__label">Quantity</label>
+                    <label htmlFor="new-ingredient__quantity" className="create-recipe__label">Quantity <span className="create-recipe__label--emph">(Optional)</span></label>
                     <input type="number" step="0.01" name="new-ingredient__quantity" className="input create-recipe__input"></input>
 
                     <label htmlFor="new-ingredient__measurement" className="create-recipe__label">Measurement  <span className="create-recipe__label--emph">(Optional)</span></label>
