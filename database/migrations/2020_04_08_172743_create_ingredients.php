@@ -17,7 +17,7 @@ class CreateIngredients extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('recipe_id')->unsigned();
             $table->string('name');
-            $table->integer('quantity');
+            $table->string('quantity')->nullable();
             $table->string('measurement', 40)->nullable();
             $table->timestamps();
         });

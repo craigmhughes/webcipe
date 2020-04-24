@@ -31,4 +31,8 @@ class Recipe extends Model
     public function steps(){
         return $this->hasMany('Webcipe\Step');
     }
+
+    public function user(){
+        return $this->belongsTo('Webcipe\Ingredient');
+    }
 }
