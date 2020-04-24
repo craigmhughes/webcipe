@@ -5,6 +5,9 @@ export default function Step({updateForm, modal, setModal, steps, editStep, upda
     // Boolean value of if an Step is to be edited.
     const [edit, setEdit] = useState(editStep !== null);
 
+    // Toggle error message
+    const [err,setErr] = useState(false);
+
     /**
      * Exit modal.
      *
@@ -41,7 +44,11 @@ export default function Step({updateForm, modal, setModal, steps, editStep, upda
             newStep[key] = val;
         });
 
-        if(!valid) return false;
+        if(!valid) {
+            setErr(true);
+            setTimeout(()=>setErr(false), 6000);
+            return false;
+        }
 
         if(edit){
             updateStep(newStep);
@@ -82,8 +89,12 @@ export default function Step({updateForm, modal, setModal, steps, editStep, upda
                 </form>
             </main>
             <section className="create-recipe__footer">
-                <button type="button" className="button-primary" onClick={()=>createStep()}>{edit ? "Update" : "Add"} Step</button>
-                <button type="button" className="button-secondary" onClick={()=>abortStep(edit)}><img src="/assets/icons/bin.svg"/></button>
+                <p className={`create-recipe__err-message${err ? "--active" : ""}`}>Please fill in the required content before submitting (Step must include content)</p>
+
+                <div>
+                    <button type="button" className="button-primary" name="new-step__submit" onClick={()=>createStep()}>{edit ? "Update" : "Add"} Step</button>
+                    <button type="button" className="button-secondary" onClick={()=>abortStep(edit)}><img src="/assets/icons/bin.svg"/></button>
+                </div>
             </section>
         </div>
     );

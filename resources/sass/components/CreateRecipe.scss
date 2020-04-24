@@ -27,11 +27,23 @@
     overflow: auto;
     overflow-x: hidden;
 
+    &__err-message {
+        opacity: 0;
+        transition: opacity .5s ease-in-out;
+
+        &--active {
+            @extend .create-recipe__err-message;
+            opacity: 1;
+        }
+    }
+
     &__head {
         margin-top: 1em;
         padding: 1em;
         border-bottom: 1px solid #e3e3e3;
         color: grey;
+        display: flex;
+        justify-content: space-between;
 
         &-title {
             font-size: 1em;
@@ -42,10 +54,12 @@
 
     &__footer {
         @extend .container;
-        display: flex;
 
-        align-items: center;
-        justify-content: space-between;
+        & > div {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
         .button-primary {
             width: calc(80% - 1em);

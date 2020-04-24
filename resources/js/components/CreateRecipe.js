@@ -18,6 +18,9 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
     // If true, form will change from POST to PUT
     const [edit, setEdit] = useState(editRecipe);
 
+    // Toggle error message
+    const [err,setErr] = useState(false);
+
     // Default Form state. Will replace with edit object (recipe object).
     const [formData, setFormData] = useState(edit ?? {
         'title': null,
@@ -129,6 +132,8 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
         }
 
         if(!valid){
+            setErr(true);
+            setTimeout(()=>setErr(false), 6000);
             return false;
         } else {
             if(edit){
@@ -223,19 +228,23 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
 
                     <p className="create-recipe__label">Ingredients List</p>
                     <ul>{ingredientEls}</ul>
-                    <button type="button" className="button-secondary" onClick={()=>setIngredientModal(true)}>Add Ingredient</button>
+                    <button type="button" className="button-secondary" name="create-recipe__ingredients-btn" onClick={()=>setIngredientModal(true)}>Add Ingredient</button>
 
                     <p className="create-recipe__label">Steps</p>
                     <ul>{stepEls}</ul>
-                    <button type="button" className="button-secondary" onClick={()=>setStepModal(true)}>Add Step</button>
+                    <button type="button" className="button-secondary" name="create-recipe__steps-btn" onClick={()=>setStepModal(true)}>Add Step</button>
                 </form>
             </main>
             <section className="create-recipe__footer">
-                <button type="button" className="button-primary" onClick={()=>postRecipe()}>{edit ? "Update" : "Create"} Recipe</button>
-                <button type="button" className="button-secondary" 
-                    onClick={()=>{ abortRecipe(edit) }}>
-                        <img src="/assets/icons/bin.svg"/>
-                </button>
+                <p className={`create-recipe__err-message${err ? "--active" : ""}`}>Please fill in the required content before submitting (Recipes must include a Title, Ingredient, and a Step)</p>
+                <div>
+                    <button type="button" className="button-primary" name="create-recipe__submit" onClick={()=>postRecipe()}>{edit ? "Update" : "Create"} Recipe</button>
+                    <button type="button" className="button-secondary" 
+                        onClick={()=>{ abortRecipe(edit) }}>
+                            <img src="/assets/icons/bin.svg"/>
+                    </button>
+                </div>
+                
             </section>
 
             <Ingredient updateForm={updateForm} modal={ingredientModal} setModal={setIngredientModal} idx={formData["ingredients"].indexOf(editIngredient)} 

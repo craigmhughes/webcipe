@@ -36351,40 +36351,46 @@ function CreateRecipe(_ref) {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(editRecipe),
       _useState2 = _slicedToArray(_useState, 2),
       edit = _useState2[0],
-      setEdit = _useState2[1]; // Default Form state. Will replace with edit object (recipe object).
+      setEdit = _useState2[1]; // Toggle error message
 
 
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(edit !== null && edit !== void 0 ? edit : {
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      err = _useState4[0],
+      setErr = _useState4[1]; // Default Form state. Will replace with edit object (recipe object).
+
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(edit !== null && edit !== void 0 ? edit : {
     'title': null,
     'description': null,
     'ingredients': [],
     'steps': []
   }),
-      _useState4 = _slicedToArray(_useState3, 2),
-      formData = _useState4[0],
-      setFormData = _useState4[1]; // Modal toggles
-
-
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState6 = _slicedToArray(_useState5, 2),
-      ingredientModal = _useState6[0],
-      setIngredientModal = _useState6[1];
+      formData = _useState6[0],
+      setFormData = _useState6[1]; // Modal toggles
+
 
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState8 = _slicedToArray(_useState7, 2),
-      stepModal = _useState8[0],
-      setStepModal = _useState8[1]; // Object to be edited. Set to null when not in use.
+      ingredientModal = _useState8[0],
+      setIngredientModal = _useState8[1];
 
-
-  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState10 = _slicedToArray(_useState9, 2),
-      editIngredient = _useState10[0],
-      setEditIngredient = _useState10[1];
+      stepModal = _useState10[0],
+      setStepModal = _useState10[1]; // Object to be edited. Set to null when not in use.
+
 
   var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState12 = _slicedToArray(_useState11, 2),
-      editStep = _useState12[0],
-      setEditStep = _useState12[1];
+      editIngredient = _useState12[0],
+      setEditIngredient = _useState12[1];
+
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState14 = _slicedToArray(_useState13, 2),
+      editStep = _useState14[0],
+      setEditStep = _useState14[1];
   /**
    * Update formData state by overwriting the value of the passed key.
    *
@@ -36480,6 +36486,10 @@ function CreateRecipe(_ref) {
     }
 
     if (!valid) {
+      setErr(true);
+      setTimeout(function () {
+        return setErr(false);
+      }, 6000);
       return false;
     } else {
       if (edit) {
@@ -36610,6 +36620,7 @@ function CreateRecipe(_ref) {
   }, "Ingredients List"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, ingredientEls), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: "button-secondary",
+    name: "create-recipe__ingredients-btn",
     onClick: function onClick() {
       return setIngredientModal(true);
     }
@@ -36618,14 +36629,18 @@ function CreateRecipe(_ref) {
   }, "Steps"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, stepEls), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: "button-secondary",
+    name: "create-recipe__steps-btn",
     onClick: function onClick() {
       return setStepModal(true);
     }
   }, "Add Step"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
     className: "create-recipe__footer"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "create-recipe__err-message".concat(err ? "--active" : "")
+  }, "Please fill in the required content before submitting (Recipes must include a Title, Ingredient, and a Step)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: "button-primary",
+    name: "create-recipe__submit",
     onClick: function onClick() {
       return postRecipe();
     }
@@ -36637,7 +36652,7 @@ function CreateRecipe(_ref) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/assets/icons/bin.svg"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Recipe_Ingredient__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Recipe_Ingredient__WEBPACK_IMPORTED_MODULE_1__["default"], {
     updateForm: updateForm,
     modal: ingredientModal,
     setModal: setIngredientModal,
@@ -37271,7 +37286,13 @@ function Ingredient(_ref) {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(editIngredient !== null),
       _useState2 = _slicedToArray(_useState, 2),
       edit = _useState2[0],
-      setEdit = _useState2[1];
+      setEdit = _useState2[1]; // Toggle error message
+
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      err = _useState4[0],
+      setErr = _useState4[1];
   /**
    * Clear changes to ingredients.
    * If del exists then delete changes, rather than forgetting them.
@@ -37314,7 +37335,15 @@ function Ingredient(_ref) {
         newIngredient[key] = val;
       }
     });
-    if (!valid) return false;
+
+    if (!valid) {
+      setErr(true);
+      setTimeout(function () {
+        return setErr(false);
+      }, 6000);
+      return false;
+    }
+
     newIngredient['idx'] = idx;
 
     if (edit) {
@@ -37365,7 +37394,9 @@ function Ingredient(_ref) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: "new-ingredient__measurement",
     className: "create-recipe__label"
-  }, "Measurement"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }, "Measurement  ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "create-recipe__label--emph"
+  }, "(Optional)")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
     name: "new-ingredient__measurement",
     className: "input create-recipe__input"
@@ -37377,9 +37408,12 @@ function Ingredient(_ref) {
     }
   }, "Cancel") : null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
     className: "create-recipe__footer"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "create-recipe__err-message".concat(err ? "--active" : "")
+  }, "Please fill in the required content before submitting (Ingredients must include a Name and Quantity)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: "button-primary",
+    name: "new-ingredient__submit",
     onClick: function onClick() {
       return createIngredient();
     }
@@ -37391,7 +37425,7 @@ function Ingredient(_ref) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/assets/icons/bin.svg"
-  }))));
+  })))));
 }
 
 /***/ }),
@@ -37434,7 +37468,13 @@ function Step(_ref) {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(editStep !== null),
       _useState2 = _slicedToArray(_useState, 2),
       edit = _useState2[0],
-      setEdit = _useState2[1];
+      setEdit = _useState2[1]; // Toggle error message
+
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      err = _useState4[0],
+      setErr = _useState4[1];
   /**
    * Exit modal.
    *
@@ -37471,7 +37511,14 @@ function Step(_ref) {
       if (val.length < 1) valid = false;
       newStep[key] = val;
     });
-    if (!valid) return false;
+
+    if (!valid) {
+      setErr(true);
+      setTimeout(function () {
+        return setErr(false);
+      }, 6000);
+      return false;
+    }
 
     if (edit) {
       updateStep(newStep);
@@ -37523,9 +37570,12 @@ function Step(_ref) {
     }
   }, "Cancel") : null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
     className: "create-recipe__footer"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "create-recipe__err-message".concat(err ? "--active" : "")
+  }, "Please fill in the required content before submitting (Step must include content)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: "button-primary",
+    name: "new-step__submit",
     onClick: function onClick() {
       return createStep();
     }
@@ -37537,7 +37587,7 @@ function Step(_ref) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/assets/icons/bin.svg"
-  }))));
+  })))));
 }
 
 /***/ }),

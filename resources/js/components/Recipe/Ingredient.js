@@ -5,6 +5,9 @@ export default function Ingredient({updateForm, modal, setModal, idx, editIngred
     // Boolean value of if an Ingredient is to be edited.
     const [edit, setEdit] = useState(editIngredient !== null);
 
+    // Toggle error message
+    const [err,setErr] = useState(false);
+
     /**
      * Clear changes to ingredients.
      * If del exists then delete changes, rather than forgetting them.
@@ -48,7 +51,11 @@ export default function Ingredient({updateForm, modal, setModal, idx, editIngred
             }
         });
 
-        if(!valid) return false;
+        if(!valid) {
+            setErr(true);
+            setTimeout(()=>setErr(false), 6000);
+            return false;
+        }
         newIngredient['idx'] = idx;
 
         if(edit){
@@ -88,16 +95,19 @@ export default function Ingredient({updateForm, modal, setModal, idx, editIngred
                     <label htmlFor="new-ingredient__quantity" className="create-recipe__label">Quantity</label>
                     <input type="number" step="0.01" name="new-ingredient__quantity" className="input create-recipe__input"></input>
 
-                    <label htmlFor="new-ingredient__measurement" className="create-recipe__label">Measurement</label>
+                    <label htmlFor="new-ingredient__measurement" className="create-recipe__label">Measurement  <span className="create-recipe__label--emph">(Optional)</span></label>
                     <input type="text" name="new-ingredient__measurement" className="input create-recipe__input"></input>
                     {edit ? <button type="button" className="button-primary" onClick={()=>abortIngredient()}>Cancel</button> : null}
                 </form>
             </main>
             <section className="create-recipe__footer">
-                <button type="button" className="button-primary" onClick={()=>createIngredient()}>{edit ? "Edit" : "Add"} Ingredient</button>
-                <button type="button" className="button-secondary" onClick={()=>{
-                    abortIngredient(edit);
-                }}><img src="/assets/icons/bin.svg"/></button>
+                <p className={`create-recipe__err-message${err ? "--active" : ""}`}>Please fill in the required content before submitting (Ingredients must include a Name and Quantity)</p>
+                <div>
+                    <button type="button" className="button-primary" name="new-ingredient__submit" onClick={()=>createIngredient()}>{edit ? "Edit" : "Add"} Ingredient</button>
+                    <button type="button" className="button-secondary" onClick={()=>{
+                        abortIngredient(edit);
+                    }}><img src="/assets/icons/bin.svg"/></button>
+                </div>
             </section>
         </div>
     );

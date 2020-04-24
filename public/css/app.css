@@ -454,11 +454,23 @@ body {
   overflow-x: hidden;
 }
 
+.create-recipe__err-message,
+.create-recipe__err-message--active {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.create-recipe__err-message--active {
+  opacity: 1;
+}
+
 .create-recipe__head {
   margin-top: 1em;
   padding: 1em;
   border-bottom: 1px solid #e3e3e3;
   color: grey;
+  display: flex;
+  justify-content: space-between;
 }
 
 .create-recipe__head-title {
@@ -467,7 +479,7 @@ body {
   margin: 0;
 }
 
-.create-recipe__footer {
+.create-recipe__footer > div {
   display: flex;
   align-items: center;
   justify-content: space-between;
