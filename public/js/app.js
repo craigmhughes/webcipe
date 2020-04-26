@@ -36487,7 +36487,8 @@ function CreateRecipe(_ref) {
       } else if (formData[key].length < 1) {
         valid = false;
       }
-    }
+    } // FormData must be used to pass image to server.
+
 
     var formSend = new FormData();
 

@@ -135,6 +135,7 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
             }
         }
 
+        // FormData must be used to pass image to server.
         let formSend = new FormData();
 
         for(let [key,val] of Object.entries(formData)){
