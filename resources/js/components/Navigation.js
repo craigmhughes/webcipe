@@ -13,6 +13,9 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
     // Delegates which content to show in side nav.
     const [slideContent, setSlideContent] = useState(JSON.stringify(user));
 
+    const [dropmenu, setDropmenu] = useState(false);
+    const [isOnMenu, setIsOnMenu] = useState(false);
+
     
 
     // Footer nav items click event
@@ -106,6 +109,30 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
         );
     }
 
+    function DesktopNavAuth(){
+        if(user){
+            return(
+                <section className="navigation__auth">
+                    <a className="navigation__profile-droplink" onMouseEnter={()=>setDropmenu(true)} onMouseLeave={()=>setTimeout(()=>setDropmenu(isOnMenu),300)}>
+                        {user.name} <img src="/assets/icons/chevron-down.svg"/>
+                    </a>
+                    <div className={`dropmenu ${dropmenu ? "active" : ""}`} onMouseEnter={()=>setIsOnMenu(true)} onMouseLeave={()=>{setDropmenu(false); setIsOnMenu(false);}}>
+                        <Link to="/user/recipes" className="dropmenu__link">My recipes</Link>
+                        <Link to="/recipes/new" className="dropmenu__link">Create new recipe</Link>
+                        <button onClick={()=>logout()} className="dropmenu__link button">Log out</button>
+                    </div>
+                </section>
+            );
+        } else {
+            return(
+                <section className="navigation__auth">
+                    <Link to="/login"  className="button-primary--light">Log in</Link>
+                    <Link to="/register" className="button-primary">Create an account</Link>
+                </section>
+            );
+        }
+    }
+
     // Run on component mount and when user changes.
     useEffect(()=>{
         setSlideContent(user ? slideContentAuthed : slideContentUnauthed);
@@ -116,8 +143,8 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
     return (     
         isMobile ? 
         <section className="navigation">
-            <MobileOverlay slideContent={slideContent} menuActive={menuActive}/>
-            <MobileNavigation activeLink={activeLink}/>
+            <MobileOverlay/>
+            <MobileNavigation/>
         </section>
         :
         <section className="navigation">
@@ -130,10 +157,7 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
                         <Link to="/ingredients" className={`navigation-link${activeLink === 2 ? "--active" : ""}`}  onClick={()=>navClick(2)}>Shopping List</Link>
                     </nav>
                 </section>
-                <section className="navigation__auth">
-                    <Link to="/login"  className="button-primary--light">Log in</Link>
-                    <Link to="/register" className="button-primary">Create an account</Link>
-                </section>
+                <DesktopNavAuth/>
             </div>
         </section>
             

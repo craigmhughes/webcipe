@@ -513,7 +513,7 @@ body {
   .navigation__nav > a {
     text-decoration: none;
     padding: 0.5em 2.5em;
-    font-weight: 600;
+    font-weight: 500;
   }
 
   .navigation__logo {
@@ -523,11 +523,74 @@ body {
   .navigation__auth {
     display: flex;
     justify-content: flex-end;
+    position: relative;
+  }
+
+  .navigation__profile-droplink {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.5em 1.5em;
+    border-radius: 5em;
+    transition: background 0.25s ease-in-out;
+  }
+
+  .navigation__profile-droplink > img {
+    height: 1.5em;
+    width: auto;
+    margin-left: 0.5em;
+  }
+
+  .navigation__profile-droplink:hover {
+    background: #ececec;
   }
 
   .navigation .button-primary,
   .navigation .button-primary--light {
     padding: 1em 2em;
+  }
+
+  .dropmenu {
+    background: #fff;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    padding: 1em 2em;
+    border: 1px solid #bdbdbd;
+    border-radius: 1em;
+    top: 3em;
+    right: -1.5em;
+    display: none;
+  }
+
+  .dropmenu.active {
+    display: flex;
+  }
+
+  .dropmenu__link {
+    color: inherit;
+    text-decoration: none;
+    padding: 1em 0.5em;
+    text-align: left;
+    font-weight: 400;
+    border-bottom: 1px solid #e3e3e3;
+    cursor: pointer;
+  }
+
+  .dropmenu__link,
+  .dropmenu__link.button {
+    font-size: 1em;
+  }
+
+  .dropmenu__link.button-primary,
+  .dropmenu__link.button-primary--light {
+    color: #fff;
+  }
+
+  .dropmenu__link:last-child,
+  .dropmenu__link.button-primary,
+  .dropmenu__link.button-primary--light {
+    border: none;
   }
 }
 

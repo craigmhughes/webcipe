@@ -157,7 +157,7 @@
             & > a {
                 text-decoration: none;
                 padding: 0.5em 2.5em;
-                font-weight: 600;
+                font-weight: 500;
             }
         }
         &__logo {
@@ -166,11 +166,70 @@
 
         &__auth {
             display: flex;
-            justify-content: flex-end;    
+            justify-content: flex-end;
+            position: relative;  
+        }
+
+        &__profile-droplink {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 0.5em 1.5em;
+            border-radius: 5em;
+            transition: background 0.25s ease-in-out;
+
+            & > img {
+                height: 1.5em;
+                width: auto;
+                margin-left: 0.5em;
+            }
+
+            &:hover {
+                background: #ececec;
+            }
         }
 
         .button-primary {
             padding: 1em 2em;
+        }
+    }
+
+    .dropmenu {
+        background: #fff;
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        padding: 1em 2em;
+        border: 1px solid rgb(189, 189, 189);
+        border-radius: 1em;
+        top: 3em;
+        right: -1.5em;
+        display: none;
+
+        &.active {
+            display: flex;
+        }
+
+        &__link {
+            color: inherit;
+            text-decoration: none;
+            padding: 1em 0.5em;
+            text-align: left;
+            font-weight: 400;
+            border-bottom: 1px solid #e3e3e3;
+            cursor: pointer;
+
+            &, &.button {
+                font-size: 1em;
+            }
+
+            &.button-primary {
+                color: #fff;
+            }
+
+            &:last-child, &.button-primary {
+                border: none;
+            }
         }
     }
 

@@ -37183,7 +37183,17 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(JSON.stringify(user)),
       _useState6 = _slicedToArray(_useState5, 2),
       slideContent = _useState6[0],
-      setSlideContent = _useState6[1]; // Footer nav items click event
+      setSlideContent = _useState6[1];
+
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState8 = _slicedToArray(_useState7, 2),
+      dropmenu = _useState8[0],
+      setDropmenu = _useState8[1];
+
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState10 = _slicedToArray(_useState9, 2),
+      isOnMenu = _useState10[0],
+      setIsOnMenu = _useState10[1]; // Footer nav items click event
 
 
   var navClick = function navClick(i) {
@@ -37292,6 +37302,56 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
       className: "slide-menu".concat(!menuActive ? "--hidden" : "")
     }, slideContent));
+  }
+
+  function DesktopNavAuth() {
+    if (user) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        className: "navigation__auth"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "navigation__profile-droplink",
+        onMouseEnter: function onMouseEnter() {
+          return setDropmenu(true);
+        },
+        onMouseLeave: function onMouseLeave() {
+          return setTimeout(function () {
+            return setDropmenu(isOnMenu);
+          }, 300);
+        }
+      }, user.name, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: "/assets/icons/chevron-down.svg"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropmenu ".concat(dropmenu ? "active" : ""),
+        onMouseEnter: function onMouseEnter() {
+          return setIsOnMenu(true);
+        },
+        onMouseLeave: function onMouseLeave() {
+          setDropmenu(false);
+          setIsOnMenu(false);
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "/user/recipes",
+        className: "dropmenu__link"
+      }, "My recipes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "/recipes/new",
+        className: "dropmenu__link"
+      }, "Create new recipe"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: function onClick() {
+          return logout();
+        },
+        className: "dropmenu__link button"
+      }, "Log out")));
+    } else {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        className: "navigation__auth"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "/login",
+        className: "button-primary--light"
+      }, "Log in"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "/register",
+        className: "button-primary"
+      }, "Create an account"));
+    }
   } // Run on component mount and when user changes.
 
 
@@ -37300,12 +37360,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   }, [user]);
   return isMobile ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
     className: "navigation"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(MobileOverlay, {
-    slideContent: slideContent,
-    menuActive: menuActive
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(MobileNavigation, {
-    activeLink: activeLink
-  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(MobileOverlay, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(MobileNavigation, null)) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
     className: "navigation"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "nav-container"
@@ -37336,15 +37391,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     onClick: function onClick() {
       return navClick(2);
     }
-  }, "Shopping List"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-    className: "navigation__auth"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: "/login",
-    className: "button-primary--light"
-  }, "Log in"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: "/register",
-    className: "button-primary"
-  }, "Create an account"))));
+  }, "Shopping List"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(DesktopNavAuth, null)));
 }));
 
 /***/ }),
