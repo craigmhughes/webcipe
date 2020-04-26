@@ -14,7 +14,6 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
     const [slideContent, setSlideContent] = useState(JSON.stringify(user));
 
     const [dropmenu, setDropmenu] = useState(false);
-    const [isOnMenu, setIsOnMenu] = useState(false);
 
     
 
@@ -109,14 +108,22 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
         );
     }
 
+    document.addEventListener("click",(e)=>{
+        let ignore = ["navigation__profile-droplink", "dropmenu__link"];
+
+        if(!ignore.includes(e.target.className)){
+        setDropmenu(false);
+        }
+    });
+
     function DesktopNavAuth(){
         if(user){
             return(
-                <section className="navigation__auth" onMouseEnter={()=>setIsOnMenu(true)}>
-                    <a className="navigation__profile-droplink" onMouseEnter={()=>setDropmenu(true)} onMouseLeave={()=>{setTimeout(()=>{setDropmenu(isOnMenu);},600)}}>
+                <section className="navigation__auth">
+                    <a className="navigation__profile-droplink" onClick={()=>setDropmenu(!dropmenu)}>
                         {user.name} <img src="/assets/icons/chevron-down.svg"/>
                     </a>
-                    <div className={`dropmenu ${dropmenu ? "active" : ""}`} onMouseEnter={()=>setIsOnMenu(true)} onMouseLeave={()=>{setDropmenu(false); setIsOnMenu(false);}}>
+                    <div className={`dropmenu ${dropmenu ? "active" : ""}`}>
                         <Link to="/user/recipes" className="dropmenu__link">My recipes</Link>
                         <Link to="/recipes/new" className="dropmenu__link">Create new recipe</Link>
                         <button onClick={()=>logout()} className="dropmenu__link button">Log out</button>

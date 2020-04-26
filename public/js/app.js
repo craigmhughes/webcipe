@@ -37188,12 +37188,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState8 = _slicedToArray(_useState7, 2),
       dropmenu = _useState8[0],
-      setDropmenu = _useState8[1];
-
-  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
-      _useState10 = _slicedToArray(_useState9, 2),
-      isOnMenu = _useState10[0],
-      setIsOnMenu = _useState10[1]; // Footer nav items click event
+      setDropmenu = _useState8[1]; // Footer nav items click event
 
 
   var navClick = function navClick(i) {
@@ -37304,34 +37299,27 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     }, slideContent));
   }
 
+  document.addEventListener("click", function (e) {
+    var ignore = ["navigation__profile-droplink", "dropmenu__link"];
+
+    if (!ignore.includes(e.target.className)) {
+      setDropmenu(false);
+    }
+  });
+
   function DesktopNavAuth() {
     if (user) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-        className: "navigation__auth",
-        onMouseEnter: function onMouseEnter() {
-          return setIsOnMenu(true);
-        }
+        className: "navigation__auth"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "navigation__profile-droplink",
-        onMouseEnter: function onMouseEnter() {
-          return setDropmenu(true);
-        },
-        onMouseLeave: function onMouseLeave() {
-          setTimeout(function () {
-            setDropmenu(isOnMenu);
-          }, 600);
+        onClick: function onClick() {
+          return setDropmenu(!dropmenu);
         }
       }, user.name, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: "/assets/icons/chevron-down.svg"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "dropmenu ".concat(dropmenu ? "active" : ""),
-        onMouseEnter: function onMouseEnter() {
-          return setIsOnMenu(true);
-        },
-        onMouseLeave: function onMouseLeave() {
-          setDropmenu(false);
-          setIsOnMenu(false);
-        }
+        className: "dropmenu ".concat(dropmenu ? "active" : "")
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         to: "/user/recipes",
         className: "dropmenu__link"
