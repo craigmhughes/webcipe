@@ -36499,7 +36499,7 @@ function CreateRecipe(_ref) {
       if (_key == "image") {
         if (val) formSend.append(_key, val, val.filename);
       } else {
-        formSend.append(_key, JSON.stringify(val));
+        formSend.append(_key, typeof val !== "string" ? JSON.stringify(val) : val);
       }
     }
 
@@ -36518,7 +36518,7 @@ function CreateRecipe(_ref) {
         });
       } else {
         axios.post('/api/recipes', formSend).then(function (res) {
-          console.log(res); // props.history.push('/');
+          props.history.push('/');
         })["catch"](function (err) {
           return console.error(res);
         });

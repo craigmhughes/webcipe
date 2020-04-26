@@ -141,7 +141,7 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
             if(key == "image"){
                 if(val)formSend.append(key, val, val.filename);
             } else {
-                formSend.append(key, JSON.stringify(val));
+                formSend.append(key, typeof val !== "string" ? JSON.stringify(val) : val);
             }
         }
 
@@ -157,8 +157,7 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
             } else {
                 axios.post('/api/recipes', formSend)
                 .then((res)=>{
-                    console.log(res);
-                    // props.history.push('/');
+                    props.history.push('/');
                 })
                 .catch((err)=>console.error(res));
             }
