@@ -35810,7 +35810,13 @@ function App() {
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(null),
       _useState8 = _slicedToArray(_useState7, 2),
       showRecipe = _useState8[0],
-      setShowRecipe = _useState8[1];
+      setShowRecipe = _useState8[1]; // Delegate mobile or desktop nav.
+
+
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(window.innerWidth < 780),
+      _useState10 = _slicedToArray(_useState9, 2),
+      isMobile = _useState10[0],
+      setIsMobile = _useState10[1];
 
   function updateEditRecipe(val, props) {
     setEditRecipe(val);
@@ -35945,7 +35951,20 @@ function App() {
       localStorage.removeItem("user");
     }
   }, []);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Route"], {
+  window.addEventListener("resize", function () {
+    if (window.innerWidth < 780 && !isMobile) {
+      setIsMobile(true);
+    } else if (window.innerWidth >= 780 && isMobile) {
+      setIsMobile(false);
+    }
+  });
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["BrowserRouter"], null, !isMobile ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_Navigation_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    setActiveMenu: setActiveMenu,
+    blur: menuActive,
+    user: user,
+    logout: logout,
+    isMobile: isMobile
+  }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Route"], {
     exact: true,
     path: "/recipes/new",
     render: function render(props) {
@@ -36022,12 +36041,13 @@ function App() {
         props: props
       });
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_Navigation_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }), isMobile ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_Navigation_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
     setActiveMenu: setActiveMenu,
     blur: menuActive,
     user: user,
-    logout: logout
-  }));
+    logout: logout,
+    isMobile: isMobile
+  }) : null);
 }
 
 if (document.getElementById('root')) {
@@ -37144,7 +37164,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   var setActiveMenu = _ref.setActiveMenu,
       blur = _ref.blur,
       user = _ref.user,
-      logout = _ref.logout;
+      logout = _ref.logout,
+      isMobile = _ref.isMobile;
 
   // Sets highlighted link in bottom navbar.
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0),
@@ -37223,55 +37244,107 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         return logout();
       }
     }, "Log out")));
-  }; // Run on component mount and when user changes.
+  };
+
+  function MobileNavigation() {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+      className: "navigation__list ".concat(blur ? "blur" : "")
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      to: "/",
+      className: "navigation__link ".concat(activeLink === 0 ? "active" : ""),
+      onClick: function onClick() {
+        return navClick(0);
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      src: "/assets/icons/search.svg"
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      to: "/saved",
+      className: "navigation__link ".concat(activeLink === 1 ? "active" : ""),
+      onClick: function onClick() {
+        return navClick(1);
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      src: "/assets/icons/bookmark.svg"
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      to: "/ingredients",
+      className: "navigation__link ".concat(activeLink === 2 ? "active" : ""),
+      onClick: function onClick() {
+        return navClick(2);
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      src: "/assets/icons/shopping-basket.svg"
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      className: "navigation__link ".concat(activeLink === 3 ? "active" : ""),
+      onClick: function onClick() {
+        return navClick(3);
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      src: "/assets/icons/bars.svg"
+    })));
+  }
+
+  function MobileOverlay() {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+      className: "overlay".concat(!menuActive ? "--hidden" : ""),
+      onClick: function onClick(e) {
+        return overlayClick(e);
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+      className: "slide-menu".concat(!menuActive ? "--hidden" : "")
+    }, slideContent));
+  } // Run on component mount and when user changes.
 
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     setSlideContent(user ? slideContentAuthed : slideContentUnauthed);
   }, [user]);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+  return isMobile ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
     className: "navigation"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(MobileOverlay, {
+    slideContent: slideContent,
+    menuActive: menuActive
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(MobileNavigation, {
+    activeLink: activeLink
+  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+    className: "navigation"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "nav-container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-    className: "overlay".concat(!menuActive ? "--hidden" : ""),
-    onClick: function onClick(e) {
-      return overlayClick(e);
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-    className: "slide-menu".concat(!menuActive ? "--hidden" : "")
-  }, slideContent)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
-    className: "navigation__list ".concat(blur ? "blur" : "")
+    className: "navigation__sect"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    to: "/"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    className: "navigation__logo",
+    src: "/assets/images/webcipe-text.svg"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+    className: "navigation__nav"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/",
-    className: "navigation__link ".concat(activeLink === 0 ? "active" : ""),
+    className: "navigation-link".concat(activeLink === 0 ? "--active" : ""),
     onClick: function onClick() {
       return navClick(0);
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "/assets/icons/search.svg"
-  }), "Explore"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+  }, "Explore"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/saved",
-    className: "navigation__link ".concat(activeLink === 1 ? "active" : ""),
+    className: "navigation-link".concat(activeLink === 1 ? "--active" : ""),
     onClick: function onClick() {
       return navClick(1);
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "/assets/icons/bookmark.svg"
-  }), "Saved"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+  }, "Saved Recipes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/ingredients",
-    className: "navigation__link ".concat(activeLink === 2 ? "active" : ""),
+    className: "navigation-link".concat(activeLink === 2 ? "--active" : ""),
     onClick: function onClick() {
       return navClick(2);
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "/assets/icons/shopping-basket.svg"
-  }), "Ingredients"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    className: "navigation__link ".concat(activeLink === 3 ? "active" : ""),
-    onClick: function onClick() {
-      return navClick(3);
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "/assets/icons/bars.svg"
-  }), "Menu")));
+  }, "Shopping List"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+    className: "navigation__auth"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    to: "/login",
+    className: "button-primary--light"
+  }, "Log in"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    to: "/register",
+    className: "button-primary"
+  }, "Create an account"))));
 }));
 
 /***/ }),

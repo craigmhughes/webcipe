@@ -6,7 +6,7 @@
     &__list {
         @extend .container;
         border-top: 2px solid #e3e3e3;
-        padding: 1em 0;
+        padding: 0;
         display: flex;
         justify-content: space-around;
         max-width: 600px;
@@ -19,7 +19,7 @@
         align-items: center;
         color: inherit;
         font-size: 0.8em;
-        padding: 0 1em;
+        padding: 2em 1em;
 
         opacity: 0.3;
 
@@ -28,9 +28,8 @@
         }
 
         & > img {
-            height: 2.25em;
+            height: 2em;
             width: auto;
-            margin-bottom:  0.5em;
         }
     }
 }
@@ -119,4 +118,60 @@
 .slide-menu--hidden {
     @extend .slide-menu;
     right: -100%;
+}
+
+
+@media screen and (min-width:780px){
+
+    .navigation {
+        font-size: 0.9em;
+
+        .nav-container {
+            height: 150px;
+            width: 90%;
+            max-width: 1080px;
+            grid-template-columns: 7fr 3fr;
+            display: grid;
+            align-items: center;
+            margin: 0 auto;
+            
+        }
+
+        &-link {
+            color: #a8a8a8;
+
+            &--active {
+                color: #000;
+            }
+        }
+
+        &__sect {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        &__nav {
+            min-width: 450px;
+            & > a {
+                text-decoration: none;
+                padding: 0.5em 2.5em;
+                font-weight: 600;
+            }
+        }
+        &__logo {
+            padding-right: 2em;
+        }
+
+        &__auth {
+            display: flex;
+            justify-content: flex-end;    
+        }
+
+        .button-primary {
+            padding: 1em 2em;
+        }
+    }
+
 }

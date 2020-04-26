@@ -13,7 +13,24 @@ $dark_bg: #26272D;
          url('/assets/fonts/poppins-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
          url('/assets/fonts/poppins-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
     font-display: swap;
-  }
+}
+
+/* poppins-600 - latin */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Poppins SemiBold'), local('Poppins-SemiBold'),
+       url('/assets/fonts/poppins-v9-latin-600.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+}
+/* poppins-700 - latin */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Poppins Bold'), local('Poppins-Bold'),
+       url('/assets/fonts/poppins-v9-latin-700.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+}
 
 $primary_font: 'Poppins', 'arial', sans-serif;
 $font-size-base: 0.9rem;
@@ -32,4 +49,4 @@ $teal: #4dc0b5;
 $cyan: #6cb2eb;
 
 // $brand_color: #25A122;
-$brand_color: #26272D;
+$brand_color: #ED200E;

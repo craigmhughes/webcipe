@@ -88,6 +88,18 @@ body {
     @extend .button;
 }
 
+@media screen and (min-width:780px){
+
+    #root {
+        display: block;
+    }
+
+    .container {
+        max-width: 1080px;
+    }
+
+}
+
 // Components
 @import './components/Auth.scss';
 @import './components/Navigation.scss';

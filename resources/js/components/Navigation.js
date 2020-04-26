@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { Link, withRouter } from 'react-router-dom';
-
 // Images
 
-export default withRouter(function Navigation({ setActiveMenu, blur, user, logout }){
+export default withRouter(function Navigation({ setActiveMenu, blur, user, logout, isMobile }){
 
     // Sets highlighted link in bottom navbar.
     const [activeLink, setActiveLink] = useState(0);
@@ -13,6 +12,8 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
 
     // Delegates which content to show in side nav.
     const [slideContent, setSlideContent] = useState(JSON.stringify(user));
+
+    
 
     // Footer nav items click event
     const navClick = (i)=>{
@@ -73,35 +74,68 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
         );
     };
 
-    // Run on component mount and when user changes.
-    useEffect(()=>{
-        setSlideContent(user ? slideContentAuthed : slideContentUnauthed);
-    }, [user]);
-
-    return (
-        <section className="navigation">
+    function MobileNavigation(){
+        return(
+            <nav className={`navigation__list ${blur ? "blur":""}`}>
+                <Link to="/" className={`navigation__link ${activeLink === 0 ? "active" : ""}`} onClick={()=>navClick(0)}>
+                    <img src="/assets/icons/search.svg"/>
+                </Link>
+    
+                <Link to="/saved" className={`navigation__link ${activeLink === 1 ? "active" : ""}`} onClick={()=>navClick(1)}>
+                    <img src="/assets/icons/bookmark.svg"/>
+                </Link>
+                
+                <Link to="/ingredients" className={`navigation__link ${activeLink === 2 ? "active" : ""}`} onClick={()=>navClick(2)}>
+                    <img src="/assets/icons/shopping-basket.svg"/>
+                </Link>
+                
+                <a className={`navigation__link ${activeLink === 3 ? "active" : ""}`} onClick={()=>navClick(3)}>
+                    <img src="/assets/icons/bars.svg"/>
+                </a>
+            </nav>
+        );
+    }
+    
+    function MobileOverlay(){
+        return(
             <section className={`overlay${!menuActive ? "--hidden" : ""}`} onClick={(e)=>overlayClick(e)}>
                 <section className={`slide-menu${!menuActive ? "--hidden" : ""}`}>
                     {slideContent}
                 </section>
             </section>
-            <nav className={`navigation__list ${blur ? "blur":""}`}>
-                <Link to="/" className={`navigation__link ${activeLink === 0 ? "active" : ""}`} onClick={()=>navClick(0)}>
-                    <img src="/assets/icons/search.svg"/>Explore
-                </Link>
+        );
+    }
 
-                <Link to="/saved" className={`navigation__link ${activeLink === 1 ? "active" : ""}`} onClick={()=>navClick(1)}>
-                    <img src="/assets/icons/bookmark.svg"/>Saved
-                </Link>
-                
-                <Link to="/ingredients" className={`navigation__link ${activeLink === 2 ? "active" : ""}`} onClick={()=>navClick(2)}>
-                    <img src="/assets/icons/shopping-basket.svg"/>Ingredients
-                </Link>
-                
-                <a className={`navigation__link ${activeLink === 3 ? "active" : ""}`} onClick={()=>navClick(3)}>
-                    <img src="/assets/icons/bars.svg"/>Menu
-                </a>
-            </nav>
+    // Run on component mount and when user changes.
+    useEffect(()=>{
+        setSlideContent(user ? slideContentAuthed : slideContentUnauthed);
+    }, [user]);
+
+    
+
+    return (     
+        isMobile ? 
+        <section className="navigation">
+            <MobileOverlay slideContent={slideContent} menuActive={menuActive}/>
+            <MobileNavigation activeLink={activeLink}/>
         </section>
+        :
+        <section className="navigation">
+            <div className="nav-container">
+                <section className="navigation__sect">
+                    <Link to="/"><img className="navigation__logo" src="/assets/images/webcipe-text.svg"/></Link>
+                    <nav className="navigation__nav">
+                        <Link to="/" className={`navigation-link${activeLink === 0 ? "--active" : ""}`}  onClick={()=>navClick(0)}>Explore</Link>
+                        <Link to="/saved" className={`navigation-link${activeLink === 1 ? "--active" : ""}`}  onClick={()=>navClick(1)}>Saved Recipes</Link>
+                        <Link to="/ingredients" className={`navigation-link${activeLink === 2 ? "--active" : ""}`}  onClick={()=>navClick(2)}>Shopping List</Link>
+                    </nav>
+                </section>
+                <section className="navigation__auth">
+                    <Link to="/login"  className="button-primary--light">Log in</Link>
+                    <Link to="/register" className="button-primary">Create an account</Link>
+                </section>
+            </div>
+        </section>
+            
     );
 });

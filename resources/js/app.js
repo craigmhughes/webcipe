@@ -31,6 +31,9 @@ export default function App (){
     // Pass a recipe object to show.
     const [showRecipe, setShowRecipe] = useState(null);
 
+    // Delegate mobile or desktop nav.
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 780);
+
     function updateEditRecipe(val, props){
         setEditRecipe(val);
         props.history.push('/recipes/new');
@@ -127,8 +130,19 @@ export default function App (){
         }
     },[]);
 
+    window.addEventListener("resize", ()=>{
+        if(window.innerWidth < 780 && !isMobile){
+            setIsMobile(true);
+        } else if(window.innerWidth >= 780 && isMobile){
+            setIsMobile(false);
+        }
+    });
+
     return (
         <Router>
+            {/* Push nav to top in desktop */}
+            {!isMobile ? <Navigation setActiveMenu={setActiveMenu} blur={menuActive} user={user} logout={logout} isMobile={isMobile}/> : null}
+            
             <Route exact path="/recipes/new" render={(props)=><CreateRecipe props={props} editRecipe={editRecipe} setEditRecipe={setEditRecipe}/>}/>
             <Route exact path="/recipes/view" render={(props)=><ShowRecipe props={props} showRecipe={showRecipe} setShowRecipe={setShowRecipe} getDb={getDb}/>}/>
             <Route exact path="/ingredients" render={(props)=><IngredientList props={props} getDb={getDb}/>}/>
@@ -139,7 +153,9 @@ export default function App (){
 
             <Route exact path="/login" render={(props)=><Login setToken={setToken} props={props}/>}/>
             <Route exact path="/register" render={(props)=><Register setToken={setToken} props={props}/>}/>
-            <Navigation setActiveMenu={setActiveMenu} blur={menuActive} user={user} logout={logout}/>
+
+            {/* Push nav to bottom in mobile */}
+            {isMobile ? <Navigation setActiveMenu={setActiveMenu} blur={menuActive} user={user} logout={logout} isMobile={isMobile}/> : null}
         </Router>
     );
 }

@@ -68,6 +68,14 @@
 }
 
 .login {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: calc(100% - 2rem);
+    max-width: unset;
+    padding: 1rem;
+    background: #fff;
+    z-index: 100;
     grid-template-rows: 4fr 6fr;
 
     &__reg-link {
