@@ -110,7 +110,7 @@ class RecipeController extends Controller
             // Provide filename.
             $nameToSave = 'recipe_cover_'.time().'.'.$ext;
             
-            Storage::disk('local')->put($nameToSave, file_get_contents(request()->file('image')));
+            Storage::disk('local')->put('public/recipe_images/' . $nameToSave, file_get_contents(request()->file('image')));
         }
         
         $recipe = Recipe::create([
