@@ -112,8 +112,8 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
     function DesktopNavAuth(){
         if(user){
             return(
-                <section className="navigation__auth">
-                    <a className="navigation__profile-droplink" onMouseEnter={()=>setDropmenu(true)} onMouseLeave={()=>setTimeout(()=>setDropmenu(isOnMenu),300)}>
+                <section className="navigation__auth" onMouseEnter={()=>setIsOnMenu(true)}>
+                    <a className="navigation__profile-droplink" onMouseEnter={()=>setDropmenu(true)} onMouseLeave={()=>{setTimeout(()=>{setDropmenu(isOnMenu);},600)}}>
                         {user.name} <img src="/assets/icons/chevron-down.svg"/>
                     </a>
                     <div className={`dropmenu ${dropmenu ? "active" : ""}`} onMouseEnter={()=>setIsOnMenu(true)} onMouseLeave={()=>{setDropmenu(false); setIsOnMenu(false);}}>
@@ -137,8 +137,6 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
     useEffect(()=>{
         setSlideContent(user ? slideContentAuthed : slideContentUnauthed);
     }, [user]);
-
-    
 
     return (     
         isMobile ? 

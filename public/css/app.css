@@ -523,7 +523,12 @@ body {
   .navigation__auth {
     display: flex;
     justify-content: flex-end;
+    justify-self: flex-end;
     position: relative;
+    padding: 1em 0;
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
   }
 
   .navigation__profile-droplink {
@@ -558,9 +563,12 @@ body {
     padding: 1em 2em;
     border: 1px solid #bdbdbd;
     border-radius: 1em;
-    top: 3em;
+    top: 4em;
     right: -1.5em;
     display: none;
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
   }
 
   .dropmenu.active {

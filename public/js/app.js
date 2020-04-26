@@ -37307,16 +37307,19 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   function DesktopNavAuth() {
     if (user) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-        className: "navigation__auth"
+        className: "navigation__auth",
+        onMouseEnter: function onMouseEnter() {
+          return setIsOnMenu(true);
+        }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "navigation__profile-droplink",
         onMouseEnter: function onMouseEnter() {
           return setDropmenu(true);
         },
         onMouseLeave: function onMouseLeave() {
-          return setTimeout(function () {
-            return setDropmenu(isOnMenu);
-          }, 300);
+          setTimeout(function () {
+            setDropmenu(isOnMenu);
+          }, 600);
         }
       }, user.name, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: "/assets/icons/chevron-down.svg"
