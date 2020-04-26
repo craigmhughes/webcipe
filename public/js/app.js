@@ -36035,8 +36035,7 @@ if (document.getElementById('root')) {
 } // Register Service Workers (Located in public dir)
 
 
-if (navigator.serviceWorker) {
-  navigator.serviceWorker.register('./test-sw.js');
+if (navigator.serviceWorker) {// navigator.serviceWorker.register('./sw.js');
 }
 
 /***/ }),
@@ -36363,6 +36362,7 @@ function CreateRecipe(_ref) {
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(edit !== null && edit !== void 0 ? edit : {
     'title': null,
     'description': null,
+    'image': null,
     'ingredients': [],
     'steps': []
   }),
@@ -36400,8 +36400,12 @@ function CreateRecipe(_ref) {
 
 
   function updateForm(key, update, del) {
-    // Get Input Value
-    var val = update !== null && update !== void 0 ? update : document.getElementsByName("new-recipe__".concat(key))[0].value; // Generate new form & overwrite value.
+    var val = update !== null && update !== void 0 ? update : document.getElementsByName("new-recipe__".concat(key))[0].value;
+
+    if (key == "image") {
+      val = document.getElementsByName("new-recipe__".concat(key))[0].files[0];
+    } // Generate new form & overwrite value.
+
 
     var newForm = formData;
 
@@ -36473,7 +36477,7 @@ function CreateRecipe(_ref) {
       'Authorization': "bearer ".concat(localStorage.auth_token)
     };
     var valid = true;
-    var ignore = ["description"]; // Validate data (check empty inputs)
+    var ignore = ["description", "image"]; // Validate data (check empty inputs)
 
     for (var _i2 = 0, _Object$keys = Object.keys(formData); _i2 < _Object$keys.length; _i2++) {
       var key = _Object$keys[_i2];
@@ -36482,6 +36486,20 @@ function CreateRecipe(_ref) {
         valid = !ignore.includes(key) ? false : valid;
       } else if (formData[key].length < 1) {
         valid = false;
+      }
+    }
+
+    var formSend = new FormData();
+
+    for (var _i3 = 0, _Object$entries = Object.entries(formData); _i3 < _Object$entries.length; _i3++) {
+      var _Object$entries$_i = _slicedToArray(_Object$entries[_i3], 2),
+          _key = _Object$entries$_i[0],
+          val = _Object$entries$_i[1];
+
+      if (_key == "image") {
+        if (val) formSend.append(_key, val, val.filename);
+      } else {
+        formSend.append(_key, JSON.stringify(val));
       }
     }
 
@@ -36499,8 +36517,8 @@ function CreateRecipe(_ref) {
           return console.error(res);
         });
       } else {
-        axios.post('/api/recipes', formData).then(function (res) {
-          return props.history.push('/');
+        axios.post('/api/recipes', formSend).then(function (res) {
+          console.log(res); // props.history.push('/');
         })["catch"](function (err) {
           return console.error(res);
         });
@@ -36544,7 +36562,7 @@ function CreateRecipe(_ref) {
   var stepEls = []; // Fill ingredientEls with found items.
 
   var _loop = function _loop() {
-    var ingredient = _Object$entries[_i3];
+    var ingredient = _Object$entries2[_i4];
     var idx = formData["ingredients"].indexOf(ingredient[1]);
     ingredient[1].idx = idx;
     ingredientEls.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
@@ -36556,13 +36574,13 @@ function CreateRecipe(_ref) {
     }, ingredient[1].name, " ", ingredient[1].quantity || ingredient[1].measurement ? "-" : null, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, ingredient[1].quantity, " ", ingredient[1].measurement)));
   };
 
-  for (var _i3 = 0, _Object$entries = Object.entries(formData["ingredients"]); _i3 < _Object$entries.length; _i3++) {
+  for (var _i4 = 0, _Object$entries2 = Object.entries(formData["ingredients"]); _i4 < _Object$entries2.length; _i4++) {
     _loop();
   } // Fill stepEls with found items.
 
 
   var _loop2 = function _loop2() {
-    var step = _Object$entries2[_i4];
+    var step = _Object$entries3[_i5];
     var idx = formData["steps"].indexOf(step[1]);
     step[1].idx = idx;
     stepEls.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
@@ -36574,7 +36592,7 @@ function CreateRecipe(_ref) {
     }, "Step ", idx + 1, " - ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, step[1].content)));
   };
 
-  for (var _i4 = 0, _Object$entries2 = Object.entries(formData["steps"]); _i4 < _Object$entries2.length; _i4++) {
+  for (var _i5 = 0, _Object$entries3 = Object.entries(formData["steps"]); _i5 < _Object$entries3.length; _i5++) {
     _loop2();
   }
 
@@ -36594,6 +36612,17 @@ function CreateRecipe(_ref) {
   }) : null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     className: "create-recipe__form "
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "new-recipe__image",
+    className: "create-recipe__label"
+  }, "Image"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "file",
+    accept: ".jpg",
+    name: "new-recipe__image",
+    className: "input create-recipe__input",
+    onChange: function onChange() {
+      return updateForm("image");
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: "new-recipe__title",
     className: "create-recipe__label"
   }, "Title"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {

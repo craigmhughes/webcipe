@@ -25,6 +25,7 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
     const [formData, setFormData] = useState(edit ?? {
         'title': null,
         'description': null,
+        'image': null,
         'ingredients': [],
         'steps': []
     });
@@ -45,8 +46,11 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
      */
     function updateForm(key, update, del){
 
-        // Get Input Value
         let val = update ?? document.getElementsByName(`new-recipe__${key}`)[0].value;
+
+        if(key == "image"){
+            val = document.getElementsByName(`new-recipe__${key}`)[0].files[0];
+        }
         
         // Generate new form & overwrite value.
         let newForm = formData;
@@ -119,7 +123,7 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
         axios.defaults.headers.common = {'Authorization': `bearer ${localStorage.auth_token}`};
         let valid = true;
 
-        let ignore = ["description"];
+        let ignore = ["description", "image"];
 
         // Validate data (check empty inputs)
         for(let key of Object.keys(formData)){
@@ -128,6 +132,16 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
                 valid = !ignore.includes(key) ? false : valid;
             } else if(formData[key].length < 1) {
                 valid = false;
+            }
+        }
+
+        let formSend = new FormData();
+
+        for(let [key,val] of Object.entries(formData)){
+            if(key == "image"){
+                if(val)formSend.append(key, val, val.filename);
+            } else {
+                formSend.append(key, JSON.stringify(val));
             }
         }
 
@@ -141,8 +155,11 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
                 .then((res)=>props.history.push('/'))
                 .catch((err)=>console.error(res));
             } else {
-                axios.post('/api/recipes', formData)
-                .then((res)=>props.history.push('/'))
+                axios.post('/api/recipes', formSend)
+                .then((res)=>{
+                    console.log(res);
+                    // props.history.push('/');
+                })
                 .catch((err)=>console.error(res));
             }
         }
@@ -220,6 +237,10 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
                 </header>
                 <form className="create-recipe__form
                 ">
+                    <label htmlFor="new-recipe__image" className="create-recipe__label">Image</label>
+                    <input type="file" accept=".jpg" name="new-recipe__image" className="input create-recipe__input" onChange={()=>updateForm("image")}></input>
+
+
                     <label htmlFor="new-recipe__title" className="create-recipe__label">Title</label>
                     <input type="text" name="new-recipe__title" className="input create-recipe__input" onChange={()=>updateForm("title")}></input>
 
