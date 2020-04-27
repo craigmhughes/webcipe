@@ -14,7 +14,6 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
     const [slideContent, setSlideContent] = useState(JSON.stringify(user));
 
     const [dropmenu, setDropmenu] = useState(false);
-
     
 
     // Footer nav items click event
