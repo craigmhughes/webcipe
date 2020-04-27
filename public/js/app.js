@@ -37958,6 +37958,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 function ShowRecipe(_ref) {
+  var _showRecipe$image;
+
   var props = _ref.props,
       showRecipe = _ref.showRecipe,
       getDb = _ref.getDb;
@@ -38368,12 +38370,17 @@ function ShowRecipe(_ref) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("article", {
     className: "show-recipe"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("header", {
-    className: "show-recipe__header"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", {
+    className: "show-recipe__header",
+    style: {
+      backgroundImage: "url('/storage/recipe_images/".concat((_showRecipe$image = showRecipe.image) !== null && _showRecipe$image !== void 0 ? _showRecipe$image : "null.svg", "')")
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "dark-overlay"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", {
     className: "show-recipe__title"
   }, showRecipe.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
     className: "show-recipe__author"
-  }, "Created by: ", showRecipe.author_id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+  }, "Created by: ", showRecipe.author_id)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("main", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "show-recipe__save-list"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
     className: "show-recipe__save-recipe".concat(saved ? "--saved" : ""),
@@ -38382,21 +38389,14 @@ function ShowRecipe(_ref) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
     src: "/assets/icons/bookmark.svg"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+  }), "Save Recipe"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
     className: "show-recipe__save-ingredient".concat(savedIngredients ? "--saved" : ""),
     onClick: function onClick() {
       saveIngredients().then(checkSaved());
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
     src: "/assets/icons/shopping-basket.svg"
-  })), !saved ? null : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
-    className: "show-recipe__delete-recipe",
-    onClick: function onClick() {
-      deleteRecipe(showRecipe.id).then(checkSaved());
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
-    src: "/assets/icons/bin-alt.svg"
-  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("main", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("section", {
+  }), "Add Ingredients to Shopping List")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("section", {
     className: "show-recipe__ingredients".concat(showIngredients ? "--expanded" : "")
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h2", {
     onClick: function onClick() {

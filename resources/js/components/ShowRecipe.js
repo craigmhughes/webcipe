@@ -132,29 +132,26 @@ export default function ShowRecipe({  props, showRecipe, getDb }){
 
     return (
         <article className="show-recipe">
-            <header className="show-recipe__header">
-                <h1 className="show-recipe__title">{showRecipe.title}</h1>
-                <p className="show-recipe__author">Created by: {showRecipe.author_id}</p>
-                
+            <header className="show-recipe__header"  style={{backgroundImage:`url('/storage/recipe_images/${showRecipe.image ?? "null.svg"}')`}} >
+                <div className="dark-overlay">
+                    <div>
+                        <h1 className="show-recipe__title">{showRecipe.title}</h1>
+                        <p className="show-recipe__author">Created by: {showRecipe.author_id}</p>
+                    </div>
+                </div>
+            </header>
+            <main>
                 <div className="show-recipe__save-list">
                     <p className={`show-recipe__save-recipe${saved ? "--saved" : ""}`}  onClick={()=>{saveRecipe().then(checkSaved())}}>
                         <img src={`/assets/icons/bookmark.svg`}/>
+                        Save Recipe
                     </p>
 
                     <p className={`show-recipe__save-ingredient${savedIngredients ? "--saved" : ""}`} onClick={()=>{saveIngredients().then(checkSaved())}}>
                         <img src="/assets/icons/shopping-basket.svg"/>
+                        Add Ingredients to Shopping List
                     </p>
-                    
-                    {/* Render Delete icon if saved */}
-                    {!saved ? null :
-                    <p  className="show-recipe__delete-recipe"
-                        onClick={()=>{deleteRecipe(showRecipe.id).then(checkSaved())}}>
-                        <img src="/assets/icons/bin-alt.svg"/>
-                    </p>
-                    }
                 </div>
-            </header>
-            <main>
                 <section className={`show-recipe__ingredients${showIngredients ? "--expanded" : ""}`}>
                     <h2 onClick={()=>setShowIngredients(!showIngredients)}>Ingredients List <img src={`/assets/icons/chevron-${showIngredients ? "up":"down"}.svg`}/></h2>
                     <ul>
