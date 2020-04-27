@@ -25,17 +25,22 @@ export default function Saved({  props, setShowRecipe, getDb }){
     let recipeEls = [];
     if(recipes !== null){
         for(let recipe of recipes){
-            recipeEls.push(<li key={recipe.id} onClick={()=>setShowRecipe(recipe, props)}>{recipe.title}</li>);
+            recipeEls.push(
+            <li key={recipe.id} onClick={()=>setShowRecipe(recipe, props)} className="explore__recipe">
+                <div style={{backgroundImage:`url('/storage/recipe_images/${recipe.image ?? "null.svg"}')`}} className="explore__recipe-image"></div>
+                <div className="explore__recipe-info">
+                    <p className="explore__recipe-title">{recipe.title}</p>
+                    <p className="explore__recipe-author">By {recipe.author_id}</p>
+                </div>
+            </li>);
         }
-    }
+    } 
 
     return (
-        <article className="saved-recipes">
-            <header className="saved-recipes__header">
-                <h1 className="saved-recipes__title">Saved Recipes</h1>
-            </header>
+        <article className="explore">
             <main>
-                <ul className="saved-recipes__recipe-list">
+                <h1 className="explore__main-title">Saved Recipes</h1>
+                <ul className="explore__recipe-list">
                     {recipeEls}
                 </ul>
             </main>

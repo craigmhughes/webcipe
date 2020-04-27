@@ -37866,13 +37866,27 @@ function Saved(_ref) {
 
     try {
       var _loop = function _loop() {
+        var _recipe$image;
+
         var recipe = _step.value;
         recipeEls.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
           key: recipe.id,
           onClick: function onClick() {
             return setShowRecipe(recipe, props);
-          }
-        }, recipe.title));
+          },
+          className: "explore__recipe"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+          style: {
+            backgroundImage: "url('/storage/recipe_images/".concat((_recipe$image = recipe.image) !== null && _recipe$image !== void 0 ? _recipe$image : "null.svg", "')")
+          },
+          className: "explore__recipe-image"
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+          className: "explore__recipe-info"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+          className: "explore__recipe-title"
+        }, recipe.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+          className: "explore__recipe-author"
+        }, "By ", recipe.author_id))));
       };
 
       for (_iterator.s(); !(_step = _iterator.n()).done;) {
@@ -37886,13 +37900,11 @@ function Saved(_ref) {
   }
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("article", {
-    className: "saved-recipes"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("header", {
-    className: "saved-recipes__header"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", {
-    className: "saved-recipes__title"
-  }, "Saved Recipes")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("main", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
-    className: "saved-recipes__recipe-list"
+    className: "explore"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("main", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", {
+    className: "explore__main-title"
+  }, "Saved Recipes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
+    className: "explore__recipe-list"
   }, recipeEls)));
 }
 

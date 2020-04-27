@@ -369,7 +369,6 @@ a {
   background: #fff;
   display: flex;
   align-items: center;
-  overflow: hidden;
 }
 
 .navigation__list {
