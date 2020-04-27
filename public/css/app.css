@@ -41,6 +41,11 @@ body {
           filter: blur(4px);
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 #root {
   display: grid;
   grid-template-rows: 8.5fr 1.5fr;
@@ -50,6 +55,7 @@ body {
 }
 
 .container,
+.explore,
 .saved-recipes,
 .show-recipe__ingredients,
 .show-recipe__ingredients--expanded,
@@ -151,6 +157,7 @@ body {
   }
 
   .container,
+  .explore,
   .saved-recipes,
   .show-recipe__ingredients,
   .show-recipe__ingredients--expanded,
@@ -936,5 +943,45 @@ body {
 
 .saved-recipes__recipe-list > li:last-child {
   border-bottom: none;
+}
+
+.explore {
+  padding-top: 2em;
+}
+
+.explore__header {
+  background: #F3F3F3;
+  border-radius: 1em;
+  width: calc(100% - 4em);
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+}
+
+.explore__header-art {
+  width: 100%;
+  height: auto;
+  max-width: 250px;
+  margin: 0 auto;
+  margin-bottom: 2em;
+}
+
+.explore__header-title {
+  font-weight: 600;
+  font-size: 2em;
+  margin: 0;
+  letter-spacing: -0.025em;
+}
+
+.explore__header-link {
+  font-weight: 600;
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+}
+
+.explore__header-link > img {
+  height: 1em;
+  margin-left: 0.5em;
 }
 

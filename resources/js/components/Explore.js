@@ -1,5 +1,6 @@
 const axios = require('axios').default;
 import React, {useState, useEffect} from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Explore({  props, setShowRecipe }){
 
@@ -29,14 +30,17 @@ export default function Explore({  props, setShowRecipe }){
     }    
 
     return (
-        <article className="saved-recipes">
-            <header className="saved-recipes__header">
-                <h1 className="saved-recipes__title">View Recipes</h1>
+        <article className="explore">
+            <header className="explore__header">
+                <img src="/assets/images/together.svg" className="explore__header-art"></img>
+                <section>
+                    <p className="explore__header-title">Share your recipes!</p>
+                    <p>Create an account and have the option to create your own recipes so you can keep them in mind.</p>
+                    <Link to="/register" className="explore__header-link">Get Started <img src="/assets/icons/arrow-right.svg" /></Link>
+                </section>
             </header>
             <main>
-                <ul className="saved-recipes__recipe-list">
-                    {recipeEls}
-                </ul>
+
             </main>
         </article>
     );

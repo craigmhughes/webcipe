@@ -1,0 +1,40 @@
+.explore {
+    @extend .container;
+    padding-top: 2em;
+
+    &__header {
+        background: #F3F3F3;
+        border-radius: 1em;
+        width: calc(100% - 4em);
+        padding: 2em;
+        display: flex;
+        flex-direction: column;
+
+        &-art {
+            width: 100%;
+            height: auto;
+            max-width: 250px;
+            margin: 0 auto;
+            margin-bottom: 2em;
+        }
+
+        &-title {
+            font-weight: 600;
+            font-size: 2em;
+            margin: 0;
+            letter-spacing: -0.025em;
+        }
+
+        &-link {
+            font-weight: 600;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+
+            & > img {
+                height: 1em;
+                margin-left: 0.5em;
+            }
+        }
+    }
+}
