@@ -132,7 +132,7 @@ export default function ShowRecipe({  props, showRecipe, getDb }){
 
     return (
         <article className="show-recipe">
-            <header className="show-recipe__header"  style={{backgroundImage:`url('/storage/recipe_images/${showRecipe.image ?? "null.svg"}')`}} >
+            <header className="show-recipe__header" style={{backgroundImage:`url('${showRecipe.image ? '/storage/recipe_images/' + showRecipe.image : '/assets/images/null.svg'}')`}} >
                 <div className="dark-overlay">
                     <div>
                         <h1 className="show-recipe__title">{showRecipe.title}</h1>

@@ -36056,7 +36056,8 @@ if (document.getElementById('root')) {
 } // Register Service Workers (Located in public dir)
 
 
-if (navigator.serviceWorker) {// navigator.serviceWorker.register('./sw.js');
+if (navigator.serviceWorker) {
+  navigator.serviceWorker.register('./sw.js');
 }
 
 /***/ }),
@@ -36804,8 +36805,6 @@ function CreatedRecipes(_ref) {
 
     try {
       var _loop = function _loop() {
-        var _recipe$image;
-
         var recipe = _step.value;
         recipeEls.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: recipe.id,
@@ -36815,7 +36814,7 @@ function CreatedRecipes(_ref) {
           className: "explore__recipe"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           style: {
-            backgroundImage: "url('/storage/recipe_images/".concat((_recipe$image = recipe.image) !== null && _recipe$image !== void 0 ? _recipe$image : "null.svg", "')")
+            backgroundImage: "url('".concat(recipe.image ? '/storage/recipe_images/' + recipe.image : '/assets/images/null.svg', "')")
           },
           className: "explore__recipe-image"
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -36914,8 +36913,6 @@ function Explore(_ref) {
 
     try {
       var _loop = function _loop() {
-        var _recipe$image;
-
         var recipe = _step.value;
         recipeEls.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: recipe.id,
@@ -36925,7 +36922,7 @@ function Explore(_ref) {
           className: "explore__recipe"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           style: {
-            backgroundImage: "url('/storage/recipe_images/".concat((_recipe$image = recipe.image) !== null && _recipe$image !== void 0 ? _recipe$image : "null.svg", "')")
+            backgroundImage: "url('".concat(recipe.image ? '/storage/recipe_images/' + recipe.image : '/assets/images/null.svg', "')")
           },
           className: "explore__recipe-image"
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -37878,8 +37875,6 @@ function Saved(_ref) {
 
     try {
       var _loop = function _loop() {
-        var _recipe$image;
-
         var recipe = _step.value;
         recipeEls.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
           key: recipe.id,
@@ -37889,7 +37884,7 @@ function Saved(_ref) {
           className: "explore__recipe"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           style: {
-            backgroundImage: "url('/storage/recipe_images/".concat((_recipe$image = recipe.image) !== null && _recipe$image !== void 0 ? _recipe$image : "null.svg", "')")
+            backgroundImage: "url('".concat(recipe.image ? '/storage/recipe_images/' + recipe.image : '/assets/images/null.svg', "')")
           },
           className: "explore__recipe-image"
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -37958,8 +37953,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 function ShowRecipe(_ref) {
-  var _showRecipe$image;
-
   var props = _ref.props,
       showRecipe = _ref.showRecipe,
       getDb = _ref.getDb;
@@ -38372,7 +38365,7 @@ function ShowRecipe(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("header", {
     className: "show-recipe__header",
     style: {
-      backgroundImage: "url('/storage/recipe_images/".concat((_showRecipe$image = showRecipe.image) !== null && _showRecipe$image !== void 0 ? _showRecipe$image : "null.svg", "')")
+      backgroundImage: "url('".concat(showRecipe.image ? '/storage/recipe_images/' + showRecipe.image : '/assets/images/null.svg', "')")
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "dark-overlay"

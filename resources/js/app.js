@@ -166,5 +166,5 @@ if (document.getElementById('root')) {
 
 // Register Service Workers (Located in public dir)
 if(navigator.serviceWorker){
-    // navigator.serviceWorker.register('./sw.js');
+    navigator.serviceWorker.register('./sw.js');
 }
