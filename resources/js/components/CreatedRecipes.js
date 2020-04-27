@@ -30,22 +30,26 @@ export default function CreatedRecipes({  props, setEditRecipe, getDb }){
         getRecipes();
     },[]);
 
-    // Build up list elements for each recipe found in server response.
+    // Create and fill list elements with the recipes found.
     let recipeEls = [];
     if(recipes !== null){
         for(let recipe of recipes){
-            recipeEls.push(<li key={recipe.id} onClick={()=>setEditRecipe(recipe, props)}>{recipe.title}</li>);
+            recipeEls.push(
+            <li key={recipe.id} onClick={()=>setShowRecipe(recipe, props)} className="explore__recipe">
+                <div style={{backgroundImage:`url('/storage/recipe_images/${recipe.image ?? "null.svg"}')`}} className="explore__recipe-image"></div>
+                <div className="explore__recipe-info">
+                    <p className="explore__recipe-title">{recipe.title}</p>
+                    <p className="explore__recipe-author">By {recipe.author_id}</p>
+                </div>
+            </li>);
         }
-    }
+    } 
 
     return (
-        <article className="saved-recipes">
-            <header className="saved-recipes__header">
-                <h1 className="saved-recipes__title">My Recipes</h1>
-                <p>Click to edit a recipe</p>
-            </header>
+        <article className="explore">
             <main>
-                <ul className="saved-recipes__recipe-list">
+                <h1 className="explore__main-title">My Recipes</h1>
+                <ul className="explore__recipe-list">
                     {recipeEls}
                 </ul>
             </main>

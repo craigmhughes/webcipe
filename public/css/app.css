@@ -57,7 +57,6 @@ a {
 
 .container,
 .explore,
-.saved-recipes,
 .show-recipe__ingredients,
 .show-recipe__ingredients--expanded,
 .show-recipe__save-list,
@@ -159,7 +158,6 @@ a {
 
   .container,
   .explore,
-  .saved-recipes,
   .show-recipe__ingredients,
   .show-recipe__ingredients--expanded,
   .show-recipe__save-list,
@@ -882,68 +880,14 @@ a {
   padding: 0 2em;
 }
 
-.saved-recipes {
-  display: grid;
-  grid-template-rows: 25% 75%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.saved-recipes > main {
-  overflow-y: auto;
-}
-
-.saved-recipes__header {
-  text-align: center;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.saved-recipes__clear-button {
-  font-size: 1em;
-  font-family: "Poppins", "arial", sans-serif;
-  padding: 0.5em 1em;
-  margin-top: 1em;
-  background: none;
+.content__header {
   display: flex;
   align-items: center;
-  border: 1px solid #e3e3e3;
-  border-radius: 5em;
+  margin-bottom: 3em;
 }
 
-.saved-recipes__clear-button > img {
-  margin-right: 0.5em;
-}
-
-.saved-recipes__title {
-  font-size: 2em;
+.content__header > h1 {
   margin: 0;
-}
-
-.saved-recipes__recipe {
-  width: 90%;
-  list-style: none;
-  padding: 0;
-  margin: 0 auto;
-}
-
-.saved-recipes__recipe-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.saved-recipes__recipe-list > li {
-  font-size: 1.1em;
-  padding: 1em;
-  border-bottom: 1px solid #cfcfcf;
-}
-
-.saved-recipes__recipe-list > li:last-child {
-  border-bottom: none;
 }
 
 .explore {
@@ -987,6 +931,25 @@ a {
 .explore__header-link > img {
   height: 1em;
   margin-left: 0.5em;
+}
+
+.explore__clear-button {
+  font-size: 1em;
+  font-family: "Poppins", "arial", sans-serif;
+  padding: 0.5em 1em;
+  background: none;
+  display: flex;
+  align-items: center;
+  border: 1px solid #e3e3e3;
+  border-radius: 5em;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  margin-left: 2em;
+}
+
+.explore__clear-button > img {
+  margin-right: 0.5em;
 }
 
 .explore__main--alone {

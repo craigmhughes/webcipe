@@ -40,10 +40,10 @@ export default function IngredientList({  props, getDb }){
     
 
     return (
-        <article className="saved-recipes">
-            <header className="saved-recipes__header">
-                <h1 className="saved-recipes__title">View Ingredients</h1>
-                <button onClick={()=>clearIngredients()} className="saved-recipes__clear-button"><img src="/assets/icons/bin-alt.svg"/>Clear Ingredients</button>
+        <article className="explore">
+            <header className="content__header">
+                <h1 className="explore__main-title">View Ingredients</h1>
+                <button onClick={()=>clearIngredients()} className="explore__clear-button"><img src="/assets/icons/bin-alt.svg"/>Clear Ingredients</button>
             </header>
             <main>
                 <ul className="saved-recipes__recipe-list">

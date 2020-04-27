@@ -36794,7 +36794,7 @@ function CreatedRecipes(_ref) {
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     getRecipes();
-  }, []); // Build up list elements for each recipe found in server response.
+  }, []); // Create and fill list elements with the recipes found.
 
   var recipeEls = [];
 
@@ -36804,13 +36804,27 @@ function CreatedRecipes(_ref) {
 
     try {
       var _loop = function _loop() {
+        var _recipe$image;
+
         var recipe = _step.value;
         recipeEls.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: recipe.id,
           onClick: function onClick() {
-            return setEditRecipe(recipe, props);
-          }
-        }, recipe.title));
+            return setShowRecipe(recipe, props);
+          },
+          className: "explore__recipe"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          style: {
+            backgroundImage: "url('/storage/recipe_images/".concat((_recipe$image = recipe.image) !== null && _recipe$image !== void 0 ? _recipe$image : "null.svg", "')")
+          },
+          className: "explore__recipe-image"
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "explore__recipe-info"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "explore__recipe-title"
+        }, recipe.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "explore__recipe-author"
+        }, "By ", recipe.author_id))));
       };
 
       for (_iterator.s(); !(_step = _iterator.n()).done;) {
@@ -36824,13 +36838,11 @@ function CreatedRecipes(_ref) {
   }
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
-    className: "saved-recipes"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
-    className: "saved-recipes__header"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-    className: "saved-recipes__title"
-  }, "My Recipes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Click to edit a recipe")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-    className: "saved-recipes__recipe-list"
+    className: "explore"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+    className: "explore__main-title"
+  }, "My Recipes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    className: "explore__recipe-list"
   }, recipeEls)));
 }
 
@@ -37147,16 +37159,16 @@ function IngredientList(_ref) {
   }
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("article", {
-    className: "saved-recipes"
+    className: "explore"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("header", {
-    className: "saved-recipes__header"
+    className: "content__header"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", {
-    className: "saved-recipes__title"
+    className: "explore__main-title"
   }, "View Ingredients"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
     onClick: function onClick() {
       return clearIngredients();
     },
-    className: "saved-recipes__clear-button"
+    className: "explore__clear-button"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
     src: "/assets/icons/bin-alt.svg"
   }), "Clear Ingredients")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("main", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
