@@ -25,7 +25,14 @@ export default function Explore({  props, setShowRecipe, user }){
     let recipeEls = [];
     if(recipes !== null){
         for(let recipe of recipes){
-            recipeEls.push(<li key={recipe.id} onClick={()=>setShowRecipe(recipe, props)}>{recipe.title}</li>);
+            recipeEls.push(
+            <li key={recipe.id} onClick={()=>setShowRecipe(recipe, props)} className="explore__recipe">
+                <div style={{backgroundImage:`url('/storage/recipe_images/${recipe.image ?? "null.svg"}')`}} className="explore__recipe-image"></div>
+                <div className="explore__recipe-info">
+                    <p className="explore__recipe-title">{recipe.title}</p>
+                    <p className="explore__recipe-author">By {recipe.author_id}</p>
+                </div>
+            </li>);
         }
     }    
 
@@ -35,14 +42,17 @@ export default function Explore({  props, setShowRecipe, user }){
             user !== null ? null :
             <header className="explore__header">
                 <img src="/assets/images/together.svg" className="explore__header-art"></img>
-                <section>
+                <section className="explore__header-info">
                     <p className="explore__header-title">Share your recipes!</p>
                     <p>Create an account and have the option to create your own recipes so you can keep them in mind.</p>
                     <Link to="/register" className="explore__header-link">Get Started <img src="/assets/icons/arrow-right.svg" /></Link>
                 </section>
             </header>}
-            <main>
-
+            <main className={`explore__main${user ? "--alone" : ""}`}>
+                <h1 className="explore__main-title">Recipes</h1>
+                <ul className="explore__recipe-list">
+                    {recipeEls}
+                </ul>
             </main>
         </article>
     );

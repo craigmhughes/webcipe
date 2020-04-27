@@ -52,6 +52,7 @@ a {
   position: fixed;
   height: 100%;
   width: 100%;
+  overflow-y: auto;
 }
 
 .container,
@@ -368,6 +369,7 @@ a {
   background: #fff;
   display: flex;
   align-items: center;
+  overflow: hidden;
 }
 
 .navigation__list {
@@ -947,6 +949,8 @@ a {
 
 .explore {
   padding-top: 2em;
+  overflow: hidden;
+  overflow-y: auto;
 }
 
 .explore__header {
@@ -956,6 +960,7 @@ a {
   padding: 2em;
   display: flex;
   flex-direction: column;
+  margin-bottom: 2em;
 }
 
 .explore__header-art {
@@ -983,5 +988,110 @@ a {
 .explore__header-link > img {
   height: 1em;
   margin-left: 0.5em;
+}
+
+.explore__main--alone {
+  padding-top: 1em;
+}
+
+.explore__main-title {
+  font-weight: 600;
+  font-size: 2.5em;
+  margin: 0;
+  margin-bottom: 0.75em;
+  letter-spacing: -0.025em;
+}
+
+.explore__recipe-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.explore__recipe {
+  width: 100%;
+  max-width: 600px;
+  padding: 2em 0;
+}
+
+.explore__recipe:first-child {
+  padding-top: 0;
+}
+
+.explore__recipe-image {
+  border-radius: 1em;
+  width: 100%;
+  height: 150px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position-y: 50%;
+}
+
+.explore__recipe-info {
+  padding: 0 1em;
+}
+
+.explore__recipe-title {
+  font-size: 1.75em;
+  font-weight: 600;
+  margin-bottom: 0;
+  margin-top: 0.5em;
+}
+
+.explore__recipe-author {
+  font-size: 1.25em;
+  color: grey;
+  margin: 0;
+}
+
+@media screen and (min-width: 780px) {
+  .explore__header {
+    flex-direction: row-reverse;
+    align-items: center;
+    padding: 2em 4em;
+    width: calc(100% - 8em);
+  }
+
+  .explore__header-info {
+    max-width: 400px;
+  }
+
+  .explore__header-title {
+    font-size: 3.5em;
+    line-height: 100%;
+  }
+
+  .explore__header-art {
+    max-width: 400px;
+  }
+
+  .explore__recipe-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .explore__recipe {
+    width: calc(1005 - 2em);
+    max-width: 350px;
+    padding: 0 1em;
+    margin: 2em auto;
+  }
+
+  .explore__recipe-title {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .explore__recipe-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .explore__recipe {
+    max-width: 300px;
+  }
 }
 

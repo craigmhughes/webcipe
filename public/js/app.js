@@ -36902,13 +36902,27 @@ function Explore(_ref) {
 
     try {
       var _loop = function _loop() {
+        var _recipe$image;
+
         var recipe = _step.value;
         recipeEls.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: recipe.id,
           onClick: function onClick() {
             return setShowRecipe(recipe, props);
-          }
-        }, recipe.title));
+          },
+          className: "explore__recipe"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          style: {
+            backgroundImage: "url('/storage/recipe_images/".concat((_recipe$image = recipe.image) !== null && _recipe$image !== void 0 ? _recipe$image : "null.svg", "')")
+          },
+          className: "explore__recipe-image"
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "explore__recipe-info"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "explore__recipe-title"
+        }, recipe.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "explore__recipe-author"
+        }, "By ", recipe.author_id))));
       };
 
       for (_iterator.s(); !(_step = _iterator.n()).done;) {
@@ -36929,14 +36943,22 @@ function Explore(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/assets/images/together.svg",
     className: "explore__header-art"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+    className: "explore__header-info"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "explore__header-title"
   }, "Share your recipes!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Create an account and have the option to create your own recipes so you can keep them in mind."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/register",
     className: "explore__header-link"
   }, "Get Started ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/assets/icons/arrow-right.svg"
-  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", null));
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
+    className: "explore__main".concat(user ? "--alone" : "")
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+    className: "explore__main-title"
+  }, "Recipes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    className: "explore__recipe-list"
+  }, recipeEls)));
 }
 
 /***/ }),

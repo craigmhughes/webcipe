@@ -19,6 +19,7 @@ class RecipeSeeder extends Seeder
             [
                 "title"  =>  "Garlic Grilled Tomatoes",
                 "description" => null,
+                "image" => "recipe-00.webp",
                 "author_id" => 1,
                 "ingredients" => [
                     [
@@ -76,6 +77,7 @@ class RecipeSeeder extends Seeder
                 "title"  =>  "Fudgy Chocoloate Brownie Cookies",
                 "description" => null,
                 "author_id" => 2,
+                "image" => "recipe-01.webp",
                 "ingredients" => [
                     [
                         "name" => "Unsweetened cocoa powder",
@@ -156,6 +158,79 @@ class RecipeSeeder extends Seeder
                     ],
                 ]
             ],
+
+            [
+                "title"  =>  "Persian Shirazi Salad",
+                "description" => "This easy and diverse salad will become a staple salad at your house!",
+                "author_id" => 3,
+                "image" => "recipe-02.webp",
+                "ingredients" => [
+                    [
+                        "name" => "medium tomatoes",
+                        "quantity" => "2",
+                        "measurement" => null
+                    ],
+                    [
+                        "name" => "cucumbers",
+                        "quantity" => "3",
+                        "measurement" => null
+                    ],
+                    [
+                        "name" => "medium white onion",
+                        "quantity" => "1/2",
+                        "measurement" => null
+                    ],
+                    [
+                        "name" => "finely chopped parsley",
+                        "quantity" => "1",
+                        "measurement" => "cup"
+                    ],
+                    [
+                        "name" => "finely chopped mint",
+                        "quantity" => "1",
+                        "measurement" => "cup"
+                    ],
+                    [
+                        "name" => "olive oil",
+                        "quantity" => "3",
+                        "measurement" => "tablespoons"
+                    ],
+                    [
+                        "name" => "lemon juice",
+                        "quantity" => "3",
+                        "measurement" => "tablespoons"
+                    ],
+                    [
+                        "name" => "Salt",
+                        "quantity" => "1/2",
+                        "measurement" => "teaspoon"
+                    ],
+                    [
+                        "name" => "Black pepper",
+                        "quantity" => "1/2",
+                        "measurement" => "teaspoon"
+                    ],
+                    
+                ],
+                "steps" => [
+                    [
+                        "order" => 0,
+                        "content" => "Deseed the tomatoes and chop them into bite size cubes. Dice the cucumbers as well."
+                    ],
+                    [
+                        "order" => 1,
+                        "content" => "Finely chop the white onion and set aside."
+                    ],
+                    [
+                        "order" => 2,
+                        "content" => "Mix the lemon juice, olive oil, salt and black pepper together and give a quick whisk."
+                    ],
+                    [
+                        "order" => 3,
+                        "content" => "Toss all ingredients together and serve fresh."
+                    ],
+                ]
+            ],
         ];
         
         // Loop through recipes.
@@ -164,6 +239,7 @@ class RecipeSeeder extends Seeder
             // Create recipe
             DB::table('recipes')->insert([
                 'title' => $recipe['title'],
+                'image' => $recipe['image'],
                 'author_id' => $recipe['author_id'],
                 'description' => $recipe['description'],
             ]);

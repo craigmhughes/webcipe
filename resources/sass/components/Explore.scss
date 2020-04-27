@@ -1,6 +1,8 @@
 .explore {
     @extend .container;
     padding-top: 2em;
+    overflow: hidden;
+    overflow-y: auto;
 
     &__header {
         background: #F3F3F3;
@@ -9,6 +11,7 @@
         padding: 2em;
         display: flex;
         flex-direction: column;
+        margin-bottom: 2em;
 
         &-art {
             width: 100%;
@@ -36,5 +39,118 @@
                 margin-left: 0.5em;
             }
         }
+    }
+
+    &__main {
+        // padding: 0 2em;
+
+        &--alone {
+            @extend .explore__main;
+            padding-top: 1em;
+        }
+
+        &-title {
+            font-weight: 600;
+            font-size: 2.5em;
+            margin: 0;
+            margin-bottom: 0.75em;
+            letter-spacing: -0.025em;
+        }
+    }
+
+    &__recipe-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    &__recipe {
+        width: 100%;
+        max-width: 600px;
+        padding: 2em 0;
+
+        &:first-child {
+            padding-top: 0;
+        }
+
+        &-image {
+            border-radius: 1em;
+            width: 100%;
+            height: 150px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position-y: 50%;
+        }
+
+        &-info {
+            padding: 0 1em;
+        }
+
+        &-title {
+            font-size: 1.75em;
+            font-weight: 600;
+            margin-bottom: 0;
+            margin-top: 0.5em;
+        }
+
+        &-author {
+            font-size: 1.25em;
+            color: grey;
+            margin: 0;
+        }
+    }
+}
+
+@media screen and (min-width: 780px){
+    .explore {
+        
+        &__header {
+            flex-direction: row-reverse;
+            align-items: center;
+            padding: 2em 4em;
+            width: calc(100% - 8em);
+
+            &-info {
+                max-width: 400px
+            }
+
+            &-title {
+                font-size: 3.5em;
+                line-height: 100%;
+            }
+
+            &-art {
+                max-width: 400px;
+            }
+        }
+
+        &__recipe-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        &__recipe {
+            width: calc(1005 - 2em);
+            max-width: 350px;
+            padding: 0 1em;
+            margin: 2em auto;
+
+            &-title {
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 1200px){
+    .explore__recipe-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .explore__recipe {
+        max-width: 300px;
     }
 }
