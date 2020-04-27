@@ -1,8 +1,19 @@
 .content {
     &__header {
         display: flex;
+        flex-direction: column;
         align-items: center;
         margin-bottom: 3em;
+
+        & > h1 {
+            margin-bottom: 0.5em;
+        }
+    }
+}
+
+@media screen and (min-width: 780px){
+    .content__header {
+        flex-direction: row;
 
         & > h1 {
             margin: 0;

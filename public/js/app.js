@@ -36824,7 +36824,7 @@ function CreatedRecipes(_ref) {
           className: "explore__recipe-title"
         }, recipe.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "explore__recipe-author"
-        }, "By ", recipe.author_id))));
+        }, "By you"))));
       };
 
       for (_iterator.s(); !(_step = _iterator.n()).done;) {

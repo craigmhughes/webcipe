@@ -39,7 +39,7 @@ export default function CreatedRecipes({  props, setEditRecipe, getDb }){
                 <div style={{backgroundImage:`url('/storage/recipe_images/${recipe.image ?? "null.svg"}')`}} className="explore__recipe-image"></div>
                 <div className="explore__recipe-info">
                     <p className="explore__recipe-title">{recipe.title}</p>
-                    <p className="explore__recipe-author">By {recipe.author_id}</p>
+                    <p className="explore__recipe-author">By you</p>
                 </div>
             </li>);
         }

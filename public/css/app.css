@@ -937,12 +937,23 @@ a {
 
 .content__header {
   display: flex;
+  flex-direction: column;
   align-items: center;
   margin-bottom: 3em;
 }
 
 .content__header > h1 {
-  margin: 0;
+  margin-bottom: 0.5em;
+}
+
+@media screen and (min-width: 780px) {
+  .content__header {
+    flex-direction: row;
+  }
+
+  .content__header > h1 {
+    margin: 0;
+  }
 }
 
 .explore {
