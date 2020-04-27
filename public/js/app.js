@@ -36020,7 +36020,8 @@ function App() {
     render: function render(props) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_Explore_js__WEBPACK_IMPORTED_MODULE_11__["default"], {
         props: props,
-        setShowRecipe: updateShowRecipe
+        setShowRecipe: updateShowRecipe,
+        user: user
       });
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Route"], {
@@ -36868,7 +36869,8 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")["d
 
 function Explore(_ref) {
   var props = _ref.props,
-      setShowRecipe = _ref.setShowRecipe;
+      setShowRecipe = _ref.setShowRecipe,
+      user = _ref.user;
 
   // Contains recipes from all users if connected.
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
@@ -36921,7 +36923,8 @@ function Explore(_ref) {
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
     className: "explore"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
+  }, // Only render if not logged in.
+  user !== null ? null : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
     className: "explore__header"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/assets/images/together.svg",

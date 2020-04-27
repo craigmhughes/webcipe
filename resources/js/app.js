@@ -149,7 +149,7 @@ export default function App (){
 
             <Route exact path="/user/recipes" render={(props)=><CreatedRecipes props={props} setEditRecipe={updateEditRecipe} getDb={getDb}/>}/>
             <Route exact path="/saved" render={(props)=><Saved props={props} setShowRecipe={updateShowRecipe} getDb={getDb}/>}/>
-            <Route exact path="/" render={(props)=><Explore props={props} setShowRecipe={updateShowRecipe}/>}/>
+            <Route exact path="/" render={(props)=><Explore props={props} setShowRecipe={updateShowRecipe} user={user}/>}/>
 
             <Route exact path="/login" render={(props)=><Login setToken={setToken} props={props}/>}/>
             <Route exact path="/register" render={(props)=><Register setToken={setToken} props={props}/>}/>
