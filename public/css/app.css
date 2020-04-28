@@ -1022,12 +1022,36 @@ a {
   padding-top: 1em;
 }
 
+.explore__main-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .explore__main-title {
   font-weight: 600;
   font-size: 2.5em;
   margin: 0;
   margin-bottom: 0.75em;
   letter-spacing: -0.025em;
+}
+
+.explore__main-orderby {
+  display: flex;
+  align-items: center;
+}
+
+.explore__main-orderby > p {
+  margin-right: 1em;
+}
+
+.explore__main-orderby > .button-primary,
+.explore__main-orderby > .button-primary--light,
+.explore__main-orderby > .button-secondary,
+.explore__main-orderby > .button-secondary--light {
+  padding: 0.5em 1.5em;
+  height: 3em;
+  margin: 0 0.5em;
 }
 
 .explore__recipe-list {

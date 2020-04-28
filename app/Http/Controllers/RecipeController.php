@@ -21,7 +21,8 @@ class RecipeController extends Controller
      */
     public function Index(Request $request){
 
-        $recipes = $request['order'] == "quickest" ? Recipe::orderBy('estimated_time', 'asc')->get() : $this->recipes;
+        $recipes = $request['order'] == "quickest" ? Recipe::orderBy('estimated_time', 'asc')->with('ingredients','steps')->get() :
+        Recipe::orderBy('created_at', 'desc')->with('ingredients','steps')->get();
 
         // Replace Author ID with an Author name for each recipe.
         $recipes = $recipes->map(function($recipe){

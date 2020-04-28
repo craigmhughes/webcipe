@@ -36902,11 +36902,16 @@ function Explore(_ref) {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState2 = _slicedToArray(_useState, 2),
       recipes = _useState2[0],
-      setRecipes = _useState2[1]; // Request recipes from server.
+      setRecipes = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0),
+      _useState4 = _slicedToArray(_useState3, 2),
+      url = _useState4[0],
+      setUrl = _useState4[1]; // Request recipes from server.
 
 
   function getRecipes() {
-    axios.get('/api/recipes').then(function (res) {
+    axios.get("/api/recipes".concat(url === 1 ? "?order=quickest" : "")).then(function (res) {
       if (res.data.recipes) {
         setRecipes(res.data.recipes);
       }
@@ -36918,7 +36923,7 @@ function Explore(_ref) {
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     getRecipes();
-  }, []); // Create and fill list elements with the recipes found.
+  }, [url]); // Create and fill list elements with the recipes found.
 
   var recipeEls = [];
 
@@ -36978,9 +36983,23 @@ function Explore(_ref) {
     src: "/assets/icons/arrow-right.svg"
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
     className: "explore__main".concat(user ? "--alone" : "")
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "explore__main-info"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
     className: "explore__main-title"
-  }, "Recipes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+  }, "Recipes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "explore__main-orderby"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Order by: "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    onClick: function onClick() {
+      return setUrl(0);
+    },
+    className: "button-".concat(url === 0 ? "primary" : "secondary")
+  }, "Newest"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    onClick: function onClick() {
+      return setUrl(1);
+    },
+    className: "button-".concat(url === 1 ? "primary" : "secondary")
+  }, "Quickest"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
     className: "explore__recipe-list"
   }, recipeEls)));
 }

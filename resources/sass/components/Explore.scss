@@ -66,12 +66,36 @@
             padding-top: 1em;
         }
 
+        &-info {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
         &-title {
             font-weight: 600;
             font-size: 2.5em;
             margin: 0;
             margin-bottom: 0.75em;
             letter-spacing: -0.025em;
+        }
+
+        &-orderby {
+            display: flex;
+            align-items: center;
+
+            & > p {
+                margin-right: 1em;
+            }
+
+            & > .button {
+
+                &-primary, &-secondary{
+                    padding: 0.5em 1.5em;
+                    height: 3em;
+                    margin: 0 0.5em;
+                }
+            }
         }
     }
 

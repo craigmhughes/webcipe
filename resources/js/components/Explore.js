@@ -7,9 +7,11 @@ export default function Explore({  props, setShowRecipe, user }){
     // Contains recipes from all users if connected.
     const [recipes, setRecipes] = useState(null);
 
+    const [url, setUrl] = useState(0);
+
     // Request recipes from server.
     function getRecipes(){
-        axios.get('/api/recipes')
+        axios.get(`/api/recipes${url === 1 ? "?order=quickest" : ""}`)
             .then((res)=> {if(res.data.recipes){
                 setRecipes(res.data.recipes);
             }})
@@ -19,7 +21,7 @@ export default function Explore({  props, setShowRecipe, user }){
     // Run on component mount
     useEffect(() => {
         getRecipes();
-    }, []);
+    }, [url]);
 
     // Create and fill list elements with the recipes found.
     let recipeEls = [];
@@ -49,7 +51,15 @@ export default function Explore({  props, setShowRecipe, user }){
                 </section>
             </header>}
             <main className={`explore__main${user ? "--alone" : ""}`}>
-                <h1 className="explore__main-title">Recipes</h1>
+                <div className="explore__main-info">
+                    <h1 className="explore__main-title">Recipes</h1>
+                    <div className="explore__main-orderby">
+                        <p>Order by: </p>
+                        <button onClick={()=>setUrl(0)} className={`button-${url === 0 ? "primary" : "secondary"}`}>Newest</button>
+                        <button onClick={()=>setUrl(1)} className={`button-${url === 1 ? "primary" : "secondary"}`}>Quickest</button>
+                    </div>
+                </div>
+
                 <ul className="explore__recipe-list">
                     {recipeEls}
                 </ul>
