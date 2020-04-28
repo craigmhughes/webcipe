@@ -68,15 +68,15 @@
 
         &-info {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             justify-content: space-between;
+            margin-bottom: 0.75em;
         }
 
         &-title {
             font-weight: 600;
             font-size: 2.5em;
             margin: 0;
-            margin-bottom: 0.75em;
             letter-spacing: -0.025em;
         }
 
@@ -163,6 +163,10 @@
             &-art {
                 max-width: 400px;
             }
+        }
+
+        &__main-info {
+            flex-direction: row;
         }
 
         &__recipe-list {

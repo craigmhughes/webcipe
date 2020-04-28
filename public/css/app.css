@@ -1024,15 +1024,15 @@ a {
 
 .explore__main-info {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
+  margin-bottom: 0.75em;
 }
 
 .explore__main-title {
   font-weight: 600;
   font-size: 2.5em;
   margin: 0;
-  margin-bottom: 0.75em;
   letter-spacing: -0.025em;
 }
 
@@ -1115,6 +1115,10 @@ a {
 
   .explore__header-art {
     max-width: 400px;
+  }
+
+  .explore__main-info {
+    flex-direction: row;
   }
 
   .explore__recipe-list {
