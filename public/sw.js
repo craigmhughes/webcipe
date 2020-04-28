@@ -11,17 +11,11 @@ let filesToCache = [
     "/assets/fonts/poppins-v9-latin-600.woff2",
     "/assets/fonts/poppins-v9-latin-700.woff2",
     // Icons
-    "/assets/icons/bars.svg",
     "/assets/icons/bin-alt.svg",
     "/assets/icons/bookmark.svg",
-    "/assets/icons/check.svg",
     "/assets/icons/chevron-down.svg",
-    "/assets/icons/chevron-left.svg",
     "/assets/icons/chevron-up.svg",
-    "/assets/icons/ghost.svg",
-    "/assets/icons/search.svg",
     "/assets/icons/shopping-basket.svg",
-    "/assets/icons/x.svg",
     // Images
     "/assets/images/null.svg",
 ];
