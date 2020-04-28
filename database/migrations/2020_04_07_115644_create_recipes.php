@@ -18,6 +18,7 @@ class CreateRecipes extends Migration
             $table->bigInteger('author_id')->unsigned();
             $table->string('title', 100);
             $table->string('image')->nullable();
+            $table->integer('estimated_time');
             $table->string('description')->nullable();
             $table->timestamps();
         });

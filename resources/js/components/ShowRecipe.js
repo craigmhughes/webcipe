@@ -135,6 +135,7 @@ export default function ShowRecipe({  props, showRecipe, getDb }){
             <header className="show-recipe__header" style={{backgroundImage:`url('${showRecipe.image ? '/storage/recipe_images/' + showRecipe.image : '/assets/images/null.svg'}')`}} >
                 <div className="dark-overlay">
                     <div>
+                        <p>Ready in {showRecipe.estimated_time} mins</p>
                         <h1 className="show-recipe__title">{showRecipe.title}</h1>
                         <p className="show-recipe__author">Created by: {showRecipe.author_id}</p>
                     </div>

@@ -47,11 +47,12 @@ class RecipeController extends Controller
      */
     public function Store(Request $request){
         // Use only the fields needed.
-        $data = $request->only(["image","title","description","ingredients","steps"]);
+        $data = $request->only(["image","title","description","ingredients","steps","estimated_time"]);
 
         // Create validation rules.
         $validator = Validator::make($data, [
             'title' => ['required'],
+            'estimated_time' => ['required'],
             'description' => ['nullable'],
             'image' => ['nullable', 'image', 'mimes:jpeg,jpg'],
             'ingredients' => ['required'],
@@ -115,6 +116,7 @@ class RecipeController extends Controller
         
         $recipe = Recipe::create([
             'title' => $request['title'],
+            'estimated_time' => $request['estimated_time'],
             'image' => $nameToSave,
             'author_id' => auth()->user()['id'],
             'description' => $request['description']

@@ -21,6 +21,7 @@ class RecipeSeeder extends Seeder
                 "description" => null,
                 "image" => "recipe-00.webp",
                 "author_id" => 1,
+                "estimated_time" => 30,
                 "ingredients" => [
                     [
                         "name" => "Tomatoes",
@@ -77,6 +78,7 @@ class RecipeSeeder extends Seeder
                 "title"  =>  "Fudgy Chocoloate Brownie Cookies",
                 "description" => null,
                 "author_id" => 2,
+                "estimated_time" => 42,
                 "image" => "recipe-01.webp",
                 "ingredients" => [
                     [
@@ -163,6 +165,7 @@ class RecipeSeeder extends Seeder
                 "title"  =>  "Persian Shirazi Salad",
                 "description" => "This easy and diverse salad will become a staple salad at your house!",
                 "author_id" => 3,
+                "estimated_time" => 12,
                 "image" => "recipe-02.webp",
                 "ingredients" => [
                     [
@@ -240,6 +243,7 @@ class RecipeSeeder extends Seeder
             DB::table('recipes')->insert([
                 'title' => $recipe['title'],
                 'image' => $recipe['image'],
+                "estimated_time" => $recipe['estimated_time'],
                 'author_id' => $recipe['author_id'],
                 'description' => $recipe['description'],
             ]);

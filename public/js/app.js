@@ -36383,6 +36383,7 @@ function CreateRecipe(_ref) {
 
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(edit !== null && edit !== void 0 ? edit : {
     'title': null,
+    'estimated_time': null,
     'description': null,
     'image': null,
     'ingredients': [],
@@ -36506,8 +36507,10 @@ function CreateRecipe(_ref) {
 
       if (!formData[key]) {
         valid = !ignore.includes(key) ? false : valid;
+        console.log("".concat(key, " is null and valid is ").concat(valid));
       } else if (formData[key].length < 1) {
         valid = false;
+        console.log("".concat(key, " isnt null and valid is ").concat(valid));
       }
     } // FormData must be used to pass image to server.
 
@@ -36573,11 +36576,12 @@ function CreateRecipe(_ref) {
 
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    var _formData$title, _formData$description;
+    var _formData$title, _formData$estimated_t, _formData$description;
 
     setEdit(editRecipe); // Fill default values of inputs with formData
 
     document.getElementsByName("new-recipe__title")[0].value = (_formData$title = formData.title) !== null && _formData$title !== void 0 ? _formData$title : null;
+    document.getElementsByName("new-recipe__estimated_time")[0].value = (_formData$estimated_t = formData.estimated_time) !== null && _formData$estimated_t !== void 0 ? _formData$estimated_t : null;
     document.getElementsByName("new-recipe__description")[0].value = (_formData$description = formData.description) !== null && _formData$description !== void 0 ? _formData$description : null;
   }, [editRecipe]); // Elements to represent objects in arrays of Recipe object.
 
@@ -36666,6 +36670,17 @@ function CreateRecipe(_ref) {
     className: "input create-recipe__input",
     onChange: function onChange() {
       return updateForm("description");
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "new-recipe__estimated_time",
+    className: "create-recipe__label"
+  }, "Estimated Time (in minutes)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "number",
+    step: "1",
+    name: "new-recipe__estimated_time",
+    className: "input create-recipe__input",
+    onChange: function onChange() {
+      return updateForm("estimated_time");
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "create-recipe__label"
@@ -38369,7 +38384,7 @@ function ShowRecipe(_ref) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "dark-overlay"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, "Ready in ", showRecipe.estimated_time, " mins"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", {
     className: "show-recipe__title"
   }, showRecipe.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
     className: "show-recipe__author"

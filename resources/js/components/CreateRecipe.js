@@ -24,6 +24,7 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
     // Default Form state. Will replace with edit object (recipe object).
     const [formData, setFormData] = useState(edit ?? {
         'title': null,
+        'estimated_time': null,
         'description': null,
         'image': null,
         'ingredients': [],
@@ -127,11 +128,12 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
 
         // Validate data (check empty inputs)
         for(let key of Object.keys(formData)){
-
             if(!formData[key]) {
                 valid = !ignore.includes(key) ? false : valid;
+                console.log(`${key} is null and valid is ${valid}`);
             } else if(formData[key].length < 1) {
                 valid = false;
+                console.log(`${key} isnt null and valid is ${valid}`);
             }
         }
 
@@ -190,6 +192,7 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
 
         // Fill default values of inputs with formData
         document.getElementsByName(`new-recipe__title`)[0].value = formData.title ?? null;
+        document.getElementsByName(`new-recipe__estimated_time`)[0].value = formData.estimated_time ?? null;
         document.getElementsByName(`new-recipe__description`)[0].value = formData.description ?? null;
     },[editRecipe]);
 
@@ -246,6 +249,9 @@ export default function CreateRecipe({props, editRecipe, setEditRecipe}){
 
                     <label htmlFor="new-recipe__description" className="create-recipe__label">Description <span className="create-recipe__label--emph">(Optional)</span></label>
                     <input type="text" name="new-recipe__description" className="input create-recipe__input" onChange={()=>updateForm("description")}></input>
+
+                    <label htmlFor="new-recipe__estimated_time" className="create-recipe__label">Estimated Time (in minutes)</label>
+                    <input type="number" step="1" name="new-recipe__estimated_time" className="input create-recipe__input" onChange={()=>updateForm("estimated_time")}></input>
 
                     <p className="create-recipe__label">Ingredients List</p>
                     <ul>{ingredientEls}</ul>
