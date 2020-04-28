@@ -1,6 +1,50 @@
 /******/ (function(modules) { // webpackBootstrap
+/******/ 	// install a JSONP callback for chunk loading
+/******/ 	function webpackJsonpCallback(data) {
+/******/ 		var chunkIds = data[0];
+/******/ 		var moreModules = data[1];
+/******/
+/******/
+/******/ 		// add "moreModules" to the modules object,
+/******/ 		// then flag all "chunkIds" as loaded and fire callback
+/******/ 		var moduleId, chunkId, i = 0, resolves = [];
+/******/ 		for(;i < chunkIds.length; i++) {
+/******/ 			chunkId = chunkIds[i];
+/******/ 			if(Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 				resolves.push(installedChunks[chunkId][0]);
+/******/ 			}
+/******/ 			installedChunks[chunkId] = 0;
+/******/ 		}
+/******/ 		for(moduleId in moreModules) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
+/******/ 		}
+/******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
+/******/
+/******/ 		while(resolves.length) {
+/******/ 			resolves.shift()();
+/******/ 		}
+/******/
+/******/ 	};
+/******/
+/******/
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
+/******/
+/******/ 	// object to store loaded and loading chunks
+/******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 	// Promise = chunk loading, 0 = chunk loaded
+/******/ 	var installedChunks = {
+/******/ 		"/js/app": 0
+/******/ 	};
+/******/
+/******/
+/******/
+/******/ 	// script path function
+/******/ 	function jsonpScriptSrc(chunkId) {
+/******/ 		return __webpack_require__.p + "" + ({}[chunkId]||chunkId) + ".js"
+/******/ 	}
 /******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
@@ -26,6 +70,67 @@
 /******/ 		return module.exports;
 /******/ 	}
 /******/
+/******/ 	// This file contains only the entry chunk.
+/******/ 	// The chunk loading function for additional chunks
+/******/ 	__webpack_require__.e = function requireEnsure(chunkId) {
+/******/ 		var promises = [];
+/******/
+/******/
+/******/ 		// JSONP chunk loading for javascript
+/******/
+/******/ 		var installedChunkData = installedChunks[chunkId];
+/******/ 		if(installedChunkData !== 0) { // 0 means "already installed".
+/******/
+/******/ 			// a Promise means "currently loading".
+/******/ 			if(installedChunkData) {
+/******/ 				promises.push(installedChunkData[2]);
+/******/ 			} else {
+/******/ 				// setup Promise in chunk cache
+/******/ 				var promise = new Promise(function(resolve, reject) {
+/******/ 					installedChunkData = installedChunks[chunkId] = [resolve, reject];
+/******/ 				});
+/******/ 				promises.push(installedChunkData[2] = promise);
+/******/
+/******/ 				// start chunk loading
+/******/ 				var script = document.createElement('script');
+/******/ 				var onScriptComplete;
+/******/
+/******/ 				script.charset = 'utf-8';
+/******/ 				script.timeout = 120;
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.src = jsonpScriptSrc(chunkId);
+/******/
+/******/ 				// create error before stack unwound to get useful stacktrace later
+/******/ 				var error = new Error();
+/******/ 				onScriptComplete = function (event) {
+/******/ 					// avoid mem leaks in IE.
+/******/ 					script.onerror = script.onload = null;
+/******/ 					clearTimeout(timeout);
+/******/ 					var chunk = installedChunks[chunkId];
+/******/ 					if(chunk !== 0) {
+/******/ 						if(chunk) {
+/******/ 							var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 							var realSrc = event && event.target && event.target.src;
+/******/ 							error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
+/******/ 							error.name = 'ChunkLoadError';
+/******/ 							error.type = errorType;
+/******/ 							error.request = realSrc;
+/******/ 							chunk[1](error);
+/******/ 						}
+/******/ 						installedChunks[chunkId] = undefined;
+/******/ 					}
+/******/ 				};
+/******/ 				var timeout = setTimeout(function(){
+/******/ 					onScriptComplete({ type: 'timeout', target: script });
+/******/ 				}, 120000);
+/******/ 				script.onerror = script.onload = onScriptComplete;
+/******/ 				document.head.appendChild(script);
+/******/ 			}
+/******/ 		}
+/******/ 		return Promise.all(promises);
+/******/ 	};
 /******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
@@ -78,6 +183,16 @@
 /******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "/";
+/******/
+/******/ 	// on error function for async loading
+/******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
+/******/
+/******/ 	var jsonpArray = window["webpackJsonp"] = window["webpackJsonp"] || [];
+/******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+/******/ 	jsonpArray.push = webpackJsonpCallback;
+/******/ 	jsonpArray = jsonpArray.slice();
+/******/ 	for(var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+/******/ 	var parentJsonpFunction = oldJsonpFunction;
 /******/
 /******/
 /******/ 	// Load entry module and return exports
@@ -35740,15 +35855,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _components_Auth_Login__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Auth/Login */ "./resources/js/components/Auth/Login.js");
-/* harmony import */ var _components_Auth_Register__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Auth/Register */ "./resources/js/components/Auth/Register.js");
-/* harmony import */ var _components_Navigation_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/Navigation.js */ "./resources/js/components/Navigation.js");
-/* harmony import */ var _components_CreateRecipe_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/CreateRecipe.js */ "./resources/js/components/CreateRecipe.js");
+/* harmony import */ var _components_Navigation_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Navigation.js */ "./resources/js/components/Navigation.js");
+/* harmony import */ var _components_Saved_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Saved.js */ "./resources/js/components/Saved.js");
+/* harmony import */ var _components_Explore_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/Explore.js */ "./resources/js/components/Explore.js");
+/* harmony import */ var _components_IngredientList_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/IngredientList.js */ "./resources/js/components/IngredientList.js");
 /* harmony import */ var _components_ShowRecipe_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/ShowRecipe.js */ "./resources/js/components/ShowRecipe.js");
-/* harmony import */ var _components_Saved_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/Saved.js */ "./resources/js/components/Saved.js");
-/* harmony import */ var _components_Explore_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/Explore.js */ "./resources/js/components/Explore.js");
-/* harmony import */ var _components_IngredientList_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/IngredientList.js */ "./resources/js/components/IngredientList.js");
-/* harmony import */ var _components_CreatedRecipes_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/CreatedRecipes.js */ "./resources/js/components/CreatedRecipes.js");
 
 
 function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
@@ -35775,18 +35886,25 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")["d
 
 
 
- // Components
+ // Lazy Load Components
+
+var Login = Object(react__WEBPACK_IMPORTED_MODULE_2__["lazy"])(function () {
+  return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./components/Auth/Login */ "./resources/js/components/Auth/Login.js"));
+});
+var Register = Object(react__WEBPACK_IMPORTED_MODULE_2__["lazy"])(function () {
+  return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./components/Auth/Register */ "./resources/js/components/Auth/Register.js"));
+});
+var CreateRecipe = Object(react__WEBPACK_IMPORTED_MODULE_2__["lazy"])(function () {
+  return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./components/CreateRecipe */ "./resources/js/components/CreateRecipe.js"));
+});
+var CreatedRecipes = Object(react__WEBPACK_IMPORTED_MODULE_2__["lazy"])(function () {
+  return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./components/CreatedRecipes */ "./resources/js/components/CreatedRecipes.js"));
+}); // Essential Components
 
 
 
 
 
-
-
-
-
- // Service Workers
-// import TestSW from './workers/test-sw.js';
 
 function App() {
   // Control blur state of app when menu is active. Pass to components as to not blur the whole app.
@@ -35958,7 +36076,9 @@ function App() {
       setIsMobile(false);
     }
   });
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["BrowserRouter"], null, !isMobile ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_Navigation_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_2__["Suspense"], {
+    fallback: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("p", null, "Loading...")
+  }, !isMobile ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_Navigation_js__WEBPACK_IMPORTED_MODULE_5__["default"], {
     setActiveMenu: setActiveMenu,
     blur: menuActive,
     user: user,
@@ -35968,7 +36088,7 @@ function App() {
     exact: true,
     path: "/recipes/new",
     render: function render(props) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_CreateRecipe_js__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(CreateRecipe, {
         props: props,
         editRecipe: editRecipe,
         setEditRecipe: setEditRecipe
@@ -35989,7 +36109,7 @@ function App() {
     exact: true,
     path: "/ingredients",
     render: function render(props) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_IngredientList_js__WEBPACK_IMPORTED_MODULE_12__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_IngredientList_js__WEBPACK_IMPORTED_MODULE_8__["default"], {
         props: props,
         getDb: getDb
       });
@@ -35998,7 +36118,7 @@ function App() {
     exact: true,
     path: "/user/recipes",
     render: function render(props) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_CreatedRecipes_js__WEBPACK_IMPORTED_MODULE_13__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(CreatedRecipes, {
         props: props,
         setEditRecipe: updateEditRecipe,
         getDb: getDb
@@ -36008,7 +36128,7 @@ function App() {
     exact: true,
     path: "/saved",
     render: function render(props) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_Saved_js__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_Saved_js__WEBPACK_IMPORTED_MODULE_6__["default"], {
         props: props,
         setShowRecipe: updateShowRecipe,
         getDb: getDb
@@ -36018,7 +36138,7 @@ function App() {
     exact: true,
     path: "/",
     render: function render(props) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_Explore_js__WEBPACK_IMPORTED_MODULE_11__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_Explore_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
         props: props,
         setShowRecipe: updateShowRecipe,
         user: user
@@ -36028,7 +36148,7 @@ function App() {
     exact: true,
     path: "/login",
     render: function render(props) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_Auth_Login__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(Login, {
         setToken: setToken,
         props: props
       });
@@ -36037,18 +36157,18 @@ function App() {
     exact: true,
     path: "/register",
     render: function render(props) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_Auth_Register__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(Register, {
         setToken: setToken,
         props: props
       });
     }
-  }), isMobile ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_Navigation_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }), isMobile ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_Navigation_js__WEBPACK_IMPORTED_MODULE_5__["default"], {
     setActiveMenu: setActiveMenu,
     blur: menuActive,
     user: user,
     logout: logout,
     isMobile: isMobile
-  }) : null);
+  }) : null));
 }
 
 if (document.getElementById('root')) {
@@ -36058,806 +36178,6 @@ if (document.getElementById('root')) {
 
 if (navigator.serviceWorker) {
   navigator.serviceWorker.register('./sw.js');
-}
-
-/***/ }),
-
-/***/ "./resources/js/components/Auth/Login.js":
-/*!***********************************************!*\
-  !*** ./resources/js/components/Auth/Login.js ***!
-  \***********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Login; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")["default"];
-
-
-
-/**
- * Login Component
- *
- * @export
- * @param {*} { setToken, props }
- * @returns
- */
-
-function Login(_ref) {
-  var setToken = _ref.setToken,
-      props = _ref.props;
-
-  // Toggles error feedback message.
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
-      _useState2 = _slicedToArray(_useState, 2),
-      err = _useState2[0],
-      setErr = _useState2[1];
-  /**
-   * Override form submission
-   * 
-   * @param {*} e Submit form event.
-   */
-
-
-  var handleSubmit = function handleSubmit(e) {
-    // Stop default form handling.
-    e.preventDefault();
-    var creds = {
-      "email": String(document.getElementsByName("email")[0].value),
-      "password": String(document.getElementsByName("password")[0].value)
-    }; // Quick method of validation (works in conjunction with standard HTML form validation). Actual validation takes place on server.
-
-    if (creds.email.length < 1 || creds.password.length < 1) {
-      return false;
-    }
-
-    axios.post('/api/auth/login', creds) // Handle Login Error
-    ["catch"](function (err) {
-      console.log(err);
-      setErr(true);
-      setTimeout(function () {
-        return setErr(false);
-      }, 4000);
-    }).then(function (resp) {
-      if (resp.data.token) {
-        setToken(resp.data.token, props);
-      }
-    });
-  };
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
-    className: "login"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
-    className: "login__head"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "/assets/icons/x.svg",
-    className: "login__x",
-    onClick: function onClick() {
-      return props.history.goBack();
-    }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "/assets/images/webcipe-text.svg",
-    className: "login__logo"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    className: "login__form",
-    onSubmit: function onSubmit(e) {
-      return handleSubmit(e);
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "login__err".concat(err ? "--show" : "")
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "/assets/icons/ghost.svg"
-  }), "Incorrect E-Mail Address or Password"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "email",
-    placeholder: "E-Mail Address",
-    name: "email",
-    className: "input"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "password",
-    placeholder: "Password",
-    name: "password",
-    className: "input"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "submit",
-    className: "button-primary"
-  }, "Log in"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: "/register",
-    className: "login__reg-link"
-  }, "Don't have an account? Sign Up")));
-}
-
-/***/ }),
-
-/***/ "./resources/js/components/Auth/Register.js":
-/*!**************************************************!*\
-  !*** ./resources/js/components/Auth/Register.js ***!
-  \**************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Register; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")["default"];
-
-
-
-/**
- * Register Component
- *
- * @export
- * @param {*} {setToken, props}
- * @returns
- */
-
-function Register(_ref) {
-  var _err$password;
-
-  var setToken = _ref.setToken,
-      props = _ref.props;
-
-  // Holds all error feedback messages.
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
-      _useState2 = _slicedToArray(_useState, 2),
-      err = _useState2[0],
-      setErr = _useState2[1];
-  /**
-   * Override form submission.
-   * 
-   * @param {*} e Submit form event.
-   */
-
-
-  var handleSubmit = function handleSubmit(e) {
-    // Stop default form handling.
-    e.preventDefault();
-    var creds = {
-      "name": String(document.getElementsByName("reg_name")[0].value),
-      "email": String(document.getElementsByName("reg_email")[0].value),
-      "password": String(document.getElementsByName("reg_password")[0].value),
-      "password_confirmation": String(document.getElementsByName("reg_password_confirmation")[0].value)
-    }; // Quick method of validation (works in conjunction with standard HTML form validation). Actual validation takes place on server.
-
-    for (var key in creds) {
-      if (creds[key].length < 1) {
-        return false;
-      }
-    }
-
-    axios.post('/api/auth/register', creds) // Handle Register Error
-    .then(function (resp) {
-      if (resp.data.success === false) {
-        var errors = resp.data.error; // Restructure error object
-
-        errors = {
-          "name": errors.name ? errors.name[0] : null,
-          "email": errors.email ? errors.email[0] : null,
-          "password": errors.password ? errors.password[0] : null,
-          "password_confirmation": errors.password_confirmation ? errors.password_confirmation[0] : null
-        }; //  Overwrite Error state.
-
-        setErr(errors); // Loop through fields and erase values to show error message (if necessary).
-
-        for (var err_field in errors) {
-          document.getElementsByName("reg_".concat(String(err_field)))[0].value = errors[err_field] ? "" : document.getElementsByName("reg_".concat(String(err_field)))[0].value;
-        }
-      } else if (resp.data.token) {
-        setToken(resp.data.token, props);
-      }
-    });
-  };
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
-    className: "register"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
-    className: "register__head"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "/assets/images/webcipe-text-w.svg",
-    className: "register__logo"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    onSubmit: function onSubmit(e) {
-      return handleSubmit(e);
-    },
-    className: "register__form"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "text",
-    placeholder: "Name",
-    name: "reg_name",
-    className: "input"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "email",
-    placeholder: "E-Mail Address",
-    name: "reg_email",
-    className: "input"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "password",
-    placeholder: (_err$password = err.password) !== null && _err$password !== void 0 ? _err$password : "Password",
-    name: "reg_password",
-    className: "input"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "password",
-    placeholder: "Password Confirmation",
-    name: "reg_password_confirmation",
-    className: "input"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "submit",
-    className: "button-primary--light"
-  }, "Sign Up"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    onClick: function onClick() {
-      return props.history.goBack();
-    },
-    className: "button-secondary--light"
-  }, "Go Back")));
-}
-
-/***/ }),
-
-/***/ "./resources/js/components/CreateRecipe.js":
-/*!*************************************************!*\
-  !*** ./resources/js/components/CreateRecipe.js ***!
-  \*************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return CreateRecipe; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Recipe_Ingredient__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Recipe/Ingredient */ "./resources/js/components/Recipe/Ingredient.js");
-/* harmony import */ var _Recipe_Step__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Recipe/Step */ "./resources/js/components/Recipe/Step.js");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")["default"];
-
-
-
-
-/**
- * Component rendering the form for recipe creation.
- * Will handle front end validation and pass to server on passing.
- *
- * @export
- * @param {*} {props, editRecipe, setEditRecipe}
- * @returns
- */
-
-function CreateRecipe(_ref) {
-  var props = _ref.props,
-      editRecipe = _ref.editRecipe,
-      setEditRecipe = _ref.setEditRecipe;
-
-  // If true, form will change from POST to PUT
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(editRecipe),
-      _useState2 = _slicedToArray(_useState, 2),
-      edit = _useState2[0],
-      setEdit = _useState2[1]; // Toggle error message
-
-
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
-      _useState4 = _slicedToArray(_useState3, 2),
-      err = _useState4[0],
-      setErr = _useState4[1]; // Default Form state. Will replace with edit object (recipe object).
-
-
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(edit !== null && edit !== void 0 ? edit : {
-    'title': null,
-    'estimated_time': null,
-    'description': null,
-    'image': null,
-    'ingredients': [],
-    'steps': []
-  }),
-      _useState6 = _slicedToArray(_useState5, 2),
-      formData = _useState6[0],
-      setFormData = _useState6[1]; // Modal toggles
-
-
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
-      _useState8 = _slicedToArray(_useState7, 2),
-      ingredientModal = _useState8[0],
-      setIngredientModal = _useState8[1];
-
-  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
-      _useState10 = _slicedToArray(_useState9, 2),
-      stepModal = _useState10[0],
-      setStepModal = _useState10[1]; // Object to be edited. Set to null when not in use.
-
-
-  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
-      _useState12 = _slicedToArray(_useState11, 2),
-      editIngredient = _useState12[0],
-      setEditIngredient = _useState12[1];
-
-  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
-      _useState14 = _slicedToArray(_useState13, 2),
-      editStep = _useState14[0],
-      setEditStep = _useState14[1];
-  /**
-   * Update formData state by overwriting the value of the passed key.
-   *
-   * @param {*} key Targeted key.
-   * @param {*} update Add to current value if exists, else overwrite.
-   */
-
-
-  function updateForm(key, update, del) {
-    var val = update !== null && update !== void 0 ? update : document.getElementsByName("new-recipe__".concat(key))[0].value;
-
-    if (key == "image") {
-      val = document.getElementsByName("new-recipe__".concat(key))[0].files[0];
-    } // Generate new form & overwrite value.
-
-
-    var newForm = formData;
-
-    if (del && update) {
-      newForm[key].splice(update.idx, 1);
-    } else if (update) {
-      newForm[key].push(update);
-    } else {
-      newForm[key] = val;
-    } // Update state w/ new form.
-
-
-    setFormData(newForm);
-    resetEdits();
-  }
-  /**
-   * Erase objects stored in state.
-   */
-
-
-  function resetEdits() {
-    // Reset edit objects.
-    setEditIngredient(null);
-    setEditStep(null);
-  }
-  /**
-   * Target ingredient that has been updated and replace 
-   * form state with a new form including the new ingredient.
-   *
-   * @param {*} data = Ingredient object
-   */
-
-
-  function updateIngredient(data) {
-    var keys = ["name", "quantity", "measurement"];
-    var newForm = formData;
-    console.log(data);
-    keys.forEach(function (key) {
-      newForm.ingredients[data["idx"]][key] = data[key];
-    }); // Update state w/ new form.
-
-    setFormData(newForm);
-    resetEdits();
-  }
-  /**
-   * Target step that has been updated and replace 
-   * form state with a new form including the new step.
-   *
-   * @param {*} data = Step object
-   */
-
-
-  function updateStep(data) {
-    var newForm = formData;
-    newForm.steps[data.order].content = data.content; // Update state w/ new form.
-
-    setFormData(newForm);
-    resetEdits();
-  }
-  /**
-   * Validates form and sends via POST/PUT request to save to server.
-   *
-   * @returns false if form is invalid
-   */
-
-
-  function postRecipe() {
-    axios.defaults.headers.common = {
-      'Authorization': "bearer ".concat(localStorage.auth_token)
-    };
-    var valid = true;
-    var ignore = ["description", "image"]; // Validate data (check empty inputs)
-
-    for (var _i2 = 0, _Object$keys = Object.keys(formData); _i2 < _Object$keys.length; _i2++) {
-      var key = _Object$keys[_i2];
-
-      if (!formData[key]) {
-        valid = !ignore.includes(key) ? false : valid;
-        console.log("".concat(key, " is null and valid is ").concat(valid));
-      } else if (formData[key].length < 1) {
-        valid = false;
-        console.log("".concat(key, " isnt null and valid is ").concat(valid));
-      }
-    } // FormData must be used to pass image to server.
-
-
-    var formSend = new FormData();
-
-    for (var _i3 = 0, _Object$entries = Object.entries(formData); _i3 < _Object$entries.length; _i3++) {
-      var _Object$entries$_i = _slicedToArray(_Object$entries[_i3], 2),
-          _key = _Object$entries$_i[0],
-          val = _Object$entries$_i[1];
-
-      if (_key == "image") {
-        if (val) formSend.append(_key, val, val.filename);
-      } else {
-        formSend.append(_key, typeof val !== "string" ? JSON.stringify(val) : val);
-      }
-    }
-
-    if (!valid) {
-      setErr(true);
-      setTimeout(function () {
-        return setErr(false);
-      }, 6000);
-      return false;
-    } else {
-      if (edit) {
-        axios.put("/api/recipes/".concat(formData.id), formData).then(function (res) {
-          return props.history.push('/');
-        })["catch"](function (err) {
-          return console.error(res);
-        });
-      } else {
-        axios.post('/api/recipes', formSend).then(function (res) {
-          props.history.push('/');
-        })["catch"](function (err) {
-          return console.error(res);
-        });
-      }
-    }
-  }
-  /**
-   * Clears recipe from state and returns the user to the home page.
-   *
-   * @param {*} del = If truthy, sends DELETE request to delete existing recipe.
-   */
-
-
-  function abortRecipe(del) {
-    if (del) {
-      axios["delete"]("/api/recipes/".concat(formData.id), formData).then(function (res) {
-        return console.log(res);
-      })["catch"](function (err) {
-        return console.error(res);
-      });
-    }
-
-    setEditRecipe(null);
-    props.history.push('/');
-  }
-  /**
-   * Run on component mount and update.
-   */
-
-
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    var _formData$title, _formData$estimated_t, _formData$description;
-
-    setEdit(editRecipe); // Fill default values of inputs with formData
-
-    document.getElementsByName("new-recipe__title")[0].value = (_formData$title = formData.title) !== null && _formData$title !== void 0 ? _formData$title : null;
-    document.getElementsByName("new-recipe__estimated_time")[0].value = (_formData$estimated_t = formData.estimated_time) !== null && _formData$estimated_t !== void 0 ? _formData$estimated_t : null;
-    document.getElementsByName("new-recipe__description")[0].value = (_formData$description = formData.description) !== null && _formData$description !== void 0 ? _formData$description : null;
-  }, [editRecipe]); // Elements to represent objects in arrays of Recipe object.
-
-  var ingredientEls = [];
-  var stepEls = []; // Fill ingredientEls with found items.
-
-  var _loop = function _loop() {
-    var ingredient = _Object$entries2[_i4];
-    var idx = formData["ingredients"].indexOf(ingredient[1]);
-    ingredient[1].idx = idx;
-    ingredientEls.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-      key: idx,
-      onClick: function onClick() {
-        setEditIngredient(ingredient[1]);
-        setIngredientModal(true);
-      }
-    }, ingredient[1].name, " ", ingredient[1].quantity || ingredient[1].measurement ? "-" : null, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, ingredient[1].quantity, " ", ingredient[1].measurement)));
-  };
-
-  for (var _i4 = 0, _Object$entries2 = Object.entries(formData["ingredients"]); _i4 < _Object$entries2.length; _i4++) {
-    _loop();
-  } // Fill stepEls with found items.
-
-
-  var _loop2 = function _loop2() {
-    var step = _Object$entries3[_i5];
-    var idx = formData["steps"].indexOf(step[1]);
-    step[1].idx = idx;
-    stepEls.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-      key: idx,
-      onClick: function onClick() {
-        setStepModal(true);
-        setEditStep(step[1]);
-      }
-    }, "Step ", idx + 1, " - ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, step[1].content)));
-  };
-
-  for (var _i5 = 0, _Object$entries3 = Object.entries(formData["steps"]); _i5 < _Object$entries3.length; _i5++) {
-    _loop2();
-  }
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "cr-wrapper"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
-    className: "create-recipe"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
-    className: "create-recipe__head"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-    className: "create-recipe__head-title"
-  }, edit ? "Update Existing" : "Create New", " Recipe"), edit ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "/assets/icons/x.svg",
-    onClick: function onClick() {
-      return abortRecipe();
-    }
-  }) : null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    className: "create-recipe__form "
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: "new-recipe__image",
-    className: "create-recipe__label"
-  }, "Image"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "file",
-    accept: ".jpg",
-    name: "new-recipe__image",
-    className: "input create-recipe__input",
-    onChange: function onChange() {
-      return updateForm("image");
-    }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: "new-recipe__title",
-    className: "create-recipe__label"
-  }, "Title"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "text",
-    name: "new-recipe__title",
-    className: "input create-recipe__input",
-    onChange: function onChange() {
-      return updateForm("title");
-    }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: "new-recipe__description",
-    className: "create-recipe__label"
-  }, "Description ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "create-recipe__label--emph"
-  }, "(Optional)")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "text",
-    name: "new-recipe__description",
-    className: "input create-recipe__input",
-    onChange: function onChange() {
-      return updateForm("description");
-    }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: "new-recipe__estimated_time",
-    className: "create-recipe__label"
-  }, "Estimated Time (in minutes)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
-    step: "1",
-    name: "new-recipe__estimated_time",
-    className: "input create-recipe__input",
-    onChange: function onChange() {
-      return updateForm("estimated_time");
-    }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "create-recipe__label"
-  }, "Ingredients List"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, ingredientEls), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "button-secondary",
-    name: "create-recipe__ingredients-btn",
-    onClick: function onClick() {
-      return setIngredientModal(true);
-    }
-  }, "Add Ingredient"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "create-recipe__label"
-  }, "Steps"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, stepEls), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "button-secondary",
-    name: "create-recipe__steps-btn",
-    onClick: function onClick() {
-      return setStepModal(true);
-    }
-  }, "Add Step"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-    className: "create-recipe__footer"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "create-recipe__err-message".concat(err ? "--active" : "")
-  }, "Please fill in the required content before submitting (Recipes must include a Title, Ingredient, and a Step)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "button-primary",
-    name: "create-recipe__submit",
-    onClick: function onClick() {
-      return postRecipe();
-    }
-  }, edit ? "Update" : "Create", " Recipe"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "button-secondary",
-    onClick: function onClick() {
-      abortRecipe(edit);
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "/assets/icons/bin.svg"
-  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Recipe_Ingredient__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    updateForm: updateForm,
-    modal: ingredientModal,
-    setModal: setIngredientModal,
-    idx: formData["ingredients"].indexOf(editIngredient),
-    editIngredient: editIngredient,
-    updateIngredient: updateIngredient,
-    resetEdits: resetEdits
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Recipe_Step__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    updateForm: updateForm,
-    modal: stepModal,
-    setModal: setStepModal,
-    steps: formData["steps"].length,
-    editStep: editStep,
-    updateStep: updateStep,
-    resetEdits: resetEdits
-  }));
-}
-
-/***/ }),
-
-/***/ "./resources/js/components/CreatedRecipes.js":
-/*!***************************************************!*\
-  !*** ./resources/js/components/CreatedRecipes.js ***!
-  \***************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return CreatedRecipes; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")["default"];
-
-
-/**
- * Component showing the user's created recipes available for edit.
- *
- * @export
- * @param {*} {  props, setEditRecipe, getDb }
- * @returns
- */
-
-function CreatedRecipes(_ref) {
-  var props = _ref.props,
-      setEditRecipe = _ref.setEditRecipe,
-      getDb = _ref.getDb;
-
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
-      _useState2 = _slicedToArray(_useState, 2),
-      recipes = _useState2[0],
-      setRecipes = _useState2[1];
-  /**
-   * Fetch users recipes.
-   */
-
-
-  function getRecipes() {
-    axios.defaults.headers.common = {
-      'Authorization': "bearer ".concat(localStorage.auth_token)
-    };
-    axios.get('/api/auth/recipes').then(function (res) {
-      if (res.data.recipes) {
-        setRecipes(res.data.recipes);
-      }
-    })["catch"](function (err) {
-      return console.error(res);
-    });
-  }
-  /**
-   * Run on component mount
-   */
-
-
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    getRecipes();
-  }, []); // Create and fill list elements with the recipes found.
-
-  var recipeEls = [];
-
-  if (recipes !== null) {
-    var _iterator = _createForOfIteratorHelper(recipes),
-        _step;
-
-    try {
-      var _loop = function _loop() {
-        var recipe = _step.value;
-        recipeEls.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          key: recipe.id,
-          onClick: function onClick() {
-            return setShowRecipe(recipe, props);
-          },
-          className: "explore__recipe"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          style: {
-            backgroundImage: "url('".concat(recipe.image ? '/storage/recipe_images/' + recipe.image : '/assets/images/null.svg', "')")
-          },
-          className: "explore__recipe-image"
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "explore__recipe-info"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          className: "explore__recipe-title"
-        }, recipe.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          className: "explore__recipe-author"
-        }, "By you"))));
-      };
-
-      for (_iterator.s(); !(_step = _iterator.n()).done;) {
-        _loop();
-      }
-    } catch (err) {
-      _iterator.e(err);
-    } finally {
-      _iterator.f();
-    }
-  }
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
-    className: "explore"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-    className: "explore__main-title"
-  }, "My Recipes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-    className: "explore__recipe-list"
-  }, recipeEls)));
 }
 
 /***/ }),
@@ -37460,354 +36780,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     }
   }, "Shopping List"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(DesktopNavAuth, null)));
 }));
-
-/***/ }),
-
-/***/ "./resources/js/components/Recipe/Ingredient.js":
-/*!******************************************************!*\
-  !*** ./resources/js/components/Recipe/Ingredient.js ***!
-  \******************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Ingredient; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-function Ingredient(_ref) {
-  var updateForm = _ref.updateForm,
-      modal = _ref.modal,
-      setModal = _ref.setModal,
-      idx = _ref.idx,
-      editIngredient = _ref.editIngredient,
-      updateIngredient = _ref.updateIngredient,
-      resetEdits = _ref.resetEdits;
-
-  // Boolean value of if an Ingredient is to be edited.
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(editIngredient !== null),
-      _useState2 = _slicedToArray(_useState, 2),
-      edit = _useState2[0],
-      setEdit = _useState2[1]; // Toggle error message
-
-
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
-      _useState4 = _slicedToArray(_useState3, 2),
-      err = _useState4[0],
-      setErr = _useState4[1];
-  /**
-   * Clear changes to ingredients.
-   * If del exists then delete changes, rather than forgetting them.
-   *
-   * @param {*} del If exists, delete item.
-   */
-
-
-  function abortIngredient(del) {
-    var keys = ["name", "quantity", "measurement"];
-    keys.forEach(function (key) {
-      document.getElementsByName("new-ingredient__".concat(key))[0].value = null;
-    });
-
-    if (del) {
-      updateForm("ingredients", editIngredient, true);
-    }
-
-    setModal(false);
-    resetEdits();
-  }
-  /**
-   * Create new ingredient.
-   *
-   * @returns false if form is invalid.
-   */
-
-
-  function createIngredient() {
-    var keys = ["name", ["quantity", "nullable"], ["measurement", "nullable"]];
-    var newIngredient = {};
-    var valid = true;
-    keys.forEach(function (key) {
-      // Nullable field will not need checking.
-      if (_typeof(key) === 'object') {
-        newIngredient[key[0]] = document.getElementsByName("new-ingredient__".concat(key[0]))[0].value.length > 0 ? document.getElementsByName("new-ingredient__".concat(key[0]))[0].value : null;
-      } else {
-        var val = document.getElementsByName("new-ingredient__".concat(key))[0].value;
-        if (val.length < 1) valid = false;
-        newIngredient[key] = val;
-      }
-    });
-
-    if (!valid) {
-      setErr(true);
-      setTimeout(function () {
-        return setErr(false);
-      }, 6000);
-      return false;
-    }
-
-    newIngredient['idx'] = idx;
-
-    if (edit) {
-      updateIngredient(newIngredient);
-    } else {
-      updateForm('ingredients', newIngredient);
-    }
-
-    abortIngredient();
-  } // Run on component mount and on update of editIngredient.
-
-
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    setEdit(editIngredient !== null);
-
-    if (editIngredient) {
-      var keys = ["name", "quantity", "measurement"];
-      keys.forEach(function (key) {
-        document.getElementsByName("new-ingredient__".concat(key))[0].value = editIngredient[key];
-      });
-    }
-  }, [editIngredient]);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "cr-wrapper popout".concat(!modal ? "--hidden" : "")
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
-    className: "create-recipe"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
-    className: "create-recipe__head"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-    className: "create-recipe__head-title"
-  }, edit ? "Edit" : "Add", " Ingredient")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    className: "create-recipe__form "
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: "new-ingredient__name",
-    className: "create-recipe__label"
-  }, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "text",
-    name: "new-ingredient__name",
-    className: "input create-recipe__input"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: "new-ingredient__quantity",
-    className: "create-recipe__label"
-  }, "Quantity ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "create-recipe__label--emph"
-  }, "(Optional)")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
-    step: "0.01",
-    name: "new-ingredient__quantity",
-    className: "input create-recipe__input"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: "new-ingredient__measurement",
-    className: "create-recipe__label"
-  }, "Measurement  ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "create-recipe__label--emph"
-  }, "(Optional)")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "text",
-    name: "new-ingredient__measurement",
-    className: "input create-recipe__input"
-  }), edit ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "button-primary",
-    onClick: function onClick() {
-      return abortIngredient();
-    }
-  }, "Cancel") : null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-    className: "create-recipe__footer"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "create-recipe__err-message".concat(err ? "--active" : "")
-  }, "Please fill in the required content before submitting (Ingredients must include a Name and Quantity)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "button-primary",
-    name: "new-ingredient__submit",
-    onClick: function onClick() {
-      return createIngredient();
-    }
-  }, edit ? "Edit" : "Add", " Ingredient"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "button-secondary",
-    onClick: function onClick() {
-      abortIngredient(edit);
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "/assets/icons/bin.svg"
-  })))));
-}
-
-/***/ }),
-
-/***/ "./resources/js/components/Recipe/Step.js":
-/*!************************************************!*\
-  !*** ./resources/js/components/Recipe/Step.js ***!
-  \************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Step; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-function Step(_ref) {
-  var updateForm = _ref.updateForm,
-      modal = _ref.modal,
-      setModal = _ref.setModal,
-      steps = _ref.steps,
-      editStep = _ref.editStep,
-      updateStep = _ref.updateStep,
-      resetEdits = _ref.resetEdits;
-
-  // Boolean value of if an Step is to be edited.
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(editStep !== null),
-      _useState2 = _slicedToArray(_useState, 2),
-      edit = _useState2[0],
-      setEdit = _useState2[1]; // Toggle error message
-
-
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
-      _useState4 = _slicedToArray(_useState3, 2),
-      err = _useState4[0],
-      setErr = _useState4[1];
-  /**
-   * Exit modal.
-   *
-   * @param {Boolean} del should the edit object be deleted or just forgotten.
-   */
-
-
-  function abortStep(del) {
-    var keys = ["content"];
-    keys.forEach(function (key) {
-      document.getElementsByName("new-step__".concat(key))[0].value = null;
-    });
-
-    if (del) {
-      updateForm("steps", editStep, true);
-    }
-
-    setModal(false);
-    resetEdits();
-  }
-  /**
-   * Create new step.
-   *
-   * @returns false if form is invalid.
-   */
-
-
-  function createStep() {
-    var keys = edit ? ["content", "order"] : ["content"];
-    var newStep = {};
-    var valid = true;
-    keys.forEach(function (key) {
-      var val = document.getElementsByName("new-step__".concat(key))[0].value;
-      if (val.length < 1) valid = false;
-      newStep[key] = val;
-    });
-
-    if (!valid) {
-      setErr(true);
-      setTimeout(function () {
-        return setErr(false);
-      }, 6000);
-      return false;
-    }
-
-    if (edit) {
-      updateStep(newStep);
-    } else {
-      newStep["order"] = steps;
-      updateForm('steps', newStep);
-    }
-
-    abortStep();
-    setEdit(false);
-  } // Run on component mount and on update of editStep and steps.
-
-
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    setEdit(editStep !== null);
-
-    if (editStep) {
-      var keys = ["content", "order"];
-      keys.forEach(function (key) {
-        document.getElementsByName("new-step__".concat(key))[0].value = editStep[key];
-      });
-    }
-  }, [editStep, steps]);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "cr-wrapper popout".concat(!modal ? "--hidden" : "")
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
-    className: "create-recipe"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
-    className: "create-recipe__head"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-    className: "create-recipe__head-title"
-  }, edit ? "Edit" : "Add", " Step")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    className: "create-recipe__form "
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: "new-step__content",
-    className: "create-recipe__label"
-  }, "Content"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "text",
-    name: "new-step__content",
-    className: "input create-recipe__input"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "hidden",
-    name: "new-step__order"
-  }), edit ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "button-primary",
-    onClick: function onClick() {
-      return abortStep();
-    }
-  }, "Cancel") : null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-    className: "create-recipe__footer"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "create-recipe__err-message".concat(err ? "--active" : "")
-  }, "Please fill in the required content before submitting (Step must include content)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "button-primary",
-    name: "new-step__submit",
-    onClick: function onClick() {
-      return createStep();
-    }
-  }, edit ? "Update" : "Add", " Step"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "button-secondary",
-    onClick: function onClick() {
-      return abortStep(edit);
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "/assets/icons/bin.svg"
-  })))));
-}
 
 /***/ }),
 

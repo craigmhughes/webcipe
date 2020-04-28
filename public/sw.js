@@ -5,10 +5,11 @@ let filesToCache = [
     "/",
     "/manifest.json",
     "/css/app.css",
-    "/js/app.min.js",
-    "/sw.js",
+    "/js/app.js",
     // Fonts
     "/assets/fonts/poppins-regular.woff2",
+    "/assets/fonts/poppins-v9-latin-600.woff2",
+    "/assets/fonts/poppins-v9-latin-700.woff2",
     // Icons
     "/assets/icons/bars.svg",
     "/assets/icons/bin-alt.svg",
@@ -21,9 +22,8 @@ let filesToCache = [
     "/assets/icons/search.svg",
     "/assets/icons/shopping-basket.svg",
     "/assets/icons/x.svg",
-    // Logos
-    "/assets/images/webcipe-text.svg",
-    "/assets/images/webcipe-text-w.svg",
+    // Images
+    "/assets/images/null.svg",
 ];
 
 // On installing the service worker.
@@ -56,7 +56,11 @@ self.addEventListener("activate", e => {
 });
 
 // Keywords to cache
-let assetsToCache = ["fonts", "images", "icons"];
+const assetsToCache = ["fonts", "images", "icons"];
+
+// Do not cache responses from these paths.
+const ignoredReferrers = ["login", "register"]
+
 
 // Listen for fetch requests.
 self.addEventListener("fetch", e => {
@@ -66,11 +70,19 @@ self.addEventListener("fetch", e => {
         if(e.request.url.includes(asset)){
             return e.respondWith(
                 caches.match(e.request).then(res=>{
+                    
+                    let referrerPath = e.request.referrer.replace("https://","").replace("http://","").split(/\/(.+)/)[1];
+
                     return res || caches.open(cacheName).then((cache)=>{
                         // Carry out fetch request and cache response.
                         return fetch(e.request).then(resp => {
-                            cache.put(e.request, resp.clone());
+
+                            // If referrer is not from an online only page, cache the response.
+                            if(!ignoredReferrers.includes(referrerPath) && referrerPath !== undefined){
+                                cache.put(e.request, resp.clone());
+                            }
                             return resp;
+
                         }).catch(err=>{
                             console.log(err);
                             return false;

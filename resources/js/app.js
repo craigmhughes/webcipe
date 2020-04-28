@@ -1,23 +1,23 @@
 // require('./bootstrap');
 const axios = require('axios').default;
 import { openDB, deleteDB, wrap, unwrap } from 'idb';
-import React, { Component, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, lazy, Suspense} from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Redirect, Switch, } from "react-router-dom";
 
-// Components
-import Login from './components/Auth/Login';
-import Register from './components/Auth/Register';
+// Lazy Load Components
+const Login = lazy(()=> import('./components/Auth/Login'));
+const Register = lazy(()=> import('./components/Auth/Register'));
+
+const CreateRecipe = lazy(()=> import('./components/CreateRecipe'));
+const CreatedRecipes = lazy(()=> import('./components/CreatedRecipes'));
+
+// Essential Components
 import Navigation from './components/Navigation.js';
-import CreateRecipe from './components/CreateRecipe.js';
-import ShowRecipe from './components/ShowRecipe.js';
 import Saved from './components/Saved.js';
 import Explore from './components/Explore.js';
 import IngredientList from './components/IngredientList.js';
-import CreatedRecipes from './components/CreatedRecipes.js';
-
-// Service Workers
-// import TestSW from './workers/test-sw.js';
+import ShowRecipe from './components/ShowRecipe.js';
 
 export default function App (){
 
@@ -140,22 +140,24 @@ export default function App (){
 
     return (
         <Router>
-            {/* Push nav to top in desktop */}
-            {!isMobile ? <Navigation setActiveMenu={setActiveMenu} blur={menuActive} user={user} logout={logout} isMobile={isMobile}/> : null}
-            
-            <Route exact path="/recipes/new" render={(props)=><CreateRecipe props={props} editRecipe={editRecipe} setEditRecipe={setEditRecipe}/>}/>
-            <Route exact path="/recipes/view" render={(props)=><ShowRecipe props={props} showRecipe={showRecipe} setShowRecipe={setShowRecipe} getDb={getDb}/>}/>
-            <Route exact path="/ingredients" render={(props)=><IngredientList props={props} getDb={getDb}/>}/>
+            <Suspense fallback={<p>Loading...</p>}>
+                {/* Push nav to top in desktop */}
+                {!isMobile ? <Navigation setActiveMenu={setActiveMenu} blur={menuActive} user={user} logout={logout} isMobile={isMobile}/> : null}
+                
+                <Route exact path="/recipes/new" render={(props)=><CreateRecipe props={props} editRecipe={editRecipe} setEditRecipe={setEditRecipe}/>}/>
+                <Route exact path="/recipes/view" render={(props)=><ShowRecipe props={props} showRecipe={showRecipe} setShowRecipe={setShowRecipe} getDb={getDb}/>}/>
+                <Route exact path="/ingredients" render={(props)=><IngredientList props={props} getDb={getDb}/>}/>
 
-            <Route exact path="/user/recipes" render={(props)=><CreatedRecipes props={props} setEditRecipe={updateEditRecipe} getDb={getDb}/>}/>
-            <Route exact path="/saved" render={(props)=><Saved props={props} setShowRecipe={updateShowRecipe} getDb={getDb}/>}/>
-            <Route exact path="/" render={(props)=><Explore props={props} setShowRecipe={updateShowRecipe} user={user}/>}/>
+                <Route exact path="/user/recipes" render={(props)=><CreatedRecipes props={props} setEditRecipe={updateEditRecipe} getDb={getDb}/>}/>
+                <Route exact path="/saved" render={(props)=><Saved props={props} setShowRecipe={updateShowRecipe} getDb={getDb}/>}/>
+                <Route exact path="/" render={(props)=><Explore props={props} setShowRecipe={updateShowRecipe} user={user}/>}/>
 
-            <Route exact path="/login" render={(props)=><Login setToken={setToken} props={props}/>}/>
-            <Route exact path="/register" render={(props)=><Register setToken={setToken} props={props}/>}/>
+                <Route exact path="/login" render={(props)=><Login setToken={setToken} props={props}/>}/>
+                <Route exact path="/register" render={(props)=><Register setToken={setToken} props={props}/>}/>
 
-            {/* Push nav to bottom in mobile */}
-            {isMobile ? <Navigation setActiveMenu={setActiveMenu} blur={menuActive} user={user} logout={logout} isMobile={isMobile}/> : null}
+                {/* Push nav to bottom in mobile */}
+                {isMobile ? <Navigation setActiveMenu={setActiveMenu} blur={menuActive} user={user} logout={logout} isMobile={isMobile}/> : null}
+            </Suspense>
         </Router>
     );
 }
