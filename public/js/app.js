@@ -36731,7 +36731,16 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   });
 
   function DesktopNavAuth() {
-    if (user) {
+    if (offline) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        className: "navigation__auth"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        "class": "navigation__offline"
+      }, "You are currently offline"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        href: "/",
+        className: "button-primary"
+      }, "Reconnect"));
+    } else if (user) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "navigation__auth"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
@@ -36774,7 +36783,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   }, [user]);
   return isMobile ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
     className: "navigation"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(MobileOverlay, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(MobileNavigation, null)) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(MobileOverlay, null), offline ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "/",
+    "class": "navigation__offline"
+  }, "You're offline ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Reconnect?")) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(MobileNavigation, null)) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
     className: "navigation"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "nav-container"
@@ -36805,7 +36817,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     onClick: function onClick() {
       return navClick(2);
     }
-  }, "Shopping List"))), !offline ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(DesktopNavAuth, null) : null));
+  }, "Shopping List"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(DesktopNavAuth, null)));
 }));
 
 /***/ }),

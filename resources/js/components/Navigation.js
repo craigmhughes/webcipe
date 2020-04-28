@@ -116,7 +116,15 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
     });
 
     function DesktopNavAuth(){
-        if(user){
+        if(offline){
+            return(
+                <section className="navigation__auth">
+                    <p class="navigation__offline">You are currently offline</p>
+                    <a href="/" className="button-primary">Reconnect</a>
+                </section>
+            );
+            
+        } else if(user){
             return(
                 <section className="navigation__auth">
                     <a className="navigation__profile-droplink" onClick={()=>setDropmenu(!dropmenu)}>
@@ -148,6 +156,7 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
         isMobile ? 
         <section className="navigation">
             <MobileOverlay/>
+            {offline ? <a href="/" class="navigation__offline">You're offline <span>Reconnect?</span></a> : null}
             <MobileNavigation/>
         </section>
         :
@@ -161,7 +170,7 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
                         <Link to="/ingredients" className={`navigation-link${activeLink === 2 ? "--active" : ""}`}  onClick={()=>navClick(2)}>Shopping List</Link>
                     </nav>
                 </section>
-                {!offline ? <DesktopNavAuth/> : null}
+                <DesktopNavAuth/>
             </div>
         </section>
             

@@ -373,6 +373,23 @@ a {
   background: #fff;
   display: flex;
   align-items: center;
+  position: relative;
+}
+
+.navigation__offline {
+  background: #eeeeee;
+  border-radius: 1em;
+  font-size: 1.2em;
+  font-weight: 400;
+  padding: 0.5em 1em;
+  position: absolute;
+  top: -2em;
+  left: calc(50% - 130px);
+}
+
+.navigation__offline > span {
+  margin-left: 0.5em;
+  font-weight: 600;
 }
 
 .navigation__list {
@@ -530,6 +547,11 @@ a {
 
   .navigation__logo {
     padding-right: 2em;
+  }
+
+  .navigation__offline {
+    margin-right: 1em;
+    font-weight: 600;
   }
 
   .navigation__auth {
