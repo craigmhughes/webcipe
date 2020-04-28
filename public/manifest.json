@@ -4,7 +4,7 @@
     "start_url": "/",
     "display": "standalone",
     "background_color": "#fff",
-    "theme_color": "#26272D",
+    "theme_color": "#fff",
     "description": "A recipe PWA.",
     "icons": [{
       "src": "/assets/images/ICO2.svg",
