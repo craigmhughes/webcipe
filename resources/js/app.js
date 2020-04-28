@@ -34,6 +34,14 @@ export default function App (){
     // Delegate mobile or desktop nav.
     const [isMobile, setIsMobile] = useState(window.innerWidth < 780);
 
+    // Offline state
+    const [offline, setOffline] = useState(false);
+
+    function updateOffline(isOffline, props){
+        setOffline(isOffline);
+        if(isOffline) props.history.push("/saved");
+    }
+
     function updateEditRecipe(val, props){
         setEditRecipe(val);
         props.history.push('/recipes/new');
@@ -67,6 +75,7 @@ export default function App (){
         axios.defaults.headers.common = {'Authorization': `bearer ${localStorage.auth_token}`};
 
         axios.get('api/auth/user').then((res)=>{
+            setOffline(false);
             if(!res.data.name){
                 return false;
             }
@@ -74,6 +83,9 @@ export default function App (){
             setUser(res.data);
         })
         .catch(()=>{
+
+            setOffline(true);
+
             if(localStorage.auth_token || localStorage.user){
                 localStorage.removeItem("auth_token");
                 localStorage.removeItem("user");
@@ -142,7 +154,7 @@ export default function App (){
         <Router>
             <Suspense fallback={<p>Loading...</p>}>
                 {/* Push nav to top in desktop */}
-                {!isMobile ? <Navigation setActiveMenu={setActiveMenu} blur={menuActive} user={user} logout={logout} isMobile={isMobile}/> : null}
+                {!isMobile ? <Navigation setActiveMenu={setActiveMenu} blur={menuActive} user={user} logout={logout} isMobile={isMobile} offline={offline}/> : null}
                 
                 <Route exact path="/recipes/new" render={(props)=><CreateRecipe props={props} editRecipe={editRecipe} setEditRecipe={setEditRecipe}/>}/>
                 <Route exact path="/recipes/view" render={(props)=><ShowRecipe props={props} showRecipe={showRecipe} setShowRecipe={setShowRecipe} getDb={getDb}/>}/>
@@ -150,13 +162,13 @@ export default function App (){
 
                 <Route exact path="/user/recipes" render={(props)=><CreatedRecipes props={props} setEditRecipe={updateEditRecipe} getDb={getDb}/>}/>
                 <Route exact path="/saved" render={(props)=><Saved props={props} setShowRecipe={updateShowRecipe} getDb={getDb}/>}/>
-                <Route exact path="/" render={(props)=><Explore props={props} setShowRecipe={updateShowRecipe} user={user}/>}/>
+                <Route exact path="/" render={(props)=><Explore props={props} setShowRecipe={updateShowRecipe} user={user} offline={offline} setOffline={updateOffline}/>}/>
 
                 <Route exact path="/login" render={(props)=><Login setToken={setToken} props={props}/>}/>
                 <Route exact path="/register" render={(props)=><Register setToken={setToken} props={props}/>}/>
 
                 {/* Push nav to bottom in mobile */}
-                {isMobile ? <Navigation setActiveMenu={setActiveMenu} blur={menuActive} user={user} logout={logout} isMobile={isMobile}/> : null}
+                {isMobile ? <Navigation setActiveMenu={setActiveMenu} blur={menuActive} user={user} logout={logout} isMobile={isMobile} offline={offline}/> : null}
             </Suspense>
         </Router>
     );

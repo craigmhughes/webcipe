@@ -2,7 +2,7 @@ const axios = require('axios').default;
 import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 
-export default function Explore({  props, setShowRecipe, user }){
+export default function Explore({  props, setShowRecipe, user, offline, setOffline }){
 
     // Contains recipes from all users if connected.
     const [recipes, setRecipes] = useState(null);
@@ -13,13 +13,17 @@ export default function Explore({  props, setShowRecipe, user }){
     function getRecipes(){
         axios.get(`/api/recipes${url === 1 ? "?order=quickest" : ""}`)
             .then((res)=> {if(res.data.recipes){
+                setOffline(false);
                 setRecipes(res.data.recipes);
             }})
-            .catch((err)=>console.error(res));
+            .catch((err)=>setOffline(true, props));
     }
 
     // Run on component mount
     useEffect(() => {
+        if(offline){
+            return props.history.push("/saved");
+        }
         getRecipes();
     }, [url]);
 

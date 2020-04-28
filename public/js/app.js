@@ -35934,7 +35934,18 @@ function App() {
   var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(window.innerWidth < 780),
       _useState10 = _slicedToArray(_useState9, 2),
       isMobile = _useState10[0],
-      setIsMobile = _useState10[1];
+      setIsMobile = _useState10[1]; // Offline state
+
+
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(false),
+      _useState12 = _slicedToArray(_useState11, 2),
+      offline = _useState12[0],
+      setOffline = _useState12[1];
+
+  function updateOffline(isOffline, props) {
+    setOffline(isOffline);
+    if (isOffline) props.history.push("/saved");
+  }
 
   function updateEditRecipe(val, props) {
     setEditRecipe(val);
@@ -35971,6 +35982,8 @@ function App() {
       'Authorization': "bearer ".concat(localStorage.auth_token)
     };
     axios.get('api/auth/user').then(function (res) {
+      setOffline(false);
+
       if (!res.data.name) {
         return false;
       }
@@ -35978,6 +35991,8 @@ function App() {
       localStorage.setItem("user", JSON.stringify(res.data));
       setUser(res.data);
     })["catch"](function () {
+      setOffline(true);
+
       if (localStorage.auth_token || localStorage.user) {
         localStorage.removeItem("auth_token");
         localStorage.removeItem("user");
@@ -36083,7 +36098,8 @@ function App() {
     blur: menuActive,
     user: user,
     logout: logout,
-    isMobile: isMobile
+    isMobile: isMobile,
+    offline: offline
   }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Route"], {
     exact: true,
     path: "/recipes/new",
@@ -36141,7 +36157,9 @@ function App() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_Explore_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
         props: props,
         setShowRecipe: updateShowRecipe,
-        user: user
+        user: user,
+        offline: offline,
+        setOffline: updateOffline
       });
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Route"], {
@@ -36167,7 +36185,8 @@ function App() {
     blur: menuActive,
     user: user,
     logout: logout,
-    isMobile: isMobile
+    isMobile: isMobile,
+    offline: offline
   }) : null));
 }
 
@@ -36216,7 +36235,9 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")["d
 function Explore(_ref) {
   var props = _ref.props,
       setShowRecipe = _ref.setShowRecipe,
-      user = _ref.user;
+      user = _ref.user,
+      offline = _ref.offline,
+      setOffline = _ref.setOffline;
 
   // Contains recipes from all users if connected.
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
@@ -36233,15 +36254,20 @@ function Explore(_ref) {
   function getRecipes() {
     axios.get("/api/recipes".concat(url === 1 ? "?order=quickest" : "")).then(function (res) {
       if (res.data.recipes) {
+        setOffline(false);
         setRecipes(res.data.recipes);
       }
     })["catch"](function (err) {
-      return console.error(res);
+      return setOffline(true, props);
     });
   } // Run on component mount
 
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    if (offline) {
+      return props.history.push("/saved");
+    }
+
     getRecipes();
   }, [url]); // Create and fill list elements with the recipes found.
 
@@ -36561,7 +36587,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       blur = _ref.blur,
       user = _ref.user,
       logout = _ref.logout,
-      isMobile = _ref.isMobile;
+      isMobile = _ref.isMobile,
+      offline = _ref.offline;
 
   // Sets highlighted link in bottom navbar.
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0),
@@ -36650,7 +36677,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   function MobileNavigation() {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
       className: "navigation__list ".concat(blur ? "blur" : "")
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    }, !offline ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
       to: "/",
       className: "navigation__link ".concat(activeLink === 0 ? "active" : ""),
       onClick: function onClick() {
@@ -36658,7 +36685,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
       src: "/assets/icons/search.svg"
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    })) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
       to: "/saved",
       className: "navigation__link ".concat(activeLink === 1 ? "active" : ""),
       onClick: function onClick() {
@@ -36674,14 +36701,14 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
       src: "/assets/icons/shopping-basket.svg"
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    })), !offline ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
       className: "navigation__link ".concat(activeLink === 3 ? "active" : ""),
       onClick: function onClick() {
         return navClick(3);
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
       src: "/assets/icons/bars.svg"
-    })));
+    })) : null);
   }
 
   function MobileOverlay() {
@@ -36754,19 +36781,19 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
     className: "navigation__sect"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: "/"
+    to: "".concat(offline ? "/saved" : "/")
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     className: "navigation__logo",
     src: "/assets/images/webcipe-text.svg"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
     className: "navigation__nav"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+  }, !offline ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/",
     className: "navigation-link".concat(activeLink === 0 ? "--active" : ""),
     onClick: function onClick() {
       return navClick(0);
     }
-  }, "Explore"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+  }, "Explore") : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/saved",
     className: "navigation-link".concat(activeLink === 1 ? "--active" : ""),
     onClick: function onClick() {
@@ -36778,7 +36805,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     onClick: function onClick() {
       return navClick(2);
     }
-  }, "Shopping List"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(DesktopNavAuth, null)));
+  }, "Shopping List"))), !offline ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(DesktopNavAuth, null) : null));
 }));
 
 /***/ }),

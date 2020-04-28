@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Link, withRouter } from 'react-router-dom';
 // Images
 
-export default withRouter(function Navigation({ setActiveMenu, blur, user, logout, isMobile }){
+export default withRouter(function Navigation({ setActiveMenu, blur, user, logout, isMobile, offline }){
 
     // Sets highlighted link in bottom navbar.
     const [activeLink, setActiveLink] = useState(0);
@@ -78,9 +78,9 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
     function MobileNavigation(){
         return(
             <nav className={`navigation__list ${blur ? "blur":""}`}>
-                <Link to="/" className={`navigation__link ${activeLink === 0 ? "active" : ""}`} onClick={()=>navClick(0)}>
+                {!offline ? <Link to="/" className={`navigation__link ${activeLink === 0 ? "active" : ""}`} onClick={()=>navClick(0)}>
                     <img src="/assets/icons/search.svg"/>
-                </Link>
+                </Link> : null}
     
                 <Link to="/saved" className={`navigation__link ${activeLink === 1 ? "active" : ""}`} onClick={()=>navClick(1)}>
                     <img src="/assets/icons/bookmark.svg"/>
@@ -90,9 +90,9 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
                     <img src="/assets/icons/shopping-basket.svg"/>
                 </Link>
                 
-                <a className={`navigation__link ${activeLink === 3 ? "active" : ""}`} onClick={()=>navClick(3)}>
+                {!offline ? <a className={`navigation__link ${activeLink === 3 ? "active" : ""}`} onClick={()=>navClick(3)}>
                     <img src="/assets/icons/bars.svg"/>
-                </a>
+                </a> : null }
             </nav>
         );
     }
@@ -154,14 +154,14 @@ export default withRouter(function Navigation({ setActiveMenu, blur, user, logou
         <section className="navigation">
             <div className="nav-container">
                 <section className="navigation__sect">
-                    <Link to="/"><img className="navigation__logo" src="/assets/images/webcipe-text.svg"/></Link>
+                    <Link to={`${offline ? "/saved" : "/"}`}><img className="navigation__logo" src="/assets/images/webcipe-text.svg"/></Link>
                     <nav className="navigation__nav">
-                        <Link to="/" className={`navigation-link${activeLink === 0 ? "--active" : ""}`}  onClick={()=>navClick(0)}>Explore</Link>
+                        {!offline ? <Link to="/" className={`navigation-link${activeLink === 0 ? "--active" : ""}`}  onClick={()=>navClick(0)}>Explore</Link> : null}
                         <Link to="/saved" className={`navigation-link${activeLink === 1 ? "--active" : ""}`}  onClick={()=>navClick(1)}>Saved Recipes</Link>
                         <Link to="/ingredients" className={`navigation-link${activeLink === 2 ? "--active" : ""}`}  onClick={()=>navClick(2)}>Shopping List</Link>
                     </nav>
                 </section>
-                <DesktopNavAuth/>
+                {!offline ? <DesktopNavAuth/> : null}
             </div>
         </section>
             

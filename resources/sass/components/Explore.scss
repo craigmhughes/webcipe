@@ -51,8 +51,7 @@
         border: 1px solid #e3e3e3;
         border-radius: 5em;
         height: max-content;
-
-        margin-left: 2em;
+        width: max-content;
 
         & > img {
             margin-right: 0.5em;
@@ -163,6 +162,10 @@
             &-art {
                 max-width: 400px;
             }
+        }
+
+        &__explore-button {
+            margin-left: 2em;
         }
 
         &__main-info {
