@@ -64,7 +64,6 @@ const ignoredReferrers = ["login", "register"]
 
 // Listen for fetch requests.
 self.addEventListener("fetch", e => {
-
     // Loop over Keywords to cache assets which match.
     for(asset of assetsToCache){
         if(e.request.url.includes(asset)){
@@ -72,13 +71,17 @@ self.addEventListener("fetch", e => {
                 caches.match(e.request).then(res=>{
                     
                     let referrerPath = e.request.referrer.replace("https://","").replace("http://","").split(/\/(.+)/)[1];
+                    let requestPath = e.request.url.replace("https://","").replace("http://","").split(/\/(.+)/)[1];
 
                     return res || caches.open(cacheName).then((cache)=>{
                         // Carry out fetch request and cache response.
                         return fetch(e.request).then(resp => {
 
+                            console.log(referrerPath);
+                            console.log(requestPath);
+
                             // If referrer is not from an online only page, cache the response.
-                            if(!ignoredReferrers.includes(referrerPath) && referrerPath !== undefined){
+                            if(!ignoredReferrers.includes(referrerPath) && referrerPath !== undefined && !filesToCache.includes(requestPath)){
                                 cache.put(e.request, resp.clone());
                             }
                             return resp;
