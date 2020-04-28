@@ -39,7 +39,10 @@ export default function Saved({  props, setShowRecipe, getDb }){
     return (
         <article className="explore">
             <main>
-                <h1 className="explore__main-title">Saved Recipes</h1>
+                <div className="explore__main-info">
+                    <h1 className="explore__main-title">Saved Recipes</h1>
+                </div>
+    
                 <ul className="explore__recipe-list">
                     {recipeEls}
                 </ul>
