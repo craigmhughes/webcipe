@@ -768,6 +768,7 @@ a {
   background-size: cover;
   background-repeat: no-repeat;
   background-position-y: 50%;
+  background-color: #ED200E;
   color: #fff;
 }
 
@@ -1139,6 +1140,7 @@ a {
 
   .explore__header-art {
     max-width: 400px;
+    background-color: #ED200E;
   }
 
   .explore__explore-button {
