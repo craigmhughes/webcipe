@@ -35981,7 +35981,7 @@ function App() {
     axios.defaults.headers.common = {
       'Authorization': "bearer ".concat(localStorage.auth_token)
     };
-    axios.get('api/auth/user').then(function (res) {
+    axios.get('/api/auth/user').then(function (res) {
       setOffline(false);
 
       if (!res.data.name) {
