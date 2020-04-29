@@ -5,7 +5,7 @@ let filesToCache = [
     "/",
     "/manifest.json",
     "/css/app.css",
-    "/js/app.js",
+    "/js/app.min.js",
     // Fonts
     "/assets/fonts/poppins-regular.woff2",
     "/assets/fonts/poppins-v9-latin-600.woff2",
