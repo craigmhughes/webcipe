@@ -74,7 +74,7 @@ export default function App (){
     function checkAuth(){
         axios.defaults.headers.common = {'Authorization': `bearer ${localStorage.auth_token}`};
 
-        axios.get('/api/auth/user').then((res)=>{
+        axios.get('api/auth/user').then((res)=>{
             setOffline(false);
             if(!res.data.name){
                 return false;
