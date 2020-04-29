@@ -1140,7 +1140,6 @@ a {
 
   .explore__header-art {
     max-width: 400px;
-    background-color: #ED200E;
   }
 
   .explore__explore-button {
@@ -1167,6 +1166,10 @@ a {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+  }
+
+  .explore__recipe-image {
+    background-color: #ED200E;
   }
 }
 

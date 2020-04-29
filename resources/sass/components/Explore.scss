@@ -161,7 +161,6 @@
 
             &-art {
                 max-width: 400px;
-                background-color: $brand_color;
             }
         }
 
@@ -188,6 +187,10 @@
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 overflow: hidden;
+            }
+
+            &-image {
+                background-color: $brand_color;
             }
         }
     }
