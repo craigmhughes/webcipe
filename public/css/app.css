@@ -1102,6 +1102,7 @@ a {
   background-size: cover;
   background-repeat: no-repeat;
   background-position-y: 50%;
+  background-color: #ED200E;
 }
 
 .explore__recipe-info {
@@ -1166,10 +1167,6 @@ a {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-  }
-
-  .explore__recipe-image {
-    background-color: #ED200E;
   }
 }
 

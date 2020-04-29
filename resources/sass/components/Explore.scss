@@ -120,6 +120,7 @@
             background-size: cover;
             background-repeat: no-repeat;
             background-position-y: 50%;
+            background-color: $brand_color;
         }
 
         &-info {
@@ -187,10 +188,6 @@
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 overflow: hidden;
-            }
-
-            &-image {
-                background-color: $brand_color;
             }
         }
     }
